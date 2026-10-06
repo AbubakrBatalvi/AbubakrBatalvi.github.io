@@ -1,4 +1,4 @@
-# Abubakr Nauman — personal site and graph lab
+# Abubakr Nauman: Personal Site and Graph Lab
 
 My personal website: independent mathematics research, projects, and a graph lab of 48 interactive pages rebuilt from my Desmos graphs (prime counting, the logarithmic integral, interpolation, approximation, simulations).
 
