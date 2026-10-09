@@ -276,7 +276,7 @@ body.light .cfnMsg{color:#c4312a}
 /* on a board with little on it, the writing sits in the middle of the board */
 #home .board.pageSec{align-content:center}
 #home .board.homeTop{max-width:none;align-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
-#home .board.homeTop>*{max-width:620px}
+#home .board.homeTop>:not(.eraseCanvas){max-width:620px}
 /* the shadow the front board casts on the one behind it */
 #home .board::after{content:"";position:absolute;top:100%;height:34px;left:0;right:0;pointer-events:none;
   background:linear-gradient(var(--board-shade),transparent)}
@@ -2449,48 +2449,74 @@ function boardGrain(){
     `body.light{--board-grain:${grain(0,.06)};--board-tex:${marks('110,122,140',.065,false)};--board-tex2:${marks('110,122,140',.065,true)}}`;
   document.head.appendChild(st);}
 
-/* The wipe. As board k slides up by a fraction p of the screen, the part still on screen (its bottom H(1-p)) is wiped along
-   its top-left to bottom-right diagonal; the wipe is complete at p = 0.85, just before the board leaves.
-   The canvas is filled with clean board surface (colour, smudges and grain lined up with the board's own), then chalk dust
-   (or faint marker smear on the whiteboard) densest just behind the wipe's edge, and finally cut back so only the part the
-   wipe has passed is left, with a soft edge. */
+/* The eraser. As board k slides up by a fraction p of the screen, an eraser (a soft-edged circle) scrubs back and forth
+   across the board's last screenful, working its way along the diagonal from the top-left corner to the bottom-right, and
+   finishes just before the board leaves (p = 0.85). Its path is fixed to the board, so what has been erased moves up with
+   the writing; how far along the path it is follows the scroll position, so it pauses and reverses with scrolling.
+   Drawn on one canvas: clean board surface (colour, smudges and grain lined up with the board's own), chalk dust along the
+   eraser's recent strokes (a faint smear on the whiteboard), then cut back to the area the eraser has covered. */
 function makeEraser(home){
   const cv=document.createElement('canvas');cv.className='eraseCanvas';cv.setAttribute('aria-hidden','true');const x=cv.getContext('2d');
-  let board=null,surf=null,key='',imgs={};
+  const mk=document.createElement('canvas'),mx=mk.getContext('2d');           /* coverage mask, half resolution (it is soft anyway) */
+  let board=null,surf=null,key='',imgs={},path=null,pkey='',sprite=null;
   const loadImg=u=>{if(!u||u==='none')return null;if(imgs[u])return imgs[u];const m=u.match(/url\("?(.*?)"?\)$/);if(!m)return null;const i=new Image();i.src=m[1];i.onload=()=>{key='';};imgs[u]=i;return i;};
-  const reset=()=>{key='';};
+  const reset=()=>{key='';pkey='';};
   function surface(b,k,W,H,dpr){const light=document.body.classList.contains('light'),cs=getComputedStyle(b);
     const kk=[k,W,H,dpr,light,b.offsetHeight].join();if(kk===key&&surf)return surf;key=kk;
     const c=surf||document.createElement('canvas');c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
     g.fillStyle=cs.getPropertyValue('--bg').trim()||(light?'#f7f8fa':'#07080b');g.fillRect(0,0,W,H);
-    /* the board's own texture: smudges are 100% x 1100px repeating down from the board's top, grain is a 160px tile */
     const y0=b.offsetHeight-H,tex=loadImg(cs.getPropertyValue(k%2?'--board-tex2':'--board-tex').trim()),grain=loadImg(cs.getPropertyValue('--board-grain').trim());
     if(tex&&tex.complete&&tex.naturalWidth)for(let y=-(y0%1100);y<H;y+=1100)g.drawImage(tex,0,y,W,1100);
-    if(grain&&grain.complete&&grain.naturalWidth){g.save();g.translate(0,-(y0%160));const pat=g.createPattern(grain,'repeat');g.fillStyle=pat;g.fillRect(0,0,W,H+160);g.restore();}
+    if(grain&&grain.complete&&grain.naturalWidth){g.save();g.translate(0,-(y0%160));g.fillStyle=g.createPattern(grain,'repeat');g.fillRect(0,0,W,H+160);g.restore();}
     surf=c;return c;}
+  /* The eraser's path over a W x H box. d runs along the sweep direction u (perpendicular to the bottom-left/top-right diagonal);
+     the eraser goes back and forth along each line of constant d, from one edge of the box to the other, with a small circular
+     scrub on top, while d creeps forward by about half the eraser's width per pass. */
+  function makePath(W,H){const D=Math.hypot(W,H),ux=H/D,uy=W/D,vx=W/D,vy=-H/D,L=2*W*H/D,R=Math.max(46,Math.min(W,H)/11);
+    const passes=Math.ceil((L+2*R)/(R*.95)),P=[];let sig=0;
+    const chord=d=>{/* the part of the line p.u = d inside the box, as an interval of the coordinate along v */
+      let lo=Infinity,hi=-Infinity;const add=(px,py)=>{if(px<-1e-6||px>W+1e-6||py<-1e-6||py>H+1e-6)return;const s=px*vx+py*vy;lo=Math.min(lo,s);hi=Math.max(hi,s);};
+      const dd=Math.min(L,Math.max(0,d));if(ux>0){add((dd-0*uy)/ux,0);add((dd-H*uy)/ux,H);}if(uy>0){add(0,dd/uy);add(W,(dd-W*ux)/uy);}
+      if(lo>hi){lo=hi=0;}return [lo,hi];};
+    const N=passes*90;
+    for(let i=0;i<=N;i++){const s=i/N,d=-R+s*(L+2*R),ph=s*passes*Math.PI,[lo,hi]=chord(d),mid=(lo+hi)/2,half=(hi-lo)/2+R*.35;
+      const along=mid-half*Math.cos(ph),cx=ux*d+vx*along,cy=uy*d+vy*along,w=R*.32;
+      P.push(cx+w*Math.cos(ph*7),cy+w*Math.sin(ph*7),d);}
+    return {P:new Float32Array(P),n:N+1,R,L,passes,ux,uy};}
+  function spriteFor(R){if(sprite&&sprite._R===R)return sprite;const s=document.createElement('canvas'),r=Math.ceil(R/2);s.width=s.height=2*r;const g=s.getContext('2d');
+    const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,'#000');gr.addColorStop(.62,'#000');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._R=R;sprite=s;return s;}
+  let dsp=null;function dustSprite(R,rgb){const kk=R+rgb;if(dsp&&dsp._k===kk)return dsp;const s=document.createElement('canvas'),r=Math.ceil(R*1.1);s.width=s.height=2*r;const g=s.getContext('2d');
+    const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,`rgba(${rgb},.5)`);gr.addColorStop(.5,`rgba(${rgb},.25)`);gr.addColorStop(1,`rgba(${rgb},0)`);g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._k=kk;dsp=s;return s;}
   function draw(b,k,p){
     if(!b){if(board){cv.remove();board=null;}return;}
     const W=home.clientWidth,H=home.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1);
     if(board!==b){b.appendChild(cv);board=b;}
-    /* the canvas covers the board's last screenful */
     const top=(b.offsetHeight-H)+'px';if(cv.style.top!==top)cv.style.top=top;
     if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.height=H+'px';}
-    const light=document.body.classList.contains('light');
-    const Hv=H*(1-p),e=Math.min(1,p/.85),n=Math.hypot(W,Hv),ux=Hv/n,uy=W/n,L=2*W*Hv/n,SOFT=150,t=e*(L+SOFT),ox=0,oy=H-Hv;
-    x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,cv.width,cv.height);x.setTransform(dpr,0,0,dpr,0,0);
-    if(t<=0)return;
-    x.globalCompositeOperation='source-over';x.globalAlpha=1;x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
-    /* dust: a haze plus a few streaks parallel to the edge, densest just behind it */
-    const dust=light?'120,130,145':'225,230,236',A=light?.05:.11;
-    const at=d=>[ox+ux*d,oy+uy*d],[ax,ay]=at(Math.max(0,t-SOFT-260)),[bx,by]=at(t);
-    const hz=x.createLinearGradient(ax,ay,bx,by);hz.addColorStop(0,`rgba(${dust},${A*.35})`);hz.addColorStop(.75,`rgba(${dust},${A})`);hz.addColorStop(1,`rgba(${dust},0)`);
-    x.fillStyle=hz;x.fillRect(0,0,W,H);
-    x.lineCap='round';
-    for(let i=0;i<9;i++){const d=t-SOFT*.4-i*41-((i*37)%23);if(d<0)break;const [cx,cy]=at(d),half=Math.hypot(W,H);
-      x.strokeStyle=`rgba(${dust},${(A*(i<3?.9:.5)).toFixed(3)})`;x.lineWidth=1+(i%3);x.beginPath();x.moveTo(cx-uy*half,cy+ux*half);x.lineTo(cx+uy*half,cy-ux*half);x.stroke();}
-    /* keep only what the wipe has passed, with a soft edge */
-    x.globalCompositeOperation='destination-in';const[sx,sy]=at(t-SOFT),[ex,ey]=at(t);
-    const m=x.createLinearGradient(sx,sy,ex,ey);m.addColorStop(0,'#000');m.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=m;x.fillRect(0,0,W,H);
+    if(mk.width!==Math.ceil(W/2)||mk.height!==Math.ceil(H/2)){mk.width=Math.ceil(W/2);mk.height=Math.ceil(H/2);}
+    const pk=W+'x'+H;if(pk!==pkey){path=makePath(W,H);pkey=pk;}
+    const {P,n,R,L,passes,ux,uy}=path;
+    /* where the eraser is: its sweep front starts at the top-left corner of the part still on screen and reaches the far corner at p = 0.85 */
+    const g=Math.min(1,p/.85),dTop=p*H*uy,dF=dTop+g*(L+R-dTop),iF=Math.max(0,Math.min(n-1,Math.round((dF+R)/(L+2*R)*(n-1))));
+    x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,cv.width,cv.height);if(iF<1)return;
+    const light=document.body.classList.contains('light'),dust=light?'120,130,145':'225,230,236',A=light?.05:.12;
+    /* coverage: everything well behind the last two passes is solid; the recent passes are drawn as overlapping soft circles */
+    mx.setTransform(1,0,0,1,0,0);mx.clearRect(0,0,mk.width,mk.height);mx.setTransform(.5,0,0,.5,0,0);
+    const perPass=(n-1)/passes,i0=Math.max(0,Math.floor(iF-2.2*perPass)),dSolid=P[3*i0+2]-R*.2;
+    if(dSolid>-R){mx.fillStyle='#000';mx.beginPath();const far=W+H;
+      /* half-plane p.u <= dSolid */
+      mx.moveTo(-far*uy+ux*dSolid,far*ux+uy*dSolid);mx.lineTo(far*uy+ux*dSolid,-far*ux+uy*dSolid);mx.lineTo(far*uy+ux*dSolid-ux*far*3,-far*ux+uy*dSolid-uy*far*3);mx.lineTo(-far*uy+ux*dSolid-ux*far*3,far*ux+uy*dSolid-uy*far*3);mx.closePath();mx.fill();}
+    const sp=spriteFor(R),visTop=p*H-R;
+    for(let i=i0;i<=iF;i+=1){const px=P[3*i],py=P[3*i+1];if(py<visTop)continue;mx.drawImage(sp,px-R,py-R,2*R,2*R);}
+    /* surface, then dust: a haze and the eraser's recent strokes smeared in chalk */
+    x.setTransform(dpr,0,0,dpr,0,0);x.globalCompositeOperation='source-over';x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
+    x.fillStyle=`rgba(${dust},${(A*.3).toFixed(3)})`;x.fillRect(0,0,W,H);
+    /* chalk dust smeared along the eraser's recent strokes: soft stamps that build up where it has scrubbed most */
+    const ds=dustSprite(R,dust);const from=Math.max(0,Math.floor(iF-1.6*perPass));
+    for(let i=from;i<=iF;i+=3){const px=P[3*i+0],py=P[3*i+1];if(py<visTop)continue;const age=(iF-i)/(1.6*perPass);x.globalAlpha=A*(.18+.5*(1-age));x.drawImage(ds,px-R*1.1,py-R*1.1,R*2.2,R*2.2);}
+    x.globalAlpha=1;
+    /* keep only what the eraser has covered */
+    x.globalCompositeOperation='destination-in';x.setTransform(1,0,0,1,0,0);x.drawImage(mk,0,0,cv.width,cv.height);
     x.globalCompositeOperation='source-over';}
   return {draw,reset};}
 
