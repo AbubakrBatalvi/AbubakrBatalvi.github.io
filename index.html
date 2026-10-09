@@ -272,7 +272,7 @@ body.light .cfnMsg{color:#c4312a}
 #home .board{position:relative;box-sizing:border-box;min-height:100vh;min-height:100dvh;margin-top:0!important;padding:calc(env(safe-area-inset-top,0px) + 112px) max(var(--board-side),calc((100% - 1040px)/2)) 112px;
   background:var(--board-grain,none) 0 0/160px 160px,var(--board-tex,none) 0 0/100% 1100px repeat-y,var(--bg);border-bottom:1px solid var(--board-edge)}
 :root{--board-side:32px}
-#home .board:nth-child(even){background:var(--board-grain,none) 0 0/160px 160px,var(--board-tex2,none) 0 0/100% 1100px repeat-y,var(--bg)}
+#home .boardWrap:nth-child(even)>.board{background:var(--board-grain,none) 0 0/160px 160px,var(--board-tex2,none) 0 0/100% 1100px repeat-y,var(--bg)}
 /* on a board with little on it, the writing sits in the middle of the board */
 #home .board.pageSec{align-content:center}
 #home .board.homeTop{max-width:none;align-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
@@ -280,14 +280,19 @@ body.light .cfnMsg{color:#c4312a}
 /* the shadow the front board casts on the one behind it */
 #home .board::after{content:"";position:absolute;top:100%;height:34px;left:0;right:0;pointer-events:none;
   background:linear-gradient(var(--board-shade),transparent)}
-#home .board:last-child{border-bottom:0}#home .board:last-child::after{display:none}
+#home .boardWrap:last-child>.board{border-bottom:0}#home .boardWrap:last-child>.board::after{display:none}
 #home .board#contact{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 140px)}
 #home .board#contact .homeFoot{position:absolute;left:max(var(--board-side),calc((100% - 1040px)/2));right:max(var(--board-side),calc((100% - 1040px)/2));bottom:calc(env(safe-area-inset-bottom,0px) + 44px);margin:0}
-#home.boardsOn .board:not(:first-child){position:sticky}
+/* each board sits in a wrapper with a stretch of extra scroll after it (.boardHold): the wrapper is held behind the boards in
+   front of it (sticky, bottom offset), and the board is held inside its wrapper while it is erased (sticky, top offset) */
+#home .boardWrap{position:relative}
+#home.boardsOn .boardWrap:not(:first-child){position:sticky}
+#home.boardsOn .board{position:sticky}
+#home .boardHold{pointer-events:none}
 :root{--board-edge:#24272e;--board-shade:rgba(0,0,0,.5)}
 body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
 
-@media (prefers-reduced-motion:reduce){#home.boardsOn .board:not(:first-child){position:relative;bottom:auto!important}}
+@media (prefers-reduced-motion:reduce){#home.boardsOn .boardWrap,#home.boardsOn .board{position:relative!important;top:auto!important;bottom:auto!important}#home .boardHold{display:none}}
 
 /* ---------- cursor: the normal arrow, with a pulsing ring when it is over something clickable ---------- */
 #cursorRing{position:fixed;left:0;top:0;z-index:2147483000;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;opacity:0;
@@ -311,9 +316,9 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
 
 @media (prefers-reduced-motion:reduce){#cursorRing.on::after{animation:none}}
 
-/* ---------- erasing: as a board slides up, its writing is wiped off from the top-left corner to the bottom-right.
-   One screen-sized canvas sits over the board that is sliding up; it is redrawn from the scroll position, so the wipe
-   pauses and reverses with scrolling (drawing is in boards.js). ---------- */
+/* ---------- erasing: before a board slides up, it is held in place and its writing is wiped off by an eraser working from the
+   top-left corner to the bottom-right. One screen-sized canvas sits over that board; it is redrawn from the scroll position,
+   so the eraser pauses and reverses with scrolling (drawing is in boards.js). ---------- */
 #home .eraseCanvas{position:absolute;left:0;width:100%;pointer-events:none;z-index:3;display:block}
 </style>
 
@@ -2371,23 +2376,31 @@ function loadMathJax(){if(loadMathJax.started)return;loadMathJax.started=true;
    Because boards are held in place, their on-screen position is not their place in the page, so jumps and the
    "which section am I in" logic use the boards' natural positions instead (natTop / vTop / homeJump).
    ===================================================================== */
-let BOARDS=[],boardTop=[],boardH=[];
+let BOARDS=[],WRAPS=[],boardTop=[],boardH=[],HOLD=0;
 function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap');
   const foot=$('#homeFoot'),contact=$('#contact');if(foot&&contact&&foot.parentNode!==contact)contact.appendChild(foot);
   BOARDS=[home.querySelector('.homeTop'),...['about','start','featured','research','projects','graphs','contact'].map(id=>$('#'+id))].filter(Boolean);
-  BOARDS.forEach((b,k)=>{b.classList.add('board');b.style.zIndex=String(BOARDS.length-k);});
-  home.classList.add('boardsOn');
-  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;let y=BOARDS[0].offsetTop;
-    BOARDS.forEach((b,k)=>{boardTop[k]=y;boardH[k]=b.offsetHeight;y+=boardH[k];
-      /* held at the top of the screen until its own place arrives: bottom offset = screen height - board height */
-      if(k>0)b.style.bottom=(H-boardH[k])+'px';});
-    cull();eraser.reset();erase();if(window.homeSpy)homeSpy();};
-  /* erase the board that is sliding up: progress = how far its bottom edge has risen from the bottom of the screen to the top */
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  /* wrap each board; every board but the last gets a stretch of scroll after it, during which it stays put and is erased */
+  WRAPS=BOARDS.map((b,k)=>{b.classList.add('board');const w=document.createElement('div');w.className='boardWrap';w.style.zIndex=String(BOARDS.length-k);
+    b.parentNode.insertBefore(w,b);w.appendChild(b);
+    if(k<BOARDS.length-1){const h=document.createElement('div');h.className='boardHold';h.setAttribute('aria-hidden','true');w.appendChild(h);}
+    return w;});
+  home.classList.add('boardsOn');
+  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;HOLD=reduce.matches?0:Math.round(H*.5);let y=WRAPS[0].offsetTop;
+    BOARDS.forEach((b,k)=>{const last=k===BOARDS.length-1,hold=last?0:HOLD;boardTop[k]=y;boardH[k]=b.offsetHeight;
+      const hd=WRAPS[k].querySelector('.boardHold');if(hd)hd.style.height=hold+'px';
+      /* the wrapper is held at the top of the screen until its own place arrives (bottom offset = screen height - wrapper height);
+         the board is held with its bottom on the bottom of the screen while it is erased (top offset = screen height - board height) */
+      if(k>0)WRAPS[k].style.bottom=(H-boardH[k]-hold)+'px';b.style.top=(H-boardH[k])+'px';
+      y+=boardH[k]+hold;});
+    cull();eraser.reset();erase();if(window.homeSpy)homeSpy();};
+  /* board k: once its bottom reaches the bottom of the screen it is held for HOLD pixels of scrolling while it is erased
+     (progress e from 0 to 1), then it slides up and away over the next screen height (progress q), staying erased */
   const eraser=makeEraser(home);
-  const erase=()=>{if(home.hidden)return;const s=home.scrollTop,H=home.clientHeight;let act=-1,pAct=0;
-    if(!reduce.matches)for(let k=0;k<BOARDS.length-1;k++){const p=(s-(boardTop[k]+boardH[k]-H))/H;if(p>0&&p<1){act=k;pAct=p;break;}}
-    eraser.draw(act<0?null:BOARDS[act],act,pAct);};
+  const erase=()=>{if(home.hidden)return;const s=home.scrollTop,H=home.clientHeight;let act=-1,e=0,q=0;
+    if(!reduce.matches&&HOLD>0)for(let k=0;k<BOARDS.length-1;k++){const a=boardTop[k]+boardH[k]-H,ee=(s-a)/HOLD,qq=(s-a-HOLD)/H;if(ee>0&&qq<1){act=k;e=Math.min(1,ee);q=Math.max(0,qq);break;}}
+    eraser.draw(act<0?null:BOARDS[act],act,e,q);};
   home.addEventListener('scroll',erase,{passive:true});
   /* boards further down are completely covered by the ones in front, so they are not drawn until they are about to be revealed
      (keyboard users get every board back, so Tab can reach every link) */
@@ -2449,18 +2462,20 @@ function boardGrain(){
     `body.light{--board-grain:${grain(0,.06)};--board-tex:${marks('110,122,140',.065,false)};--board-tex2:${marks('110,122,140',.065,true)}}`;
   document.head.appendChild(st);}
 
-/* The eraser. As board k slides up by a fraction p of the screen, an eraser (a soft-edged circle) scrubs back and forth
-   across the board's last screenful, working its way along the diagonal from the top-left corner to the bottom-right, and
-   finishes just before the board leaves (p = 0.85). Its path is fixed to the board, so what has been erased moves up with
-   the writing; how far along the path it is follows the scroll position, so it pauses and reverses with scrolling.
+/* The eraser. While board k is held in place (progress e from 0 to 1), an eraser (a soft-edged circle) scrubs back and forth
+   across the board's last screenful, working its way along the diagonal from the top-left corner to the bottom-right; then the
+   clean board slides up and away (progress q). The path is fixed to the board, so what has been erased moves up with it;
+   how far along the path the eraser is follows the scroll position, so it pauses and reverses with scrolling.
    Drawn on one canvas: clean board surface (colour, smudges and grain lined up with the board's own), chalk dust along the
    eraser's recent strokes (a faint smear on the whiteboard), then cut back to the area the eraser has covered. */
 function makeEraser(home){
   const cv=document.createElement('canvas');cv.className='eraseCanvas';cv.setAttribute('aria-hidden','true');const x=cv.getContext('2d');
   const mk=document.createElement('canvas'),mx=mk.getContext('2d');           /* coverage mask, half resolution (it is soft anyway) */
+  /* circles already drawn are kept in cm (up to index cmI), so each frame only adds the newest ones; scrolling back rebuilds it */
+  const cm=document.createElement('canvas'),cx2=cm.getContext('2d');let cmI=-1;
   let board=null,surf=null,key='',imgs={},path=null,pkey='',sprite=null;
   const loadImg=u=>{if(!u||u==='none')return null;if(imgs[u])return imgs[u];const m=u.match(/url\("?(.*?)"?\)$/);if(!m)return null;const i=new Image();i.src=m[1];i.onload=()=>{key='';};imgs[u]=i;return i;};
-  const reset=()=>{key='';pkey='';};
+  const reset=()=>{key='';pkey='';cmI=-1;};
   function surface(b,k,W,H,dpr){const light=document.body.classList.contains('light'),cs=getComputedStyle(b);
     const kk=[k,W,H,dpr,light,b.offsetHeight].join();if(kk===key&&surf)return surf;key=kk;
     const c=surf||document.createElement('canvas');c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
@@ -2471,43 +2486,41 @@ function makeEraser(home){
     surf=c;return c;}
   /* The eraser's path over a W x H box. d runs along the sweep direction u (perpendicular to the bottom-left/top-right diagonal);
      the eraser goes back and forth along each line of constant d, from one edge of the box to the other, with a small circular
-     scrub on top, while d creeps forward by about half the eraser's width per pass. */
+     scrub on top, while d creeps forward by about a third of the eraser's width per pass, so the passes overlap and leave no gaps. */
   function makePath(W,H){const D=Math.hypot(W,H),ux=H/D,uy=W/D,vx=W/D,vy=-H/D,L=2*W*H/D,R=Math.max(46,Math.min(W,H)/11);
-    const passes=Math.ceil((L+2*R)/(R*.95)),P=[];let sig=0;
+    const passes=Math.ceil((L+2*R)/(R*.65)),P=[];let sig=0;
     const chord=d=>{/* the part of the line p.u = d inside the box, as an interval of the coordinate along v */
       let lo=Infinity,hi=-Infinity;const add=(px,py)=>{if(px<-1e-6||px>W+1e-6||py<-1e-6||py>H+1e-6)return;const s=px*vx+py*vy;lo=Math.min(lo,s);hi=Math.max(hi,s);};
       const dd=Math.min(L,Math.max(0,d));if(ux>0){add((dd-0*uy)/ux,0);add((dd-H*uy)/ux,H);}if(uy>0){add(0,dd/uy);add(W,(dd-W*ux)/uy);}
       if(lo>hi){lo=hi=0;}return [lo,hi];};
-    const N=passes*90;
+    const N=passes*60;
     for(let i=0;i<=N;i++){const s=i/N,d=-R+s*(L+2*R),ph=s*passes*Math.PI,[lo,hi]=chord(d),mid=(lo+hi)/2,half=(hi-lo)/2+R*.35;
-      const along=mid-half*Math.cos(ph),cx=ux*d+vx*along,cy=uy*d+vy*along,w=R*.32;
+      const along=mid-half*Math.cos(ph),cx=ux*d+vx*along,cy=uy*d+vy*along,w=R*.2;
       P.push(cx+w*Math.cos(ph*7),cy+w*Math.sin(ph*7),d);}
     return {P:new Float32Array(P),n:N+1,R,L,passes,ux,uy};}
   function spriteFor(R){if(sprite&&sprite._R===R)return sprite;const s=document.createElement('canvas'),r=Math.ceil(R/2);s.width=s.height=2*r;const g=s.getContext('2d');
-    const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,'#000');gr.addColorStop(.62,'#000');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._R=R;sprite=s;return s;}
+    const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,'#000');gr.addColorStop(.75,'#000');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._R=R;sprite=s;return s;}
   let dsp=null;function dustSprite(R,rgb){const kk=R+rgb;if(dsp&&dsp._k===kk)return dsp;const s=document.createElement('canvas'),r=Math.ceil(R*1.1);s.width=s.height=2*r;const g=s.getContext('2d');
     const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,`rgba(${rgb},.5)`);gr.addColorStop(.5,`rgba(${rgb},.25)`);gr.addColorStop(1,`rgba(${rgb},0)`);g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._k=kk;dsp=s;return s;}
-  function draw(b,k,p){
+  function draw(b,k,e,q){
     if(!b){if(board){cv.remove();board=null;}return;}
     const W=home.clientWidth,H=home.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1);
     if(board!==b){b.appendChild(cv);board=b;}
     const top=(b.offsetHeight-H)+'px';if(cv.style.top!==top)cv.style.top=top;
     if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.height=H+'px';}
-    if(mk.width!==Math.ceil(W/2)||mk.height!==Math.ceil(H/2)){mk.width=Math.ceil(W/2);mk.height=Math.ceil(H/2);}
-    const pk=W+'x'+H;if(pk!==pkey){path=makePath(W,H);pkey=pk;}
+    if(mk.width!==Math.ceil(W/2)||mk.height!==Math.ceil(H/2)){mk.width=cm.width=Math.ceil(W/2);mk.height=cm.height=Math.ceil(H/2);cmI=-1;}
+    const pk=W+'x'+H;if(pk!==pkey){path=makePath(W,H);pkey=pk;cmI=-1;}
     const {P,n,R,L,passes,ux,uy}=path;
-    /* where the eraser is: its sweep front starts at the top-left corner of the part still on screen and reaches the far corner at p = 0.85 */
-    const g=Math.min(1,p/.85),dTop=p*H*uy,dF=dTop+g*(L+R-dTop),iF=Math.max(0,Math.min(n-1,Math.round((dF+R)/(L+2*R)*(n-1))));
+    /* how far along its path the eraser is (e), and which part of the board is still on screen (it has slid up by q screens) */
+    const iF=Math.max(0,Math.min(n-1,Math.round(e*(n-1))));
     x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,cv.width,cv.height);if(iF<1)return;
     const light=document.body.classList.contains('light'),dust=light?'120,130,145':'225,230,236',A=light?.05:.12;
-    /* coverage: everything well behind the last two passes is solid; the recent passes are drawn as overlapping soft circles */
-    mx.setTransform(1,0,0,1,0,0);mx.clearRect(0,0,mk.width,mk.height);mx.setTransform(.5,0,0,.5,0,0);
-    const perPass=(n-1)/passes,i0=Math.max(0,Math.floor(iF-2.2*perPass)),dSolid=P[3*i0+2]-R*.2;
-    if(dSolid>-R){mx.fillStyle='#000';mx.beginPath();const far=W+H;
-      /* half-plane p.u <= dSolid */
-      mx.moveTo(-far*uy+ux*dSolid,far*ux+uy*dSolid);mx.lineTo(far*uy+ux*dSolid,-far*ux+uy*dSolid);mx.lineTo(far*uy+ux*dSolid-ux*far*3,-far*ux+uy*dSolid-uy*far*3);mx.lineTo(-far*uy+ux*dSolid-ux*far*3,far*ux+uy*dSolid-uy*far*3);mx.closePath();mx.fill();}
-    const sp=spriteFor(R),visTop=p*H-R;
-    for(let i=i0;i<=iF;i+=1){const px=P[3*i],py=P[3*i+1];if(py<visTop)continue;mx.drawImage(sp,px-R,py-R,2*R,2*R);}
+    /* coverage: every circle the eraser has made so far (half resolution), skipping those already above the screen */
+    const perPass=(n-1)/passes,sp=spriteFor(R),visTop=q*H-R;
+    if(cmI>iF){cx2.setTransform(1,0,0,1,0,0);cx2.clearRect(0,0,cm.width,cm.height);cmI=-1;}
+    cx2.setTransform(.5,0,0,.5,0,0);while(cmI<iF-40){cmI++;cx2.drawImage(sp,P[3*cmI]-R,P[3*cmI+1]-R,2*R,2*R);}
+    mx.setTransform(1,0,0,1,0,0);mx.clearRect(0,0,mk.width,mk.height);mx.drawImage(cm,0,0);mx.setTransform(.5,0,0,.5,0,0);
+    for(let i=cmI+1;i<=iF;i++)mx.drawImage(sp,P[3*i]-R,P[3*i+1]-R,2*R,2*R);
     /* surface, then dust: a haze and the eraser's recent strokes smeared in chalk */
     x.setTransform(dpr,0,0,dpr,0,0);x.globalCompositeOperation='source-over';x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
     x.fillStyle=`rgba(${dust},${(A*.3).toFixed(3)})`;x.fillRect(0,0,W,H);
