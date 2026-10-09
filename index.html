@@ -2094,7 +2094,7 @@ for(const s of SIMS)if(BLURBS[s.id])s.blurb=BLURBS[s.id];
    ===================================================================== */
 let labActive=true;
 const SP={POINTS:2400,STROKE:3,INK:'#111111',FILL_START:.88,FREEZE_RATIO:.5,CENTER_OVER_OUTLINE:.497,EASE:.5,FIT_W:.78,FIT_H:.42,
-  MORPH_MS:2800,REVEAL_MS:1500,FADE_MS:1500,UNMOUNT_MS:3000,FALLBACK_MS:4000};
+  MORPH_MS:2800,REVEAL_MS:1500,FADE_MS:1500,UNMOUNT_MS:3000,FALLBACK_MS:10000};
 const spLerp=(a,b,t)=>a+(b-a)*t,spClamp=x=>x<0?0:x>1?1:x,spSmooth=t=>t*t*(3-2*t),spEased=t=>spLerp(t,spSmooth(t),SP.EASE);
 const spDist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 /* flatten the outline (absolute M, L, H, V, Q, Z) and sample it evenly by arc length; far faster than getPointAtLength */
@@ -2246,8 +2246,8 @@ function filterHome(q){q=q.trim().toLowerCase();let n=0;
   for(const sec of document.querySelectorAll('.homeSec')){let vis=0;for(const a of sec.querySelectorAll('.gl a')){const ok=!q||a.dataset.q.includes(q);a.parentElement.hidden=!ok;if(ok)vis++;}sec.hidden=!vis;n+=vis;}
   $('#homeEmpty').hidden=n>0;$('#homeHint').textContent=q?(n===1?'1 graph matches · Enter opens it':`${n} of ${SIMS.length} graphs match`+(n?' · Enter opens the first':'')):'Press / to search';
   for(const a of document.querySelectorAll('#homeToc a')){const sec=$(a.getAttribute('href'));a.parentElement.hidden=sec.hidden;}}
-function showHome(){labActive=false;if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(window.homeSpy)homeSpy();});try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
-function openLab(i){const h=$('#home');labActive=true;setSim(i);h.classList.add('fading');setTimeout(()=>{if(labActive)h.hidden=true;},500);}
+function showHome(fromHistory){labActive=false;if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(window.homeSpy)homeSpy();});try{const u=location.pathname+location.search;if(location.hash){if(fromHistory)history.replaceState(null,'',u);else history.pushState(null,'',u);}}catch(e){}}
+function openLab(i,fromHistory){const h=$('#home');if(!fromHistory){try{history.pushState(null,'','#'+SIMS[i].id);}catch(e){}}labActive=true;setSim(i);h.classList.add('fading');setTimeout(()=>{if(labActive)h.hidden=true;},500);}
 function frontPage(direct){buildHome();buildPages();loadThumbs();$('#homeSearch').oninput=e=>filterHome(e.target.value);$('#openLab').onclick=()=>openLab(idx);$('#brand').onclick=showHome;homeExtras();
   $('#homeThemeBox').checked=LIGHT;$('#homeThemeBox').onchange=e=>setTheme(e.target.checked,true);
   if(direct)return; // a link straight to one graph skips the intro
@@ -2541,7 +2541,8 @@ function setSim(i){
   {const ar=$('#aArticle');ar.hidden=!cur.article;if(cur.article){ar.href=cur.article.url;ar.textContent=cur.article.label;}}
   $('#aLink').href=cur.link||('https://www.desmos.com/calculator/'+cur.hash);renderFormula();keyStr='';
   trail.clear();cur.hover=null;cur.enter();renderKey();
-  try{history.replaceState(null,'','#'+cur.id);}catch(e){}
+  /* only the graph lab puts a graph in the address; the front page keeps the plain address */
+  if(labActive){try{history.replaceState(null,'','#'+cur.id);}catch(e){}}
 }
 $('#prev').onclick=()=>setSim(idx-1);$('#next').onclick=()=>setSim(idx+1);sel.onchange=()=>setSim(+sel.value);
 function section(btn,body){btn.onclick=()=>{const open=btn.getAttribute('aria-expanded')!=='true';btn.setAttribute('aria-expanded',String(open));$(body).hidden=!open;};}
@@ -2606,4 +2607,6 @@ const start=SIMS.findIndex(s=>'#'+s.id===location.hash);
 labActive=start>=0;setSim(start>=0?start:0);
 requestAnimationFrame(loop);
 frontPage(start>=0);
+/* Back and Forward move between the front page (plain address) and the graphs (#graph-id) */
+addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.hash);if(i>=0){if(!labActive)openLab(i,true);else setSim(i);}else if(labActive)showHome(true);});
 </script>
