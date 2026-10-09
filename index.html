@@ -298,10 +298,17 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
 #cursorRing.on::after{transform:scale(1);animation:ringPulse 1.15s ease-in-out .2s infinite}
 #cursorRing.down::after{animation:none;transform:scale(.7)}
 @keyframes ringPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.28);opacity:.45}}
+/* the system cursor is replaced by a dot (text fields keep the text cursor) */
+#cursorDot{position:fixed;left:0;top:0;z-index:2147483001;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;pointer-events:none;
+  background:var(--fg);box-shadow:0 0 0 1.5px color-mix(in srgb,var(--bg) 70%,transparent);opacity:0;transition:opacity .15s ease,width .15s ease,height .15s ease,margin .15s ease}
+#cursorDot.show{opacity:1}
+#cursorDot.on{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--accent)}
+#splash~#cursorDot,#cursorDot.splash{background:#111;box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
 @media (hover:hover) and (pointer:fine){
-  html.ringCur :is(a[href],button,[role=button],label,summary,select,input[type=checkbox],input[type=radio],input[type=button],input[type=submit],
-    #simSelect,#themeRow,.secTitle,#copyLink,#toggleGui,.cfnTip,#brand,#splashSkip,#openLab,#homeTheme,#homeBar button,#homeResume,.homeView button,.dg li.title,.dg .cr.function,.dg .cr.boolean,.dg .cr.function *,.dg .cr.boolean *){cursor:default!important}
+  html.ringCur,html.ringCur *{cursor:none!important}
+  html.ringCur :is(input[type=text],input[type=search],input:not([type]),textarea,.mq-editable-field,.mq-editable-field *){cursor:text!important}
 }
+
 @media (prefers-reduced-motion:reduce){#cursorRing.on::after{animation:none}}
 </style>
 
@@ -2390,10 +2397,14 @@ const CLICKABLE='a[href],button,[role=button],label,summary,select,input[type=ch
 function cursorInit(){if(!matchMedia('(hover: hover) and (pointer: fine)').matches)return;
   document.documentElement.classList.add('ringCur');
   const ring=document.createElement('div');ring.id='cursorRing';ring.setAttribute('aria-hidden','true');document.body.appendChild(ring);
-  let on=false;const set=v=>{if(v!==on){on=v;ring.classList.toggle('on',v);}};
+  const dot=document.createElement('div');dot.id='cursorDot';dot.setAttribute('aria-hidden','true');document.body.appendChild(dot);
+  const TEXT='input[type=text],input[type=search],input:not([type]),textarea,.mq-editable-field';
+  let on=false;const set=v=>{if(v!==on){on=v;ring.classList.toggle('on',v);dot.classList.toggle('on',v);}};
   addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'){set(false);return;}
-    /* centred on the body of the arrow, just below and right of its tip */
-    ring.style.transform=`translate3d(${e.clientX+5}px,${e.clientY+7}px,0)`;
+    /* the dot sits exactly at the pointer, with the ring centred on it */
+    const tr=`translate3d(${e.clientX}px,${e.clientY}px,0)`;ring.style.transform=tr;dot.style.transform=tr;
+    const inText=e.target instanceof Element&&e.target.closest(TEXT);dot.classList.toggle('show',!inText);
+    const sp=document.getElementById('splash');dot.classList.toggle('splash',!!sp&&!sp.hidden);
     const t=e.target instanceof Element?e.target.closest(CLICKABLE):null;set(!!t&&!t.disabled);},{passive:true});
   /* the page can change under a still mouse (scrolling, opening a graph), so check again what is under it */
   let lx=-1,ly=-1;addEventListener('pointermove',e=>{lx=e.clientX;ly=e.clientY;},{passive:true});
@@ -2402,7 +2413,7 @@ function cursorInit(){if(!matchMedia('(hover: hover) and (pointer: fine)').match
   document.addEventListener('scroll',later,{passive:true,capture:true});addEventListener('click',()=>setTimeout(recheck,650));
   addEventListener('pointerdown',()=>ring.classList.add('down'),{passive:true});
   addEventListener('pointerup',()=>ring.classList.remove('down'),{passive:true});
-  document.documentElement.addEventListener('mouseleave',()=>set(false));
+  document.documentElement.addEventListener('mouseleave',()=>{set(false);dot.classList.remove('show');});
   addEventListener('blur',()=>set(false));}
 
 /* board surface, drawn once into images (cheaper to paint while scrolling than live gradients):
