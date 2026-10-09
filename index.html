@@ -310,6 +310,11 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
 }
 
 @media (prefers-reduced-motion:reduce){#cursorRing.on::after{animation:none}}
+
+/* ---------- erasing: as a board slides up, its writing is wiped off from the top-left corner to the bottom-right.
+   One screen-sized canvas sits over the board that is sliding up; it is redrawn from the scroll position, so the wipe
+   pauses and reverses with scrolling (drawing is in boards.js). ---------- */
+#home .eraseCanvas{position:absolute;left:0;width:100%;pointer-events:none;z-index:3;display:block}
 </style>
 
 <canvas id="gl"></canvas>
@@ -2376,7 +2381,14 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
     BOARDS.forEach((b,k)=>{boardTop[k]=y;boardH[k]=b.offsetHeight;y+=boardH[k];
       /* held at the top of the screen until its own place arrives: bottom offset = screen height - board height */
       if(k>0)b.style.bottom=(H-boardH[k])+'px';});
-    cull();if(window.homeSpy)homeSpy();};
+    cull();eraser.reset();erase();if(window.homeSpy)homeSpy();};
+  /* erase the board that is sliding up: progress = how far its bottom edge has risen from the bottom of the screen to the top */
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  const eraser=makeEraser(home);
+  const erase=()=>{if(home.hidden)return;const s=home.scrollTop,H=home.clientHeight;let act=-1,pAct=0;
+    if(!reduce.matches)for(let k=0;k<BOARDS.length-1;k++){const p=(s-(boardTop[k]+boardH[k]-H))/H;if(p>0&&p<1){act=k;pAct=p;break;}}
+    eraser.draw(act<0?null:BOARDS[act],act,pAct);};
+  home.addEventListener('scroll',erase,{passive:true});
   /* boards further down are completely covered by the ones in front, so they are not drawn until they are about to be revealed
      (keyboard users get every board back, so Tab can reach every link) */
   let kb=false;const cull=()=>{const s=home.scrollTop,H=home.clientHeight;
@@ -2436,6 +2448,51 @@ function boardGrain(){
   st.textContent=`:root{--board-grain:${grain(255,.07)};--board-tex:${marks('225,232,240',.05,false)};--board-tex2:${marks('225,232,240',.05,true)}}`+
     `body.light{--board-grain:${grain(0,.06)};--board-tex:${marks('110,122,140',.065,false)};--board-tex2:${marks('110,122,140',.065,true)}}`;
   document.head.appendChild(st);}
+
+/* The wipe. As board k slides up by a fraction p of the screen, the part still on screen (its bottom H(1-p)) is wiped along
+   its top-left to bottom-right diagonal; the wipe is complete at p = 0.85, just before the board leaves.
+   The canvas is filled with clean board surface (colour, smudges and grain lined up with the board's own), then chalk dust
+   (or faint marker smear on the whiteboard) densest just behind the wipe's edge, and finally cut back so only the part the
+   wipe has passed is left, with a soft edge. */
+function makeEraser(home){
+  const cv=document.createElement('canvas');cv.className='eraseCanvas';cv.setAttribute('aria-hidden','true');const x=cv.getContext('2d');
+  let board=null,surf=null,key='',imgs={};
+  const loadImg=u=>{if(!u||u==='none')return null;if(imgs[u])return imgs[u];const m=u.match(/url\("?(.*?)"?\)$/);if(!m)return null;const i=new Image();i.src=m[1];i.onload=()=>{key='';};imgs[u]=i;return i;};
+  const reset=()=>{key='';};
+  function surface(b,k,W,H,dpr){const light=document.body.classList.contains('light'),cs=getComputedStyle(b);
+    const kk=[k,W,H,dpr,light,b.offsetHeight].join();if(kk===key&&surf)return surf;key=kk;
+    const c=surf||document.createElement('canvas');c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+    g.fillStyle=cs.getPropertyValue('--bg').trim()||(light?'#f7f8fa':'#07080b');g.fillRect(0,0,W,H);
+    /* the board's own texture: smudges are 100% x 1100px repeating down from the board's top, grain is a 160px tile */
+    const y0=b.offsetHeight-H,tex=loadImg(cs.getPropertyValue(k%2?'--board-tex2':'--board-tex').trim()),grain=loadImg(cs.getPropertyValue('--board-grain').trim());
+    if(tex&&tex.complete&&tex.naturalWidth)for(let y=-(y0%1100);y<H;y+=1100)g.drawImage(tex,0,y,W,1100);
+    if(grain&&grain.complete&&grain.naturalWidth){g.save();g.translate(0,-(y0%160));const pat=g.createPattern(grain,'repeat');g.fillStyle=pat;g.fillRect(0,0,W,H+160);g.restore();}
+    surf=c;return c;}
+  function draw(b,k,p){
+    if(!b){if(board){cv.remove();board=null;}return;}
+    const W=home.clientWidth,H=home.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1);
+    if(board!==b){b.appendChild(cv);board=b;}
+    /* the canvas covers the board's last screenful */
+    const top=(b.offsetHeight-H)+'px';if(cv.style.top!==top)cv.style.top=top;
+    if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.height=H+'px';}
+    const light=document.body.classList.contains('light');
+    const Hv=H*(1-p),e=Math.min(1,p/.85),n=Math.hypot(W,Hv),ux=Hv/n,uy=W/n,L=2*W*Hv/n,SOFT=150,t=e*(L+SOFT),ox=0,oy=H-Hv;
+    x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,cv.width,cv.height);x.setTransform(dpr,0,0,dpr,0,0);
+    if(t<=0)return;
+    x.globalCompositeOperation='source-over';x.globalAlpha=1;x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
+    /* dust: a haze plus a few streaks parallel to the edge, densest just behind it */
+    const dust=light?'120,130,145':'225,230,236',A=light?.05:.11;
+    const at=d=>[ox+ux*d,oy+uy*d],[ax,ay]=at(Math.max(0,t-SOFT-260)),[bx,by]=at(t);
+    const hz=x.createLinearGradient(ax,ay,bx,by);hz.addColorStop(0,`rgba(${dust},${A*.35})`);hz.addColorStop(.75,`rgba(${dust},${A})`);hz.addColorStop(1,`rgba(${dust},0)`);
+    x.fillStyle=hz;x.fillRect(0,0,W,H);
+    x.lineCap='round';
+    for(let i=0;i<9;i++){const d=t-SOFT*.4-i*41-((i*37)%23);if(d<0)break;const [cx,cy]=at(d),half=Math.hypot(W,H);
+      x.strokeStyle=`rgba(${dust},${(A*(i<3?.9:.5)).toFixed(3)})`;x.lineWidth=1+(i%3);x.beginPath();x.moveTo(cx-uy*half,cy+ux*half);x.lineTo(cx+uy*half,cy-ux*half);x.stroke();}
+    /* keep only what the wipe has passed, with a soft edge */
+    x.globalCompositeOperation='destination-in';const[sx,sy]=at(t-SOFT),[ex,ey]=at(t);
+    const m=x.createLinearGradient(sx,sy,ex,ey);m.addColorStop(0,'#000');m.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=m;x.fillRect(0,0,W,H);
+    x.globalCompositeOperation='source-over';}
+  return {draw,reset};}
 
 /* ---------- Taylor series: your own function ---------- */
 {
