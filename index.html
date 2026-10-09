@@ -264,6 +264,45 @@ body.light .cfnMsg{color:#c4312a}
   #brand .crumb{display:none}
   #brand .name::before{width:12px;opacity:1}
 }
+
+/* ---------- layered boards: each front-page section is a board; scrolling slides the front board up and away,
+   revealing the next one already in place behind it (whiteboards in light mode, blackboards in dark mode) ---------- */
+#home{overflow-x:hidden}
+#home .homeWrap{position:relative;z-index:1;max-width:none;padding:0}
+#home .board{position:relative;box-sizing:border-box;min-height:100vh;min-height:100dvh;margin-top:0!important;padding:calc(env(safe-area-inset-top,0px) + 112px) max(var(--board-side),calc((100% - 1040px)/2)) 112px;
+  background:var(--board-grain,none) 0 0/160px 160px,var(--board-tex,none) 0 0/100% 1100px repeat-y,var(--bg);border-bottom:1px solid var(--board-edge)}
+:root{--board-side:32px}
+#home .board:nth-child(even){background:var(--board-grain,none) 0 0/160px 160px,var(--board-tex2,none) 0 0/100% 1100px repeat-y,var(--bg)}
+/* on a board with little on it, the writing sits in the middle of the board */
+#home .board.pageSec{align-content:center}
+#home .board.homeTop{max-width:none;align-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+#home .board.homeTop>*{max-width:620px}
+/* the shadow the front board casts on the one behind it */
+#home .board::after{content:"";position:absolute;top:100%;height:34px;left:0;right:0;pointer-events:none;
+  background:linear-gradient(var(--board-shade),transparent)}
+#home .board:last-child{border-bottom:0}#home .board:last-child::after{display:none}
+#home .board#contact{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 140px)}
+#home .board#contact .homeFoot{position:absolute;left:max(var(--board-side),calc((100% - 1040px)/2));right:max(var(--board-side),calc((100% - 1040px)/2));bottom:calc(env(safe-area-inset-bottom,0px) + 44px);margin:0}
+#home.boardsOn .board:not(:first-child){position:sticky}
+:root{--board-edge:#24272e;--board-shade:rgba(0,0,0,.5)}
+body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
+
+@media (prefers-reduced-motion:reduce){#home.boardsOn .board:not(:first-child){position:relative;bottom:auto!important}}
+
+/* ---------- cursor: the normal arrow, with a pulsing ring when it is over something clickable ---------- */
+#cursorRing{position:fixed;left:0;top:0;z-index:2147483000;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;opacity:0;
+  transition:opacity .15s ease}
+#cursorRing::after{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--accent);box-sizing:border-box;
+  transform:scale(.45);transition:transform .2s ease}
+#cursorRing.on{opacity:1}
+#cursorRing.on::after{transform:scale(1);animation:ringPulse 1.15s ease-in-out .2s infinite}
+#cursorRing.down::after{animation:none;transform:scale(.7)}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.28);opacity:.45}}
+@media (hover:hover) and (pointer:fine){
+  html.ringCur :is(a[href],button,[role=button],label,summary,select,input[type=checkbox],input[type=radio],input[type=button],input[type=submit],
+    #simSelect,#themeRow,.secTitle,#copyLink,#toggleGui,.cfnTip,#brand,#splashSkip,#openLab,#homeTheme,#homeBar button,#homeResume,.homeView button,.dg li.title,.dg .cr.function,.dg .cr.boolean,.dg .cr.function *,.dg .cr.boolean *){cursor:default!important}
+}
+@media (prefers-reduced-motion:reduce){#cursorRing.on::after{animation:none}}
 </style>
 
 <canvas id="gl"></canvas>
@@ -2187,7 +2226,7 @@ function buildHome(){const list=$('#homeList'),toc=$('#homeToc');list.textConten
   homeGroups().forEach(([title,items],gi)=>{
     const sec=document.createElement('section');sec.className='homeSec';sec.id='sec-'+gi;sec.dataset.title=title;const h=document.createElement('h3');h.append(title);const c=document.createElement('span');c.textContent=String(items.length);h.append(c);
     const tl=document.createElement('li');const ta=document.createElement('a');ta.href='#sec-'+gi;ta.innerHTML='<b></b><span></span>';ta.querySelector('b').textContent=title;ta.querySelector('b').style.fontWeight='normal';ta.querySelector('span').textContent=items.length;
-    ta.onclick=e=>{e.preventDefault();sec.scrollIntoView({behavior:'smooth',block:'start'});};tl.appendChild(ta);toc.appendChild(tl);
+    ta.onclick=e=>{e.preventDefault();homeJump(sec,72);};tl.appendChild(ta);toc.appendChild(tl);
     const ol=document.createElement('ol');ol.className='gl';
     for(const [s,i] of items){const li=document.createElement('li');if(i===lastSeen)li.className='last';const a=document.createElement('a');a.href='#'+s.id;a.dataset.idx=i;a.dataset.q=(s.name+' '+s.cat+' '+s.graph+' '+s.date+' '+(s.blurb||'')).toLowerCase();
       a.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="th"><img alt="" loading="lazy" decoding="async" data-id="${s.id}"></span><span class="tx"><span class="t"></span><span class="d"></span><span class="m"></span></span>`;a.querySelector('.t').textContent=s.name;a.querySelector('.d').textContent=s.blurb||'';
@@ -2209,16 +2248,16 @@ function frontPage(direct){buildHome();buildPages();loadThumbs();$('#homeSearch'
   runSplash(()=>{});}
 
 /* front page extras: highlight the section in view, "/" focuses search, Enter opens the first match */
-function homeExtras(){const home=$('#home'),bar=$('#homeBar');
+function homeExtras(){const home=$('#home'),bar=$('#homeBar');boardGrain();boardsInit();cursorInit();
   window.homeSpy=()=>{if(home.hidden)return;const links=[...document.querySelectorAll('#homeToc a')],secs=[...document.querySelectorAll('.homeSec:not([hidden])')];let on=null;
-    for(const s of secs)if(s.getBoundingClientRect().top<160)on=s;if(!on)on=secs[0];
+    for(const s of secs)if(vTop(s)<160)on=s;if(!on)on=secs[0];
     links.forEach(a=>a.classList.toggle('on',!!on&&a.getAttribute('href')==='#'+on.id));
-    const show=home.scrollTop>0&&home.scrollTop>$('#about').offsetTop-60;bar.classList.toggle('show',show);let lab=on&&on.dataset.title;for(const ps of document.querySelectorAll('.pageSec'))if(ps.getBoundingClientRect().top<160&&!(on&&on.getBoundingClientRect().top<160&&on.getBoundingClientRect().top>ps.getBoundingClientRect().top))lab=ps.dataset.title;bar.setAttribute('aria-hidden',String(!show));
+    const show=home.scrollTop>0&&home.scrollTop>natTop($('#about'))-60;bar.classList.toggle('show',show);let lab=on&&on.dataset.title;for(const ps of document.querySelectorAll('.pageSec'))if(vTop(ps)<160&&!(on&&vTop(on)<160&&vTop(on)>vTop(ps)))lab=ps.dataset.title;bar.setAttribute('aria-hidden',String(!show));
     bar.querySelectorAll('button').forEach(b=>b.tabIndex=show?0:-1);$('#barSec').textContent=show?(lab||''):'';};
   home.addEventListener('scroll',homeSpy,{passive:true});homeSpy();
   $('#barName').onclick=()=>home.scrollTo({top:0,behavior:'smooth'});
   $('#barLab').onclick=()=>openLab(idx);
-  const focusSearch=()=>{const s=$('#homeSearch');const top=s.getBoundingClientRect().top+home.scrollTop-120;if(s.getBoundingClientRect().top<60||s.getBoundingClientRect().top>innerHeight)home.scrollTo({top,behavior:'smooth'});s.focus({preventScroll:true});};
+  const focusSearch=()=>{const s=$('#homeSearch');const top=natTop(s)-120;if(vTop(s)<60||vTop(s)>innerHeight)home.scrollTo({top,behavior:'smooth'});s.focus({preventScroll:true});};
   $('#barSearch').onclick=focusSearch;
   $('#homeResume').onclick=()=>openLab(lastSeen>=0?lastSeen:idx);
   const setView=v=>{homeView=v;$('#viewSec').setAttribute('aria-pressed',String(v==='sec'));$('#viewDate').setAttribute('aria-pressed',String(v==='date'));buildHome();};
@@ -2293,7 +2332,7 @@ function buildPages(){
   const c=$('#contactList');c.textContent='';
   for(const [k,label,url] of CONTACT){if(!url)continue;const li=document.createElement('li');const a=document.createElement('a');a.href=url;a.textContent=label;if(!url.startsWith('mailto:')){a.target='_blank';a.rel='noopener';a.textContent=label+' ↗';}
     const ks=document.createElement('span');ks.className='k';ks.textContent=k;li.append(ks,a);c.appendChild(li);}
-  for(const a of document.querySelectorAll('[data-jump]'))a.onclick=e=>{e.preventDefault();$('#'+a.dataset.jump).scrollIntoView({behavior:'smooth',block:'start'});};
+  for(const a of document.querySelectorAll('[data-jump]'))a.onclick=e=>{e.preventDefault();homeJump($('#'+a.dataset.jump));};
   homeImgs();}
 
 /* copy a direct link to the current graph */
@@ -2312,6 +2351,80 @@ function loadMathJax(){if(loadMathJax.started)return;loadMathJax.started=true;
   window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},
     startup:{typeset:false,ready(){MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>window.renderFormula&&window.renderFormula());}}};
   const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js';s.async=true;document.head.appendChild(s);}
+
+/* =====================================================================
+   Layered boards on the front page.
+   Each section is a full-height board. The board behind is held in place (position: sticky with a bottom offset)
+   while the board in front scrolls up and away, like sliding up the front panel of a vertical board.
+   Because boards are held in place, their on-screen position is not their place in the page, so jumps and the
+   "which section am I in" logic use the boards' natural positions instead (natTop / vTop / homeJump).
+   ===================================================================== */
+let BOARDS=[],boardTop=[],boardH=[];
+function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap');
+  const foot=$('#homeFoot'),contact=$('#contact');if(foot&&contact&&foot.parentNode!==contact)contact.appendChild(foot);
+  BOARDS=[home.querySelector('.homeTop'),...['about','start','featured','research','projects','graphs','contact'].map(id=>$('#'+id))].filter(Boolean);
+  BOARDS.forEach((b,k)=>{b.classList.add('board');b.style.zIndex=String(BOARDS.length-k);});
+  home.classList.add('boardsOn');
+  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;let y=BOARDS[0].offsetTop;
+    BOARDS.forEach((b,k)=>{boardTop[k]=y;boardH[k]=b.offsetHeight;y+=boardH[k];
+      /* held at the top of the screen until its own place arrives: bottom offset = screen height - board height */
+      if(k>0)b.style.bottom=(H-boardH[k])+'px';});
+    cull();if(window.homeSpy)homeSpy();};
+  /* boards further down are completely covered by the ones in front, so they are not drawn until they are about to be revealed
+     (keyboard users get every board back, so Tab can reach every link) */
+  let kb=false;const cull=()=>{const s=home.scrollTop,H=home.clientHeight;
+    BOARDS.forEach((b,k)=>{const hide=!kb&&k>0&&s<boardTop[k]-H-500;if(b._hid!==hide){b._hid=hide;b.style.visibility=hide?'hidden':'';}});};
+  home.addEventListener('scroll',cull,{passive:true});
+  addEventListener('keydown',e=>{if(e.key==='Tab'&&!kb){kb=true;cull();}});addEventListener('pointerdown',()=>{if(kb){kb=false;cull();}});
+  const ro=new ResizeObserver(measure);BOARDS.forEach(b=>ro.observe(b));ro.observe(home);measure();}
+/* where an element sits in the page (scroll coordinates), ignoring the boards being held in place */
+function natTop(el){const k=BOARDS.findIndex(b=>b===el||b.contains(el));
+  if(k<0){const home=$('#home');return el.getBoundingClientRect().top-home.getBoundingClientRect().top+home.scrollTop;}
+  return boardTop[k]+(el===BOARDS[k]?0:el.getBoundingClientRect().top-BOARDS[k].getBoundingClientRect().top);}
+const vTop=el=>natTop(el)-$('#home').scrollTop;
+function homeJump(el,margin=0){const home=$('#home'),k=BOARDS.indexOf(el);
+  home.scrollTo({top:Math.max(0,natTop(el)-(k>=0?0:margin)),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+
+/* ---------- cursor ring: appears around the arrow over anything clickable, and pulses ---------- */
+const CLICKABLE='a[href],button,[role=button],label,summary,select,input[type=checkbox],input[type=radio],input[type=button],input[type=submit],#simSelect,#themeRow,.secTitle,#copyLink,#toggleGui,.cfnTip,#brand,#splashSkip,#openLab,#homeTheme,.dg li.title,.dg .cr.function,.dg .cr.boolean';
+function cursorInit(){if(!matchMedia('(hover: hover) and (pointer: fine)').matches)return;
+  document.documentElement.classList.add('ringCur');
+  const ring=document.createElement('div');ring.id='cursorRing';ring.setAttribute('aria-hidden','true');document.body.appendChild(ring);
+  let on=false;const set=v=>{if(v!==on){on=v;ring.classList.toggle('on',v);}};
+  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'){set(false);return;}
+    /* centred on the body of the arrow, just below and right of its tip */
+    ring.style.transform=`translate3d(${e.clientX+5}px,${e.clientY+7}px,0)`;
+    const t=e.target instanceof Element?e.target.closest(CLICKABLE):null;set(!!t&&!t.disabled);},{passive:true});
+  /* the page can change under a still mouse (scrolling, opening a graph), so check again what is under it */
+  let lx=-1,ly=-1;addEventListener('pointermove',e=>{lx=e.clientX;ly=e.clientY;},{passive:true});
+  const recheck=()=>{if(lx<0)return;const el=document.elementFromPoint(lx,ly),t=el&&el.closest(CLICKABLE);set(!!t&&!t.disabled);};
+  let rq=0;const later=()=>{if(!rq)rq=requestAnimationFrame(()=>{rq=0;recheck();});};
+  document.addEventListener('scroll',later,{passive:true,capture:true});addEventListener('click',()=>setTimeout(recheck,650));
+  addEventListener('pointerdown',()=>ring.classList.add('down'),{passive:true});
+  addEventListener('pointerup',()=>ring.classList.remove('down'),{passive:true});
+  document.documentElement.addEventListener('mouseleave',()=>set(false));
+  addEventListener('blur',()=>set(false));}
+
+/* board surface, drawn once into images (cheaper to paint while scrolling than live gradients):
+   a small grain tile, and a low-resolution layer of faint smudges and eraser sweeps that is stretched across each board.
+   Light marks on the blackboard (chalk dust), grey marks on the whiteboard (marker ghosting). */
+function boardGrain(){
+  const grain=(v,a)=>{const n=160,c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d'),im=x.createImageData(n,n);
+    let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+    for(let i=0;i<n*n;i++){im.data[4*i]=im.data[4*i+1]=im.data[4*i+2]=v;im.data[4*i+3]=Math.round(255*a*rnd());}x.putImageData(im,0,0);return `url(${c.toDataURL()})`;};
+  const marks=(rgb,a,flip)=>{const W=480,H=360,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+    if(flip){x.translate(W,0);x.scale(-1,1);}
+    const blob=(cx,cy,rx,ry,al)=>{x.save();x.translate(cx*W,cy*H);x.scale(rx*W,ry*H);const g=x.createRadialGradient(0,0,0,0,0,1);
+      g.addColorStop(0,`rgba(${rgb},${al})`);g.addColorStop(.7,`rgba(${rgb},0)`);x.fillStyle=g;x.beginPath();x.arc(0,0,1,0,7);x.fill();x.restore();};
+    blob(.24,.32,.36,.2,a);blob(.76,.7,.28,.16,a*.78);blob(.58,.18,.2,.12,a*.5);blob(.1,.85,.18,.1,a*.4);
+    /* two eraser sweeps */
+    const sweep=(x0,al)=>{const g=x.createLinearGradient(x0*W,0,(x0+.12)*W,H*.08);g.addColorStop(0,`rgba(${rgb},0)`);g.addColorStop(.5,`rgba(${rgb},${al})`);g.addColorStop(1,`rgba(${rgb},0)`);x.fillStyle=g;x.fillRect(0,0,W,H);};
+    sweep(.3,a*.5);sweep(.62,a*.45);
+    return `url(${c.toDataURL()})`;};
+  const st=document.createElement('style');
+  st.textContent=`:root{--board-grain:${grain(255,.07)};--board-tex:${marks('225,232,240',.05,false)};--board-tex2:${marks('225,232,240',.05,true)}}`+
+    `body.light{--board-grain:${grain(0,.06)};--board-tex:${marks('110,122,140',.065,false)};--board-tex2:${marks('110,122,140',.065,true)}}`;
+  document.head.appendChild(st);}
 
 /* ---------- Taylor series: your own function ---------- */
 {
