@@ -2670,6 +2670,8 @@ function makeEraser(home){
 const boardTitle=(b,k)=>k===0?'Top':(b.dataset.title||(b.id==='graphs'?'All graphs':b.id));
 /* the board a scroll position belongs to: the last one whose place has been reached (half a screen of leeway) */
 function boardAt(s,lead){let k=0;for(let i=0;i<BOARDS.length;i++)if(boardTop[i]<=s+lead)k=i;return k;}
+/* the section you are in for the index and top bar; at the very bottom of the page that is the last one, even if it is short */
+function boardHere(){const h=$('#home');if(h.scrollTop>=h.scrollHeight-h.clientHeight-2)return BOARDS.length-1;return boardAt(h.scrollTop,h.clientHeight*.5);}
 const smoothOK=()=>!matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function navInit(){const home=$('#home');
@@ -2678,12 +2680,12 @@ function navInit(){const home=$('#home');
   const marks=BOARDS.map((b,k)=>{const bt=document.createElement('button');bt.type='button';bt.innerHTML='<span></span><i></i>';bt.querySelector('span').textContent=boardTitle(b,k);
     bt.setAttribute('aria-label','Go to '+boardTitle(b,k));bt.onclick=()=>homeJump(b);rail.appendChild(bt);return bt;});
   home.appendChild(rail);
-  let onK=-1;const railSpy=()=>{if(home.hidden)return;const k=boardAt(home.scrollTop,home.clientHeight*.5);if(k!==onK){onK=k;marks.forEach((m,i)=>{m.classList.toggle('on',i===k);if(i===k)m.setAttribute('aria-current','true');else m.removeAttribute('aria-current');});}};
+  let onK=-1;const railSpy=()=>{if(home.hidden)return;const k=boardHere();if(k!==onK){onK=k;marks.forEach((m,i)=>{m.classList.toggle('on',i===k);if(i===k)m.setAttribute('aria-current','true');else m.removeAttribute('aria-current');});}};
   home.addEventListener('scroll',railSpy,{passive:true});new ResizeObserver(railSpy).observe(home);railSpy();
   /* top bar links: jump to a section; the one you are in is underlined */
   const barBtns=[...document.querySelectorAll('#barLinks button')];
   for(const bt of barBtns)bt.onclick=()=>homeJump($('#'+bt.dataset.jump));
-  const barSpy=()=>{if(home.hidden)return;const b=BOARDS[boardAt(home.scrollTop,home.clientHeight*.5)];for(const bt of barBtns){const on=b&&bt.dataset.jump===b.id;bt.classList.toggle('on',on);if(on)bt.setAttribute('aria-current','true');else bt.removeAttribute('aria-current');}};
+  const barSpy=()=>{if(home.hidden)return;const b=BOARDS[boardHere()];for(const bt of barBtns){const on=b&&bt.dataset.jump===b.id;bt.classList.toggle('on',on);if(on)bt.setAttribute('aria-current','true');else bt.removeAttribute('aria-current');}};
   home.addEventListener('scroll',barSpy,{passive:true});barSpy();
   /* shortcut cards on the first board, and Back to top */
   {const pdfs=RESEARCH.filter(r=>r.pdf).length,arts=RESEARCH.length-pdfs;
