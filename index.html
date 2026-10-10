@@ -286,8 +286,8 @@ body.light .cfnMsg{color:#c4312a}
 /* each board sits in a wrapper with a stretch of extra scroll after it (.boardHold): the wrapper is held behind the boards in
    front of it (sticky, bottom offset), and the board is held inside its wrapper while it is erased (sticky, top offset) */
 #home .boardWrap{position:relative}
-#home.boardsOn .boardWrap:not(:first-child){position:sticky}
-#home.boardsOn .board{position:sticky}
+#home.boardsOn .boardWrap.stuck{position:sticky}
+#home.boardsOn .board.held{position:sticky}
 #home .boardHold{pointer-events:none}
 :root{--board-edge:#24272e;--board-shade:rgba(0,0,0,.5)}
 body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
@@ -394,6 +394,44 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 #home .homeTop .heroPrefs{gap:8px 22px;font-size:12px}
 #home .homeTop .heroActions{order:1}#home .homeTop .homeNav{order:2;width:auto}#home .homeTop .heroPrefs{order:3}
 @media (max-width:760px){#home .homeTop h1{font-size:34px}#home .homeTop .homeNav{gap:8px 18px;max-width:300px}#home .homeTop .homeLinks{gap:16px}}
+
+/* ---------- lighter boards: only the first two boards are layered; the rest are ordinary, compact sections ---------- */
+#home .boardWrap.flat>.board{min-height:0;padding-top:96px;padding-bottom:96px}
+#home .boardWrap.flat>.board.pageSec{align-content:start}
+#home .boardWrap.flat>.board::after{display:none}
+#home .boardWrap.flat+.boardWrap.flat>.board{border-top:0}
+#home .boardWrap.flat>.board{border-bottom:1px solid var(--row-line)}
+#home .boardWrap:last-child>.board{min-height:0;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 150px)}
+
+/* first board: three shortcut cards */
+#home .homeTop .heroCards{order:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:min(640px,100%)}
+#home .homeTop .heroCards button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:4px;padding:14px 16px;border-radius:10px;text-align:left;
+  border:1px solid var(--row-line);background:color-mix(in srgb,var(--panel) 55%,transparent);transition:border-color .15s,background-color .15s}
+#home .homeTop .heroCards b{font-size:13.5px;color:var(--fg)}
+#home .homeTop .heroCards span{font-size:12px;color:var(--muted);line-height:1.45}
+#home .homeTop .heroCards button:hover{border-color:var(--accent)}#home .homeTop .heroCards button:hover b{color:var(--accent)}
+#home .homeTop .heroCards button:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+#home .homeTop .heroCards #openLab{border-color:color-mix(in srgb,var(--fg) 55%,var(--row-line))}
+#home .homeTop .heroActions{order:1}
+#home .homeTop .heroActions button{padding:6px 14px;font-size:12.5px}
+@media (max-width:760px){#home .homeTop .heroCards{grid-template-columns:minmax(0,1fr);gap:8px}#home .homeTop .heroCards button{padding:11px 14px}}
+
+/* top bar: section links and search, current section highlighted */
+#homeBar .barLinks{display:flex;gap:18px;flex:1;min-width:0;justify-content:center}
+#homeBar .barLinks button{color:var(--muted)!important;white-space:nowrap}
+#homeBar .barLinks button:hover,#homeBar .barLinks button.on{color:var(--fg)!important}
+#homeBar .barLinks button.on{box-shadow:inset 0 -1.5px 0 var(--accent)}
+#homeBar #barSec{display:none}
+@media (max-width:860px){#homeBar .barLinks{display:none}#homeBar #barSec{display:block}}
+
+/* back to top */
+.toTop{all:unset;cursor:pointer;display:inline-block;margin-top:40px;font-size:12.5px;color:var(--muted);border-bottom:1px solid var(--row-line);padding-bottom:2px}
+.toTop:hover{color:var(--fg);border-color:var(--accent)}.toTop:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+
+/* graph list: a short preview of each topic, with Show all */
+.homeSec .more{all:unset;cursor:pointer;margin-top:6px;font-size:12.5px;color:var(--accent)}
+.homeSec .more:hover{text-decoration:underline}.homeSec .more:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+.homeSec .more[hidden]{display:none}
 </style>
 
 <canvas id="gl"></canvas>
@@ -403,14 +441,15 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 
 
 <div id="home" hidden>
-  <div id="homeBar" aria-hidden="true"><div class="in"><button id="barName" tabindex="-1">Abubakr Batalvi</button><span id="barSec"></span><button id="barSearch" tabindex="-1">Search</button><button id="barLab" tabindex="-1">Graph lab →</button></div></div>
+  <div id="homeBar" aria-hidden="true"><div class="in"><button id="barName" tabindex="-1">Abubakr Batalvi</button><span id="barSec"></span><span class="barLinks" id="barLinks"><button data-jump="about" tabindex="-1">About</button><button data-jump="start" tabindex="-1">Start here</button><button data-jump="research" tabindex="-1">Research</button><button data-jump="projects" tabindex="-1">Projects</button><button data-jump="graphs" tabindex="-1">Graphs</button><button data-jump="contact" tabindex="-1">Contact</button></span><button id="barSearch" tabindex="-1">Search</button><button id="barLab" tabindex="-1">Graph lab →</button></div></div>
   <div class="homeWrap">
     <header class="homeTop">
       <img class="portrait" src="images/portrait.jpg" width="120" height="120" alt="Abubakr Batalvi" decoding="async">
       <h1>Abubakr Batalvi</h1>
       <p>Independent mathematics research in analytic number theory, approximation theory and numerical analysis. Below are my Desmos graphs, rebuilt as interactive pages you can pan, zoom and adjust.</p>
       <div class="homeLinks">
-        <div class="heroActions"><button id="openLab">Enter the graph lab →</button><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
+        <div class="heroCards"><button id="openLab" type="button"><b>Explore the graph lab →</b><span id="cardLab"></span></button><button type="button" data-jump="research"><b>Read my research →</b><span id="cardRes"></span></button><button type="button" data-jump="projects"><b>See my projects →</b><span id="cardProj"></span></button></div>
+        <div class="heroActions"><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
         <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#start" data-jump="start">Start here</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-jump="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
         <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
       </div>
@@ -456,12 +495,13 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
         <div class="topicChips" id="topicChips" role="group" aria-label="Show graphs on one topic"></div>
         <div id="homeList"></div>
         <p id="homeEmpty" hidden>No graph matches that search.</p>
+        <button class="toTop" type="button">Back to top ↑</button>
       </main>
     </div>
 
     <section class="pageSec" id="contact" data-title="Contact">
       <h2>Contact</h2>
-      <div class="prose"><p>If you’d like to talk about any of this, or you’ve spotted a mistake in a graph, email is the best way to reach me.</p><ul class="contact" id="contactList"></ul></div>
+      <div class="prose"><p>If you’d like to talk about any of this, or you’ve spotted a mistake in a graph, email is the best way to reach me.</p><ul class="contact" id="contactList"></ul><button class="toTop" type="button">Back to top ↑</button></div>
     </section>
     <footer class="homeFoot" id="homeFoot"></footer>
   </div>
@@ -2328,9 +2368,13 @@ function buildHome(){const list=$('#homeList'),toc=$('#homeToc');list.textConten
     sec.append(h,ol);list.appendChild(sec);});homeImgs();filterHome(($('#homeSearch')||{}).value||'');
   $('#homeFoot').textContent=`${SIMS.length} graphs in ${CATS.length} sections · © ${new Date().getFullYear()} Abubakr Batalvi`;
   filterHome($('#homeSearch').value);if(window.homeSpy)homeSpy();}
-let homeTopic='';
-function filterHome(q){q=q.trim().toLowerCase();let n=0;
-  for(const sec of document.querySelectorAll('.homeSec')){let vis=0;for(const a of sec.querySelectorAll('.gl a')){const ok=(!q||a.dataset.q.includes(q))&&(!homeTopic||a.dataset.cat===homeTopic);a.parentElement.hidden=!ok;if(ok)vis++;}sec.hidden=!vis;n+=vis;}
+let homeTopic='';const PREVIEW=3;
+function filterHome(q){q=q.trim().toLowerCase();let n=0;const full=!!q||!!homeTopic;
+  for(const sec of document.querySelectorAll('.homeSec')){let vis=0,shown=0;for(const a of sec.querySelectorAll('.gl a')){const ok=(!q||a.dataset.q.includes(q))&&(!homeTopic||a.dataset.cat===homeTopic);if(ok)vis++;
+      /* without a search or topic, each section shows its first few graphs and a Show all button */
+      const show=ok&&(full||sec.dataset.open==='1'||vis<=PREVIEW);a.parentElement.hidden=!show;if(show)shown++;}sec.hidden=!vis;n+=vis;
+    let mb=sec.querySelector('.more');if(!mb){mb=document.createElement('button');mb.type='button';mb.className='more';mb.onclick=()=>{sec.dataset.open=sec.dataset.open==='1'?'':'1';filterHome($('#homeSearch').value||'');if(sec.dataset.open!=='1')homeJump(sec,90);};sec.appendChild(mb);}
+    mb.hidden=full||vis<=PREVIEW;mb.textContent=sec.dataset.open==='1'?'Show fewer':`Show all ${vis} →`;}
   $('#homeEmpty').hidden=n>0;$('#homeHint').textContent=q?(n===1?'1 graph matches · Enter opens it':`${n} of ${SIMS.length} graphs match`+(n?' · Enter opens the first':'')):'Press / to search';
   for(const a of document.querySelectorAll('#homeToc a')){const sec=$(a.getAttribute('href'));a.parentElement.hidden=sec.hidden;}}
 function showHome(fromHistory){const fromLab=labActive;labActive=false;if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(fromLab&&window.returnToGraph)returnToGraph();if(window.homeSpy)homeSpy();});try{const u=location.pathname+location.search;if(location.hash){if(fromHistory)history.replaceState(null,'',u);else history.pushState(null,'',u);}}catch(e){}}
@@ -2462,26 +2506,29 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
   BOARDS=[home.querySelector('.homeTop'),...['about','start','featured','research','projects','graphs','contact'].map(id=>$('#'+id))].filter(Boolean);
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   /* wrap each board; every board but the last gets a stretch of scroll after it, during which it stays put and is erased */
-  WRAPS=BOARDS.map((b,k)=>{b.classList.add('board');const w=document.createElement('div');w.className='boardWrap';w.style.zIndex=String(BOARDS.length-k);
+  /* only the first boards are layered (held, erased, slid away); the board after them is revealed from behind, the rest scroll normally */
+  const LAYERED=2;
+  WRAPS=BOARDS.map((b,k)=>{b.classList.add('board');const w=document.createElement('div');w.className='boardWrap'+(k>LAYERED?' flat':'');w.style.zIndex=String(BOARDS.length-k);
     b.parentNode.insertBefore(w,b);w.appendChild(b);
-    if(k<BOARDS.length-1){const h=document.createElement('div');h.className='boardHold';h.setAttribute('aria-hidden','true');w.appendChild(h);}
+    if(k<LAYERED){const h=document.createElement('div');h.className='boardHold';h.setAttribute('aria-hidden','true');w.appendChild(h);}
     return w;});
   home.classList.add('boardsOn');
   /* plain scrolling (a visitor's choice) turns the boards into an ordinary page; touch screens get a shorter erase */
   const still=()=>reduce.matches||home.classList.contains('plain'),touch=matchMedia('(pointer: coarse)');
-  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;HOLD=still()?0:Math.round(H*(touch.matches?.28:.5));let y=WRAPS[0].offsetTop;
-    BOARDS.forEach((b,k)=>{const last=k===BOARDS.length-1,hold=last?0:HOLD;boardTop[k]=y;boardH[k]=b.offsetHeight;
+  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;HOLD=still()?0:Math.round(H*(touch.matches?.2:.25));let y=WRAPS[0].offsetTop;
+    BOARDS.forEach((b,k)=>{const hold=k<LAYERED?HOLD:0;boardTop[k]=y;boardH[k]=b.offsetHeight;
       const hd=WRAPS[k].querySelector('.boardHold');if(hd)hd.style.height=hold+'px';
       /* the wrapper is held at the top of the screen until its own place arrives (bottom offset = screen height - wrapper height);
          the board is held with its bottom on the bottom of the screen while it is erased (top offset = screen height - board height) */
-      if(k>0)WRAPS[k].style.bottom=(H-boardH[k]-hold)+'px';b.style.top=(H-boardH[k])+'px';
+      if(k>0&&k<=LAYERED)WRAPS[k].style.bottom=(H-boardH[k]-hold)+'px';else WRAPS[k].style.bottom='';
+      b.style.top=k<LAYERED?(H-boardH[k])+'px':'';WRAPS[k].classList.toggle('stuck',k>0&&k<=LAYERED);b.classList.toggle('held',k<LAYERED);
       y+=boardH[k]+hold;});
     cull();eraser.reset();erase();if(window.homeSpy)homeSpy();};
   /* board k: once its bottom reaches the bottom of the screen it is held for HOLD pixels of scrolling while it is erased
      (progress e from 0 to 1), then it slides up and away over the next screen height (progress q), staying erased */
   const eraser=makeEraser(home);
   const erase=()=>{if(home.hidden)return;const s=home.scrollTop,H=home.clientHeight;let act=-1,e=0,q=0;
-    if(!still()&&HOLD>0)for(let k=0;k<BOARDS.length-1;k++){const a=boardTop[k]+boardH[k]-H,ee=(s-a)/HOLD,qq=(s-a-HOLD)/H;if(ee>0&&qq<1){act=k;e=Math.min(1,ee);q=Math.max(0,qq);break;}}
+    if(!still()&&HOLD>0)for(let k=0;k<LAYERED;k++){const a=boardTop[k]+boardH[k]-H,ee=(s-a)/HOLD,qq=(s-a-HOLD)/H;if(ee>0&&qq<1){act=k;e=Math.min(1,ee);q=Math.max(0,qq);break;}}
     eraser.draw(act<0?null:BOARDS[act],act,e,q);};
   home.addEventListener('scroll',erase,{passive:true});
   /* boards further down are completely covered by the ones in front, so they are not drawn until they are about to be revealed
@@ -2597,7 +2644,7 @@ function makeEraser(home){
     /* how far along its path the eraser is (e), and which part of the board is still on screen (it has slid up by q screens) */
     const iF=Math.max(0,Math.min(n-1,Math.round(e*(n-1))));
     x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,cv.width,cv.height);if(iF<1)return;
-    const light=document.body.classList.contains('light'),dust=light?'120,130,145':'225,230,236',A=light?.05:.12;
+    const light=document.body.classList.contains('light'),dust=light?'120,130,145':'225,230,236',A=light?.03:.06;
     /* coverage: every circle the eraser has made so far (half resolution), skipping those already above the screen */
     const perPass=(n-1)/passes,sp=spriteFor(R),visTop=q*H-R;
     if(cmI>iF){cx2.setTransform(1,0,0,1,0,0);cx2.clearRect(0,0,cm.width,cm.height);cmI=-1;}
@@ -2606,10 +2653,10 @@ function makeEraser(home){
     for(let i=cmI+1;i<=iF;i++)mx.drawImage(sp,P[3*i]-R,P[3*i+1]-R,2*R,2*R);
     /* surface, then dust: a haze and the eraser's recent strokes smeared in chalk */
     x.setTransform(dpr,0,0,dpr,0,0);x.globalCompositeOperation='source-over';x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
-    x.fillStyle=`rgba(${dust},${(A*.3).toFixed(3)})`;x.fillRect(0,0,W,H);
+    x.fillStyle=`rgba(${dust},${(A*.12).toFixed(3)})`;x.fillRect(0,0,W,H);
     /* chalk dust smeared along the eraser's recent strokes: soft stamps that build up where it has scrubbed most */
-    const ds=dustSprite(R,dust);const from=Math.max(0,Math.floor(iF-1.6*perPass));
-    for(let i=from;i<=iF;i+=3){const px=P[3*i+0],py=P[3*i+1];if(py<visTop)continue;const age=(iF-i)/(1.6*perPass);x.globalAlpha=A*(.18+.5*(1-age));x.drawImage(ds,px-R*1.1,py-R*1.1,R*2.2,R*2.2);}
+    const ds=dustSprite(R,dust);const from=Math.max(0,Math.floor(iF-.8*perPass));
+    for(let i=from;i<=iF;i+=3){const px=P[3*i+0],py=P[3*i+1];if(py<visTop)continue;const age=(iF-i)/(.8*perPass);x.globalAlpha=A*(.18+.5*(1-age));x.drawImage(ds,px-R*1.1,py-R*1.1,R*2.2,R*2.2);}
     x.globalAlpha=1;
     /* keep only what the eraser has covered */
     x.globalCompositeOperation='destination-in';x.setTransform(1,0,0,1,0,0);x.drawImage(mk,0,0,cv.width,cv.height);
@@ -2633,6 +2680,18 @@ function navInit(){const home=$('#home');
   home.appendChild(rail);
   let onK=-1;const railSpy=()=>{if(home.hidden)return;const k=boardAt(home.scrollTop,home.clientHeight*.5);if(k!==onK){onK=k;marks.forEach((m,i)=>{m.classList.toggle('on',i===k);if(i===k)m.setAttribute('aria-current','true');else m.removeAttribute('aria-current');});}};
   home.addEventListener('scroll',railSpy,{passive:true});new ResizeObserver(railSpy).observe(home);railSpy();
+  /* top bar links: jump to a section; the one you are in is underlined */
+  const barBtns=[...document.querySelectorAll('#barLinks button')];
+  for(const bt of barBtns)bt.onclick=()=>homeJump($('#'+bt.dataset.jump));
+  const barSpy=()=>{if(home.hidden)return;const b=BOARDS[boardAt(home.scrollTop,home.clientHeight*.5)];for(const bt of barBtns){const on=b&&bt.dataset.jump===b.id;bt.classList.toggle('on',on);if(on)bt.setAttribute('aria-current','true');else bt.removeAttribute('aria-current');}};
+  home.addEventListener('scroll',barSpy,{passive:true});barSpy();
+  /* shortcut cards on the first board, and Back to top */
+  {const pdfs=RESEARCH.filter(r=>r.pdf).length,arts=RESEARCH.length-pdfs;
+   $('#cardLab').textContent=SIMS.length+' interactive graphs in '+CATS.length+' topics';
+   $('#cardRes').textContent=pdfs+' papers and notes'+(arts?', '+arts+' articles':'');
+   $('#cardProj').textContent=PROJECTS.map(p=>p.title.split(/[:(]/)[0].replace(/^Water Scarcity Satellite Mapping in /,'').trim()).join(' · ');
+   for(const c of document.querySelectorAll('.heroCards [data-jump]'))c.onclick=()=>homeJump($('#'+c.dataset.jump));}
+  for(const t of document.querySelectorAll('.toTop'))t.onclick=()=>{home.scrollTo({top:0,behavior:smoothOK()?'smooth':'auto'});const f=$('#openLab');if(f)setTimeout(()=>f.focus({preventScroll:true}),smoothOK()?700:0);};
 
   /* ---- one key moves one board: Page Down / Space / Down arrow forward, Page Up / Shift+Space / Up arrow back.
      Inside a board taller than the screen the keys scroll it normally until its end is on screen. ---- */
@@ -2655,7 +2714,8 @@ function navInit(){const home=$('#home');
     add('All topics','');for(const c of CATS)if(SIMS.some(s=>s.cat===c))add(c,c);}
 
   /* ---- plain scrolling (remembered on this device) ---- */
-  const pb=$('#homePlainBox');let plain=false;try{plain=localStorage.getItem('plainScroll')==='1';}catch(e){}
+  /* phones and tablets start with plain scrolling unless the visitor has chosen otherwise */
+  const pb=$('#homePlainBox');let plain=matchMedia('(pointer: coarse)').matches;try{const v=localStorage.getItem('plainScroll');if(v!==null)plain=v==='1';}catch(e){}
   const setPlain=v=>{home.classList.toggle('plain',v);pb.checked=v;try{localStorage.setItem('plainScroll',v?'1':'0');}catch(e){}
     const H=home.clientHeight,k=boardAt(home.scrollTop,2),off=home.scrollTop-boardTop[k];if(window.boardsRefresh)boardsRefresh();home.scrollTop=boardTop[k]+Math.min(off,Math.max(0,boardH[k]-H));};
   home.classList.toggle('plain',plain);pb.checked=plain;pb.onchange=()=>setPlain(pb.checked);if(window.boardsRefresh)boardsRefresh();
@@ -2706,7 +2766,9 @@ function openFind(){if(!FIND)FIND=findIndex();let qs=$('#qs');
 function closeFind(){const qs=$('#qs');if(!qs||qs.hidden)return;qs.hidden=true;if(findPrevFocus&&findPrevFocus.focus&&document.contains(findPrevFocus))findPrevFocus.focus({preventScroll:true});}
 
 /* ---------- coming back from a graph: put its entry in the list on screen ---------- */
-function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li||li.hidden)return;const home=$('#home');
+function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li)return;const home=$('#home');
+  /* if the graph is beyond its topic's short preview, open that topic's full list first */
+  if(li.hidden){const sec=li.closest('.homeSec');if(sec&&!sec.hidden){sec.dataset.open='1';filterHome($('#homeSearch').value||'');}}if(li.hidden)return;if(window.boardsRefresh)boardsRefresh();
   home.scrollTop=Math.max(0,natTop(li)-home.clientHeight*.35);}
 
 /* ---------- graph lab: the next graph in the same section ---------- */
