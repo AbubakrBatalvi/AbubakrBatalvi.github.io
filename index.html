@@ -320,6 +320,55 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
    top-left corner to the bottom-right. One screen-sized canvas sits over that board; it is redrawn from the scroll position,
    so the eraser pauses and reverses with scrolling (drawing is in boards.js). ---------- */
 #home .eraseCanvas{position:absolute;left:0;width:100%;pointer-events:none;z-index:3;display:block}
+
+/* ---------- navigation aids ---------- */
+#homeFind{all:unset;cursor:pointer;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+#homeFind:hover{color:var(--fg)}#homeFind:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);border-radius:4px;color:var(--muted);background:var(--panel)}
+@media (pointer:coarse){#homeFind kbd{display:none}}
+#homePlain{display:flex;align-items:center;gap:8px;color:var(--muted);cursor:pointer}#homePlain input{margin:0;cursor:pointer}
+/* plain scrolling: the boards become an ordinary page */
+#home.plain .boardWrap,#home.plain .board{position:relative!important;top:auto!important;bottom:auto!important}#home.plain .boardHold{display:none}
+
+/* board index on the right edge */
+#boardRail{position:fixed;right:max(10px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:4;display:grid;gap:2px}
+#boardRail button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:flex-end;gap:10px;height:22px;padding:0 4px 0 10px;border-radius:4px}
+#boardRail i{display:block;width:12px;height:2px;border-radius:2px;background:var(--muted);opacity:.45;transition:width .2s ease,opacity .2s ease,background-color .2s ease}
+#boardRail span{font:11.5px var(--font);color:var(--fg);white-space:nowrap;opacity:0;transform:translateX(4px);transition:opacity .15s ease,transform .15s ease;pointer-events:none;
+  background:color-mix(in srgb,var(--bg) 85%,transparent);padding:2px 6px;border-radius:4px}
+#boardRail button:hover i,#boardRail button:focus-visible i{opacity:.9}
+#boardRail button:hover span,#boardRail button:focus-visible span,#boardRail:hover button.on span{opacity:1;transform:none}
+#boardRail button.on i{width:22px;opacity:1;background:var(--accent)}
+#boardRail button:focus-visible{outline:1px solid var(--accent)}
+@media (max-width:760px){#boardRail{right:4px}#boardRail button{height:18px;padding:0 2px 0 6px}#boardRail span{display:none}}
+
+/* topic filters above the graph list */
+.topicChips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 34px}
+.topicChips button{all:unset;cursor:pointer;font-size:12px;padding:4px 11px;border-radius:99px;color:var(--muted);border:1px solid var(--row-line)}
+.topicChips button:hover{color:var(--fg)}
+.topicChips button[aria-pressed="true"]{color:var(--fg);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.topicChips button:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+
+/* next graph in this section (graph lab) */
+#aNext{display:block;margin-top:8px}
+#aNext:empty{display:none}
+
+/* search over the whole site */
+#qs{position:fixed;inset:0;z-index:2147482000;display:grid;align-items:start;justify-items:center;padding-top:min(14vh,120px);background:color-mix(in srgb,#000 38%,transparent)}
+#qs[hidden]{display:none}
+#qs .box{width:min(640px,calc(100vw - 32px));max-height:min(72vh,620px);display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:var(--bg);color:var(--fg);
+  border:1px solid var(--row-line);border-radius:10px;box-shadow:0 24px 70px rgba(0,0,0,.45);overflow:hidden;font:13px var(--font)}
+#qs input{all:unset;box-sizing:border-box;width:100%;padding:16px 18px;font-size:16px;border-bottom:1px solid var(--row-line)}
+#qs input::placeholder{color:var(--muted)}
+#qs ul{list-style:none;margin:0;padding:6px;overflow-y:auto}
+#qs li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;padding:9px 12px;border-radius:7px;cursor:pointer}
+#qs li .t{font-size:14px;line-height:1.35}
+#qs li .k{font-size:11px;color:var(--muted);white-space:nowrap;align-self:start;padding-top:2px}
+#qs li .d{grid-column:1/-1;font-size:12px;color:var(--muted);line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+#qs li.on{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+#qs li.on .t{color:var(--accent)}
+#qs .empty{padding:18px;color:var(--muted)}
+#qs .foot{display:flex;gap:16px;padding:8px 14px;border-top:1px solid var(--row-line);color:var(--muted);font-size:11px}
 </style>
 
 <canvas id="gl"></canvas>
@@ -338,7 +387,9 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
         <button id="openLab">Enter the graph lab →</button>
         <button id="homeResume" hidden></button>
         <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#start" data-jump="start">Start here</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-jump="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
+        <button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button>
         <label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label>
+        <label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label>
       </div>
     </header>
 
@@ -379,6 +430,7 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
         <nav aria-label="Sections"><h2 id="tocTitle">SECTIONS</h2><ol id="homeToc"></ol></nav>
       </aside>
       <main>
+        <div class="topicChips" id="topicChips" role="group" aria-label="Show graphs on one topic"></div>
         <div id="homeList"></div>
         <p id="homeEmpty" hidden>No graph matches that search.</p>
       </main>
@@ -416,6 +468,7 @@ body.light{--board-edge:#cfd3da;--board-shade:rgba(20,28,40,.13)}
       <p class="hint" id="aHint"></p>
       <a id="aArticle" href="#" target="_blank" rel="noopener" hidden></a>
       <a id="aLink" href="#" target="_blank" rel="noopener">View this graph on Desmos ↗</a>
+      <a id="aNext" href="#"></a>
       <div class="shareRow"><button id="copyLink" type="button">Copy link to this graph</button><span id="copyMsg" role="status" aria-live="polite"></span></div>
     </div>
     <button class="secTitle" id="ctrlTitle" aria-expanded="true" aria-controls="gui">Controls</button>
@@ -2245,27 +2298,31 @@ function buildHome(){const list=$('#homeList'),toc=$('#homeToc');list.textConten
     const tl=document.createElement('li');const ta=document.createElement('a');ta.href='#sec-'+gi;ta.innerHTML='<b></b><span></span>';ta.querySelector('b').textContent=title;ta.querySelector('b').style.fontWeight='normal';ta.querySelector('span').textContent=items.length;
     ta.onclick=e=>{e.preventDefault();homeJump(sec,72);};tl.appendChild(ta);toc.appendChild(tl);
     const ol=document.createElement('ol');ol.className='gl';
-    for(const [s,i] of items){const li=document.createElement('li');if(i===lastSeen)li.className='last';const a=document.createElement('a');a.href='#'+s.id;a.dataset.idx=i;a.dataset.q=(s.name+' '+s.cat+' '+s.graph+' '+s.date+' '+(s.blurb||'')).toLowerCase();
+    for(const [s,i] of items){const li=document.createElement('li');if(i===lastSeen)li.className='last';const a=document.createElement('a');a.href='#'+s.id;a.dataset.idx=i;a.dataset.cat=s.cat;a.dataset.q=(s.name+' '+s.cat+' '+s.graph+' '+s.date+' '+(s.blurb||'')).toLowerCase();
       a.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span><span class="th"><img alt="" loading="lazy" decoding="async" data-id="${s.id}"></span><span class="tx"><span class="t"></span><span class="d"></span><span class="m"></span></span>`;a.querySelector('.t').textContent=s.name;a.querySelector('.d').textContent=s.blurb||'';
       a.querySelector('.m').textContent=homeView==='sec'?s.graph+' · '+s.date:s.cat+' · '+s.date;
       a.onclick=e=>{e.preventDefault();openLab(i);};li.appendChild(a);ol.appendChild(li);}
-    sec.append(h,ol);list.appendChild(sec);});homeImgs();
+    sec.append(h,ol);list.appendChild(sec);});homeImgs();filterHome(($('#homeSearch')||{}).value||'');
   $('#homeFoot').textContent=`${SIMS.length} graphs in ${CATS.length} sections · © ${new Date().getFullYear()} Abubakr Batalvi`;
   filterHome($('#homeSearch').value);if(window.homeSpy)homeSpy();}
+let homeTopic='';
 function filterHome(q){q=q.trim().toLowerCase();let n=0;
-  for(const sec of document.querySelectorAll('.homeSec')){let vis=0;for(const a of sec.querySelectorAll('.gl a')){const ok=!q||a.dataset.q.includes(q);a.parentElement.hidden=!ok;if(ok)vis++;}sec.hidden=!vis;n+=vis;}
+  for(const sec of document.querySelectorAll('.homeSec')){let vis=0;for(const a of sec.querySelectorAll('.gl a')){const ok=(!q||a.dataset.q.includes(q))&&(!homeTopic||a.dataset.cat===homeTopic);a.parentElement.hidden=!ok;if(ok)vis++;}sec.hidden=!vis;n+=vis;}
   $('#homeEmpty').hidden=n>0;$('#homeHint').textContent=q?(n===1?'1 graph matches · Enter opens it':`${n} of ${SIMS.length} graphs match`+(n?' · Enter opens the first':'')):'Press / to search';
   for(const a of document.querySelectorAll('#homeToc a')){const sec=$(a.getAttribute('href'));a.parentElement.hidden=sec.hidden;}}
-function showHome(fromHistory){labActive=false;if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(window.homeSpy)homeSpy();});try{const u=location.pathname+location.search;if(location.hash){if(fromHistory)history.replaceState(null,'',u);else history.pushState(null,'',u);}}catch(e){}}
+function showHome(fromHistory){const fromLab=labActive;labActive=false;if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(fromLab&&window.returnToGraph)returnToGraph();if(window.homeSpy)homeSpy();});try{const u=location.pathname+location.search;if(location.hash){if(fromHistory)history.replaceState(null,'',u);else history.pushState(null,'',u);}}catch(e){}}
 function openLab(i,fromHistory){const h=$('#home');if(!fromHistory){try{history.pushState(null,'','#'+SIMS[i].id);}catch(e){}}labActive=true;setSim(i);h.classList.add('fading');setTimeout(()=>{if(labActive)h.hidden=true;},500);}
 function frontPage(direct){buildHome();buildPages();loadThumbs();$('#homeSearch').oninput=e=>filterHome(e.target.value);$('#openLab').onclick=()=>openLab(idx);$('#brand').onclick=showHome;homeExtras();
   $('#homeThemeBox').checked=LIGHT;$('#homeThemeBox').onchange=e=>setTheme(e.target.checked,true);
   if(direct)return; // a link straight to one graph skips the intro
   labActive=false;const h=$('#home');h.classList.remove('fading');h.hidden=false; // sits behind the opaque splash
-  runSplash(()=>{});}
+  /* the intro plays once per visit: a reload or a return from the graph lab goes straight to the front page */
+  let seen=false;try{seen=sessionStorage.getItem('splashSeen')==='1';}catch(e){}
+  if(seen){$('#splash').hidden=true;return;}
+  runSplash(()=>{try{sessionStorage.setItem('splashSeen','1');}catch(e){}});}
 
 /* front page extras: highlight the section in view, "/" focuses search, Enter opens the first match */
-function homeExtras(){const home=$('#home'),bar=$('#homeBar');boardGrain();boardsInit();cursorInit();
+function homeExtras(){const home=$('#home'),bar=$('#homeBar');boardGrain();boardsInit();cursorInit();navInit();
   window.homeSpy=()=>{if(home.hidden)return;const links=[...document.querySelectorAll('#homeToc a')],secs=[...document.querySelectorAll('.homeSec:not([hidden])')];let on=null;
     for(const s of secs)if(vTop(s)<160)on=s;if(!on)on=secs[0];
     links.forEach(a=>a.classList.toggle('on',!!on&&a.getAttribute('href')==='#'+on.id));
@@ -2275,11 +2332,11 @@ function homeExtras(){const home=$('#home'),bar=$('#homeBar');boardGrain();board
   $('#barName').onclick=()=>home.scrollTo({top:0,behavior:'smooth'});
   $('#barLab').onclick=()=>openLab(idx);
   const focusSearch=()=>{const s=$('#homeSearch');const top=natTop(s)-120;if(vTop(s)<60||vTop(s)>innerHeight)home.scrollTo({top,behavior:'smooth'});s.focus({preventScroll:true});};
-  $('#barSearch').onclick=focusSearch;
+  $('#barSearch').onclick=()=>openFind();
   $('#homeResume').onclick=()=>openLab(lastSeen>=0?lastSeen:idx);
   const setView=v=>{homeView=v;$('#viewSec').setAttribute('aria-pressed',String(v==='sec'));$('#viewDate').setAttribute('aria-pressed',String(v==='date'));buildHome();};
   $('#viewSec').onclick=()=>setView('sec');$('#viewDate').onclick=()=>setView('date');
-  addEventListener('keydown',e=>{if(labActive||home.hidden)return;if(e.key==='/'&&document.activeElement!==$('#homeSearch')){e.preventDefault();focusSearch();}});
+  addEventListener('keydown',e=>{if(labActive||home.hidden)return;/* "/" opens the site search (nav.js) */});
   $('#homeSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){const a=[...document.querySelectorAll('.gl li:not([hidden]) a')][0];if(a)a.click();}else if(e.key==='Escape'){e.target.value='';filterHome('');e.target.blur();}});}
 
 /* ---------- front page: featured graphs, writing, contact ---------- */
@@ -2387,7 +2444,9 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
     if(k<BOARDS.length-1){const h=document.createElement('div');h.className='boardHold';h.setAttribute('aria-hidden','true');w.appendChild(h);}
     return w;});
   home.classList.add('boardsOn');
-  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;HOLD=reduce.matches?0:Math.round(H*.5);let y=WRAPS[0].offsetTop;
+  /* plain scrolling (a visitor's choice) turns the boards into an ordinary page; touch screens get a shorter erase */
+  const still=()=>reduce.matches||home.classList.contains('plain'),touch=matchMedia('(pointer: coarse)');
+  const measure=()=>{if(home.hidden)return;const H=home.clientHeight;HOLD=still()?0:Math.round(H*(touch.matches?.28:.5));let y=WRAPS[0].offsetTop;
     BOARDS.forEach((b,k)=>{const last=k===BOARDS.length-1,hold=last?0:HOLD;boardTop[k]=y;boardH[k]=b.offsetHeight;
       const hd=WRAPS[k].querySelector('.boardHold');if(hd)hd.style.height=hold+'px';
       /* the wrapper is held at the top of the screen until its own place arrives (bottom offset = screen height - wrapper height);
@@ -2399,7 +2458,7 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
      (progress e from 0 to 1), then it slides up and away over the next screen height (progress q), staying erased */
   const eraser=makeEraser(home);
   const erase=()=>{if(home.hidden)return;const s=home.scrollTop,H=home.clientHeight;let act=-1,e=0,q=0;
-    if(!reduce.matches&&HOLD>0)for(let k=0;k<BOARDS.length-1;k++){const a=boardTop[k]+boardH[k]-H,ee=(s-a)/HOLD,qq=(s-a-HOLD)/H;if(ee>0&&qq<1){act=k;e=Math.min(1,ee);q=Math.max(0,qq);break;}}
+    if(!still()&&HOLD>0)for(let k=0;k<BOARDS.length-1;k++){const a=boardTop[k]+boardH[k]-H,ee=(s-a)/HOLD,qq=(s-a-HOLD)/H;if(ee>0&&qq<1){act=k;e=Math.min(1,ee);q=Math.max(0,qq);break;}}
     eraser.draw(act<0?null:BOARDS[act],act,e,q);};
   home.addEventListener('scroll',erase,{passive:true});
   /* boards further down are completely covered by the ones in front, so they are not drawn until they are about to be revealed
@@ -2408,6 +2467,7 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
     BOARDS.forEach((b,k)=>{const hide=!kb&&k>0&&s<boardTop[k]-H-500;if(b._hid!==hide){b._hid=hide;b.style.visibility=hide?'hidden':'';}});};
   home.addEventListener('scroll',cull,{passive:true});
   addEventListener('keydown',e=>{if(e.key==='Tab'&&!kb){kb=true;cull();}});addEventListener('pointerdown',()=>{if(kb){kb=false;cull();}});
+  window.boardsRefresh=measure;
   const ro=new ResizeObserver(measure);BOARDS.forEach(b=>ro.observe(b));ro.observe(home);measure();}
 /* where an element sits in the page (scroll coordinates), ignoring the boards being held in place */
 function natTop(el){const k=BOARDS.findIndex(b=>b===el||b.contains(el));
@@ -2533,6 +2593,104 @@ function makeEraser(home){
     x.globalCompositeOperation='source-over';}
   return {draw,reset};}
 
+/* =====================================================================
+   Navigation aids: board index, board-by-board keys, site search, return to the graph you were on,
+   next graph in a section, topic filters and plain scrolling.
+   ===================================================================== */
+const boardTitle=(b,k)=>k===0?'Top':(b.dataset.title||(b.id==='graphs'?'All graphs':b.id));
+/* the board a scroll position belongs to: the last one whose place has been reached (half a screen of leeway) */
+function boardAt(s,lead){let k=0;for(let i=0;i<BOARDS.length;i++)if(boardTop[i]<=s+lead)k=i;return k;}
+const smoothOK=()=>!matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function navInit(){const home=$('#home');
+  /* ---- board index on the right edge ---- */
+  const rail=document.createElement('nav');rail.id='boardRail';rail.setAttribute('aria-label','Sections of this page');
+  const marks=BOARDS.map((b,k)=>{const bt=document.createElement('button');bt.type='button';bt.innerHTML='<span></span><i></i>';bt.querySelector('span').textContent=boardTitle(b,k);
+    bt.setAttribute('aria-label','Go to '+boardTitle(b,k));bt.onclick=()=>homeJump(b);rail.appendChild(bt);return bt;});
+  home.appendChild(rail);
+  let onK=-1;const railSpy=()=>{if(home.hidden)return;const k=boardAt(home.scrollTop,home.clientHeight*.5);if(k!==onK){onK=k;marks.forEach((m,i)=>{m.classList.toggle('on',i===k);if(i===k)m.setAttribute('aria-current','true');else m.removeAttribute('aria-current');});}};
+  home.addEventListener('scroll',railSpy,{passive:true});new ResizeObserver(railSpy).observe(home);railSpy();
+
+  /* ---- one key moves one board: Page Down / Space / Down arrow forward, Page Up / Shift+Space / Up arrow back.
+     Inside a board taller than the screen the keys scroll it normally until its end is on screen. ---- */
+  let aim=null,aimT=0;
+  addEventListener('keydown',e=>{
+    if(labActive||home.hidden||e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;if(!$('#qs')?.hidden&&$('#qs'))return;
+    const t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
+    const fwd=e.key==='PageDown'||e.key==='ArrowDown'||(e.key===' '&&!e.shiftKey),back=e.key==='PageUp'||e.key==='ArrowUp'||(e.key===' '&&e.shiftKey);
+    if(!fwd&&!back)return;if(e.key===' '&&t&&/^(BUTTON|A|LABEL)$/.test(t.tagName))return;
+    const H=home.clientHeight,s=(aim!==null&&performance.now()-aimT<900)?aim:home.scrollTop,k=boardAt(s,2);let to=null;
+    /* inside a tall board: Page keys move most of a screen, arrows a few lines, without leaving the board */
+    const step=e.key.startsWith('Arrow')?80:Math.round(H*.85),end=boardTop[k]+boardH[k]-H;
+    if(fwd){if(s<end-2)to=Math.min(end,s+step);else if(k<BOARDS.length-1)to=boardTop[k+1];else return;}
+    else{if(boardH[k]>H&&s>boardTop[k]+2)to=Math.max(boardTop[k],Math.min(s,end)-step);else to=s>boardTop[k]+2?boardTop[k]:(k>0?boardTop[k-1]+Math.max(0,boardH[k-1]-H):0);}
+    e.preventDefault();aim=to;aimT=performance.now();home.scrollTo({top:to,behavior:smoothOK()?'smooth':'auto'});});
+
+  /* ---- topic filters above the graph list ---- */
+  const chips=$('#topicChips');if(chips){const add=(label,cat)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.cat=cat;
+      b.setAttribute('aria-pressed',String(cat===homeTopic));b.onclick=()=>{homeTopic=cat;chips.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.cat===cat)));filterHome($('#homeSearch').value||'');};chips.appendChild(b);};
+    add('All topics','');for(const c of CATS)if(SIMS.some(s=>s.cat===c))add(c,c);}
+
+  /* ---- plain scrolling (remembered on this device) ---- */
+  const pb=$('#homePlainBox');let plain=false;try{plain=localStorage.getItem('plainScroll')==='1';}catch(e){}
+  const setPlain=v=>{home.classList.toggle('plain',v);pb.checked=v;try{localStorage.setItem('plainScroll',v?'1':'0');}catch(e){}
+    const H=home.clientHeight,k=boardAt(home.scrollTop,2),off=home.scrollTop-boardTop[k];if(window.boardsRefresh)boardsRefresh();home.scrollTop=boardTop[k]+Math.min(off,Math.max(0,boardH[k]-H));};
+  home.classList.toggle('plain',plain);pb.checked=plain;pb.onchange=()=>setPlain(pb.checked);if(window.boardsRefresh)boardsRefresh();
+
+  /* ---- site search ---- */
+  $('#homeFind').onclick=()=>openFind();
+  addEventListener('keydown',e=>{const t=e.target,typing=t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+    if(((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='k')||(e.key==='/'&&!typing&&!e.ctrlKey&&!e.metaKey&&!e.altKey)){
+      if(!$('#splash').hidden)return;e.preventDefault();e.stopImmediatePropagation();openFind();}},true);
+}
+
+/* ---------- search over graphs, papers, projects and sections ---------- */
+let FIND=null;
+function findIndex(){const items=[];
+  BOARDS.forEach((b,k)=>{if(k)items.push({kind:'Section',title:boardTitle(b,k),text:'',go:()=>goBoard(b)});});
+  SIMS.forEach((s,i)=>items.push({kind:'Graph · '+s.cat,title:s.name,desc:s.blurb||s.desc||'',text:[s.cat,s.blurb,s.desc,s.graph].join(' '),go:()=>{closeFind();openLab(i);}}));
+  for(const r of RESEARCH){const open=u=>()=>{closeFind();window.open(u,'_blank','noopener');};
+    items.push({kind:r.pdf?'Paper (PDF)':'Article',title:r.title,desc:r.desc,text:[r.kind,r.desc].join(' '),go:open(r.url)});
+    for(const x of r.extra||[])items.push({kind:'Paper (PDF)',title:x[0],desc:r.title,text:r.title,go:open(x[1])});}
+  for(const p of PROJECTS){items.push({kind:'Project',title:p.title,desc:p.desc,text:[p.kind,p.desc,p.team].join(' '),go:()=>goBoard($('#projects'))});
+    for(const l of p.links||[])items.push({kind:'Project file',title:l[0]+': '+p.title,desc:l[2]||'',text:p.title,go:()=>{closeFind();window.open(l[1],'_blank','noopener');}});}
+  for(const it of items){it.lt=it.title.toLowerCase();it.all=(it.title+' '+it.kind+' '+(it.text||'')).toLowerCase();}
+  return items;}
+function goBoard(b){closeFind();if(labActive){showHome();setTimeout(()=>homeJump(b),80);}else homeJump(b);}
+function findRank(items,q){const words=q.toLowerCase().split(/\s+/).filter(Boolean);
+  if(!words.length)return items.filter(i=>i.kind==='Section').concat(FEATURED.map(id=>items.find(i=>i.kind.startsWith('Graph')&&i.title===(SIMS[simIdx(id)]||{}).name)).filter(Boolean));
+  const out=[];for(const it of items){if(!words.every(w=>it.all.includes(w)))continue;let sc=0;
+    for(const w of words){if(it.lt.startsWith(w))sc+=6;else if(it.lt.includes(' '+w))sc+=4;else if(it.lt.includes(w))sc+=3;else sc+=1;}
+    if(!it.kind.startsWith('Graph'))sc+=1;out.push([sc,it]);}
+  return out.sort((a,b)=>b[0]-a[0]).slice(0,40).map(x=>x[1]);}
+let findPrevFocus=null;
+function openFind(){if(!FIND)FIND=findIndex();let qs=$('#qs');
+  if(!qs){qs=document.createElement('div');qs.id='qs';qs.hidden=true;qs.setAttribute('role','dialog');qs.setAttribute('aria-modal','true');qs.setAttribute('aria-label','Search the site');
+    qs.innerHTML='<div class="box"><input type="search" placeholder="Search graphs, papers, projects and sections" aria-label="Search" role="combobox" aria-expanded="true" aria-controls="qsList" autocomplete="off" spellcheck="false"><ul id="qsList" role="listbox"></ul><div class="foot"><span><kbd>↑</kbd> <kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span><span><kbd>Esc</kbd> to close</span></div></div>';
+    document.body.appendChild(qs);const inp=qs.querySelector('input'),ul=qs.querySelector('ul');let res=[],on=0;
+    const paint=()=>{ul.textContent='';if(!res.length){const li=document.createElement('li');li.className='empty';li.textContent='Nothing matches that.';ul.appendChild(li);inp.removeAttribute('aria-activedescendant');return;}
+      res.forEach((it,i)=>{const li=document.createElement('li');li.id='qs'+i;li.setAttribute('role','option');li.setAttribute('aria-selected',String(i===on));if(i===on)li.className='on';
+        li.innerHTML='<span class="t"></span><span class="k"></span><span class="d"></span>';li.querySelector('.t').textContent=it.title;li.querySelector('.k').textContent=it.kind;li.querySelector('.d').textContent=it.desc||'';
+        li.onmousemove=()=>{if(on!==i){on=i;mark();}};li.onclick=()=>it.go();ul.appendChild(li);});mark();};
+    const mark=()=>{[...ul.children].forEach((li,i)=>{li.classList.toggle('on',i===on);li.setAttribute('aria-selected',String(i===on));});const cur=ul.children[on];if(cur&&cur.id){inp.setAttribute('aria-activedescendant',cur.id);cur.scrollIntoView({block:'nearest'});}};
+    inp.oninput=()=>{res=findRank(FIND,inp.value);on=0;paint();};
+    inp.onkeydown=e=>{if(e.key==='ArrowDown'){e.preventDefault();if(res.length){on=(on+1)%res.length;mark();}}else if(e.key==='ArrowUp'){e.preventDefault();if(res.length){on=(on-1+res.length)%res.length;mark();}}
+      else if(e.key==='Enter'){e.preventDefault();if(res[on])res[on].go();}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeFind();}
+      else if(e.key==='Tab'){e.preventDefault();}};
+    qs.onmousedown=e=>{if(e.target===qs)closeFind();};
+    qs._refresh=()=>{res=findRank(FIND,inp.value);on=0;paint();};}
+  findPrevFocus=document.activeElement;qs.hidden=false;const inp=qs.querySelector('input');inp.value='';qs._refresh();inp.focus();}
+function closeFind(){const qs=$('#qs');if(!qs||qs.hidden)return;qs.hidden=true;if(findPrevFocus&&findPrevFocus.focus&&document.contains(findPrevFocus))findPrevFocus.focus({preventScroll:true});}
+
+/* ---------- coming back from a graph: put its entry in the list on screen ---------- */
+function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li||li.hidden)return;const home=$('#home');
+  home.scrollTop=Math.max(0,natTop(li)-home.clientHeight*.35);}
+
+/* ---------- graph lab: the next graph in the same section ---------- */
+function updateNext(){const a=$('#aNext');if(!a||!cur)return;let j=-1;for(let i=idx+1;i<SIMS.length;i++)if(SIMS[i].cat===cur.cat){j=i;break;}
+  if(j>=0){a.textContent='Next in '+cur.cat+': '+SIMS[j].name+' →';a.href='#'+SIMS[j].id;a.onclick=e=>{e.preventDefault();openLab(j);};}
+  else{a.textContent='Last graph in '+cur.cat+' · back to all graphs';a.href='#';a.onclick=e=>{e.preventDefault();showHome();setTimeout(()=>homeJump($('#graphs')),80);};}}
+
 /* ---------- Taylor series: your own function ---------- */
 {
 const T=SIMS.find(s=>s.id==='taylor'),OWN='Your own function…';
@@ -2636,7 +2794,7 @@ function setSim(i){
   $('#aMeta').textContent=cur.graph+' · created '+cur.date;$('#aDesc').textContent=cur.desc;$('#aHint').textContent=cur.hint;
   {const ar=$('#aArticle');ar.hidden=!cur.article;if(cur.article){ar.href=cur.article.url;ar.textContent=cur.article.label;}}
   $('#aLink').href=cur.link||('https://www.desmos.com/calculator/'+cur.hash);renderFormula();keyStr='';
-  trail.clear();cur.hover=null;cur.enter();renderKey();
+  trail.clear();cur.hover=null;cur.enter();renderKey();if(typeof updateNext==='function')updateNext();
   /* only the graph lab puts a graph in the address; the front page keeps the plain address */
   if(labActive){try{history.replaceState(null,'','#'+cur.id);}catch(e){}}
 }
