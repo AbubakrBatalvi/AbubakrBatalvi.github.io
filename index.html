@@ -374,6 +374,26 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 .homeTop .portrait{display:block;width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:6px;
   border:1px solid var(--row-line);box-shadow:0 0 0 4px color-mix(in srgb,var(--bg) 80%,transparent),0 10px 30px -12px rgba(0,0,0,.45)}
 @media (max-width:760px){.homeTop .portrait{width:92px;height:92px}}
+
+/* first board: everything centred, links in three rows (main actions, sections, settings) */
+#home .board.homeTop{justify-items:center;text-align:center}
+#home .board.homeTop>:not(.eraseCanvas){max-width:640px}
+#home .homeTop h1{font-size:44px}
+#home .homeTop p{max-width:560px}
+#home .homeTop .portrait{margin:0 0 4px}
+#home .homeTop .homeLinks{display:grid;justify-items:center;gap:20px;margin-top:16px;width:100%}
+#home .homeTop .heroActions,#home .homeTop .homeNav,#home .homeTop .heroPrefs{display:flex;flex-wrap:wrap;justify-content:center;align-items:center}
+#home .homeTop .heroActions{gap:12px}
+#home .homeTop .heroActions button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:99px;font-size:13.5px;
+  border:1px solid var(--row-line);color:var(--fg);background:color-mix(in srgb,var(--panel) 60%,transparent);transition:border-color .15s,color .15s,background-color .15s}
+#home .homeTop .heroActions #openLab{font-weight:bold;border-color:var(--fg)}
+#home .homeTop .heroActions button:hover{border-color:var(--accent);color:var(--accent)}
+#home .homeTop .heroActions button:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+#home .homeTop .homeNav{gap:6px 24px;font-size:13.5px}
+#home .homeTop .homeNav a{white-space:nowrap;padding-bottom:2px}
+#home .homeTop .heroPrefs{gap:8px 22px;font-size:12px}
+#home .homeTop .heroActions{order:1}#home .homeTop .homeNav{order:2;width:auto}#home .homeTop .heroPrefs{order:3}
+@media (max-width:760px){#home .homeTop h1{font-size:34px}#home .homeTop .homeNav{gap:8px 18px;max-width:300px}#home .homeTop .homeLinks{gap:16px}}
 </style>
 
 <canvas id="gl"></canvas>
@@ -390,12 +410,9 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
       <h1>Abubakr Batalvi</h1>
       <p>Independent mathematics research in analytic number theory, approximation theory and numerical analysis. Below are my Desmos graphs, rebuilt as interactive pages you can pan, zoom and adjust.</p>
       <div class="homeLinks">
-        <button id="openLab">Enter the graph lab →</button>
-        <button id="homeResume" hidden></button>
+        <div class="heroActions"><button id="openLab">Enter the graph lab →</button><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
         <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#start" data-jump="start">Start here</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-jump="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
-        <button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button>
-        <label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label>
-        <label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label>
+        <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
       </div>
     </header>
 
