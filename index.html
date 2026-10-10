@@ -413,7 +413,6 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 #home .homeTop .heroCards button:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
 #home .homeTop .heroCards #openLab{border-color:color-mix(in srgb,var(--fg) 55%,var(--row-line))}
 #home .homeTop .heroActions{order:1}
-#home .homeTop .heroActions button{padding:6px 14px;font-size:12.5px}
 @media (max-width:760px){#home .homeTop .heroCards{grid-template-columns:minmax(0,1fr);gap:8px}#home .homeTop .heroCards button{padding:11px 14px}}
 
 /* top bar: section links and search, current section highlighted */
@@ -448,8 +447,7 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
       <h1>Abubakr Batalvi</h1>
       <p>Independent mathematics research in analytic number theory, approximation theory and numerical analysis. Below are my Desmos graphs, rebuilt as interactive pages you can pan, zoom and adjust.</p>
       <div class="homeLinks">
-        <div class="heroCards"><button id="openLab" type="button"><b>Explore the graph lab →</b><span id="cardLab"></span></button><button type="button" data-jump="research"><b>Read my research →</b><span id="cardRes"></span></button><button type="button" data-jump="projects"><b>See my projects →</b><span id="cardProj"></span></button></div>
-        <div class="heroActions"><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
+        <div class="heroActions"><button id="openLab">Enter the graph lab →</button><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
         <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#start" data-jump="start">Start here</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-jump="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
         <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
       </div>
@@ -2688,7 +2686,7 @@ function navInit(){const home=$('#home');
   const barSpy=()=>{if(home.hidden)return;const b=BOARDS[boardHere()];for(const bt of barBtns){const on=b&&bt.dataset.jump===b.id;bt.classList.toggle('on',on);if(on)bt.setAttribute('aria-current','true');else bt.removeAttribute('aria-current');}};
   home.addEventListener('scroll',barSpy,{passive:true});barSpy();
   /* shortcut cards on the first board, and Back to top */
-  {const pdfs=RESEARCH.filter(r=>r.pdf).length,arts=RESEARCH.length-pdfs;
+  if($('#cardLab')){const pdfs=RESEARCH.filter(r=>r.pdf).length,arts=RESEARCH.length-pdfs;
    $('#cardLab').textContent=SIMS.length+' interactive graphs in '+CATS.length+' topics';
    $('#cardRes').textContent=pdfs+' papers and notes'+(arts?', '+arts+' articles':'');
    $('#cardProj').textContent=PROJECTS.map(p=>p.title.split(/[:(]/)[0].replace(/^Water Scarcity Satellite Mapping in /,'').trim()).join(' · ');
