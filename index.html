@@ -515,6 +515,15 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 .dg .cr.number,.dg .cr.string{border-left-color:var(--accent)!important}
 .dg .cr.boolean,.dg .cr.function{border-left-color:var(--accent2)!important}
 .dg .cr.color{border-left-color:var(--accent2)!important}
+
+/* Keep reading: plays the erase slowly and brings the reader to About */
+#home .homeTop .heroMore{all:unset;order:4;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:11px 22px;border-radius:99px;
+  font-size:14.5px;font-weight:600;background:var(--btn-bg);color:var(--btn-fg);border:1px solid var(--btn-bg);transition:background-color .15s,border-color .15s,color .15s}
+#home .homeTop .heroMore span{display:inline-block;animation:moreNudge 1.8s ease-in-out infinite}
+#home .homeTop .heroMore:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+#home .homeTop .heroMore:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@keyframes moreNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){#home .homeTop .heroMore span{animation:none}}
 </style>
 
 <canvas id="gl"></canvas>
@@ -558,6 +567,7 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
       <div class="homeLinks">
         <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-page="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
         <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
+        <button class="heroMore" id="keepReading" type="button">Keep reading <span aria-hidden="true">↓</span></button>
       </div>
     </header>
 
@@ -2875,6 +2885,22 @@ function navInit(){const home=$('#home');
     if(fwd){if(s<end-2)to=Math.min(end,s+step);else if(k<BOARDS.length-1)to=boardTop[k+1];else return;}
     else{if(boardH[k]>H&&s>boardTop[k]+2)to=Math.max(boardTop[k],Math.min(s,end)-step);else to=s>boardTop[k]+2?boardTop[k]:(k>0?boardTop[k-1]+Math.max(0,boardH[k-1]-H):0);}
     e.preventDefault();aim=to;aimT=performance.now();home.scrollTo({top:to,behavior:smoothOK()?'smooth':'auto'});});
+
+  /* ---- Keep reading: scroll to About by itself, slowly through the erase so it can be watched, then the slide ---- */
+  {const kr=$('#keepReading');let anim=0;
+    const stop=()=>{if(anim){cancelAnimationFrame(anim);anim=0;}};
+    for(const ev of ['wheel','touchstart','pointerdown','keydown'])addEventListener(ev,()=>{if(anim)stop();},{passive:true});
+    kr.onclick=()=>{stop();const about=$('#about'),to=boardTop[1];
+      const done=()=>{const h=about.querySelector('h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true});}};
+      if(!smoothOK()||home.classList.contains('plain')||!HOLD){home.scrollTo({top:to,behavior:smoothOK()?'smooth':'auto'});setTimeout(done,smoothOK()?700:0);return;}
+      /* two stages: the erase (the board is held) over 3.2 s, then the slide over 1.4 s, each eased in and out */
+      const H=home.clientHeight,a0=home.scrollTop,a=boardTop[0]+boardH[0]-H,b=a+HOLD;
+      const stages=[[Math.max(a0,a),b,a0<b?3200:0],[Math.max(a0,b),to,1400]].filter(s=>s[1]>s[0]);
+      const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;let si=0,t0=performance.now();
+      if(a0<a)home.scrollTop=a;
+      const step=now=>{const [from,dest,dur]=stages[si];const t=Math.min(1,(now-t0)/dur);home.scrollTop=from+(dest-from)*ease(t);
+        if(t<1){anim=requestAnimationFrame(step);return;}si++;t0=now;if(si<stages.length)anim=requestAnimationFrame(step);else{anim=0;done();}};
+      if(stages.length)anim=requestAnimationFrame(step);else done();};}
 
   /* ---- topic filters above the graph list ---- */
   const chips=$('#topicChips');if(chips){const add=(label,cat)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.cat=cat;
