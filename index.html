@@ -431,6 +431,32 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 .homeSec .more{all:unset;cursor:pointer;margin-top:6px;font-size:12.5px;color:var(--accent)}
 .homeSec .more:hover{text-decoration:underline}.homeSec .more:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
 .homeSec .more[hidden]{display:none}
+
+/* ---------- the graph lab page (its own view: Selected graphs, then every graph by topic) ---------- */
+#gpage{position:fixed;inset:0;z-index:20;overflow-y:auto;overflow-x:hidden;color:var(--fg);font-size:14px;outline:none;transition:opacity .5s ease;
+  background:var(--board-grain,none) 0 0/160px 160px,var(--board-tex,none) 0 0/100% 1100px repeat-y,var(--bg)}
+#gpage.fading{opacity:0;pointer-events:none}
+#gpage .gBar{position:sticky;top:0;z-index:3}
+#gpage .gBar .in{display:flex;align-items:center;gap:22px;padding:12px max(32px,calc((100% - 1040px)/2));font-size:13px;
+  background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--row-line)}
+#gpage .gBar button{all:unset;cursor:pointer;color:var(--fg)}#gpage .gBar button:hover{color:var(--accent)}
+#gpage .gBar button:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+#gBack{font-weight:bold}
+#gpage .gTitle{flex:1;color:var(--muted)}
+#gpage .gWrap{max-width:1040px;margin:0 auto;padding:72px 32px calc(env(safe-area-inset-bottom,0px) + 120px)}
+#gpage .gHead{display:grid;gap:14px;max-width:640px}
+#gpage .gHead h1{margin:0;font:normal 40px/1.1 var(--font);letter-spacing:-.02em}
+#gpage .gHead p{margin:0;color:var(--muted);font-size:15px;line-height:1.65}
+#gpage .pageSec{margin-top:88px}
+#gpage .homeBody{margin-top:104px}
+@media (max-width:760px){#gpage .gWrap{padding:48px 20px 100px}#gpage .gHead h1{font-size:32px}#gpage .gBar .in{padding:12px 20px;gap:14px}}
+
+/* link from Projects to the graph lab page */
+.labLink{margin-top:48px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:18px 20px;border:1px solid var(--row-line);border-radius:10px;
+  background:color-mix(in srgb,var(--panel) 45%,transparent);max-width:680px}
+.labLink div{display:grid;gap:4px}.labLink b{font-size:14.5px}.labLink span{font-size:12.5px;color:var(--muted)}
+.labLink a{color:var(--fg);font-weight:bold;text-decoration:none;border-bottom:1px solid var(--fg);padding-bottom:2px;white-space:nowrap}
+.labLink a:hover{color:var(--accent);border-color:var(--accent)}.labLink a:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
 </style>
 
 <canvas id="gl"></canvas>
@@ -439,49 +465,14 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 <button id="brand" title="Back to the front page (Esc)" aria-label="Abubakr Batalvi: back to the front page"><span class="name">Abubakr Batalvi</span><span class="crumb" id="crumb"></span></button>
 
 
-<div id="home" hidden>
-  <div id="homeBar" aria-hidden="true"><div class="in"><button id="barName" tabindex="-1">Abubakr Batalvi</button><span id="barSec"></span><span class="barLinks" id="barLinks"><button data-jump="about" tabindex="-1">About</button><button data-jump="start" tabindex="-1">Start here</button><button data-jump="research" tabindex="-1">Research</button><button data-jump="projects" tabindex="-1">Projects</button><button data-jump="graphs" tabindex="-1">Graphs</button><button data-jump="contact" tabindex="-1">Contact</button></span><button id="barSearch" tabindex="-1">Search</button><button id="barLab" tabindex="-1">Graph lab →</button></div></div>
-  <div class="homeWrap">
-    <header class="homeTop">
-      <img class="portrait" src="images/portrait.jpg" width="120" height="120" alt="Abubakr Batalvi" decoding="async">
-      <h1>Abubakr Batalvi</h1>
-      <p>Independent mathematics research in analytic number theory, approximation theory and numerical analysis. Below are my Desmos graphs, rebuilt as interactive pages you can pan, zoom and adjust.</p>
-      <div class="homeLinks">
-        <div class="heroActions"><button id="openLab">Enter the graph lab →</button><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
-        <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#start" data-jump="start">Start here</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-jump="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
-        <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
-      </div>
-    </header>
-
-    <section class="pageSec" id="about" data-title="About">
-      <h2>About</h2>
-      <div class="prose">
-        <p>I’m a student in the Maryland area who does independent mathematics research, mostly in analytic number theory and approximation theory. Most of my work starts in Desmos: I build a graph to look at a question, try an idea against it, and keep the ideas that hold up when the numbers are checked. Several times this has led me back to known results from another direction, among them Stirling’s formula, Chebyshev nodes and Nadaraya–Watson regression.</p>
-        <p>The question I return to most is how well smooth functions can describe the primes: how closely the logarithmic integral Li(x) and Riemann’s R(x) follow the prime counting function π(x), how to build curves that stay above π(x), and whether there is a natural way to define π(x), or the n-th prime, between whole numbers. Alongside that I like building approximations by hand: fit a formula, study what is left over, and fit that.</p>
-        <p>Outside of pure math I co-founded TrXon with Rodrigo Cartagena, an off-road self-driving vehicle project. Its path planner interpolates sensor checkpoints on both sides of a trail and averages them to find the centre line, which is where several of the interpolation pages here come from. I’m also in The Knowledge Society’s Activate program, tutor SAT math on Schoolhouse.world, and take dual-enrollment courses at the College of Southern Maryland.</p>
-      </div>
-    </section>
-
-    <section class="pageSec" id="start" data-title="Start here">
-      <h2>Start here</h2>
-      <div><p class="startIntro">New to this kind of math? These six pages need no background. Take them in order; each one has a single thing to try.</p><ol class="steps" id="steps"></ol></div>
-    </section>
-
+<div id="gpage" hidden tabindex="-1">
+  <div class="gBar"><div class="in"><button id="gBack" type="button">← Abubakr Batalvi</button><span class="gTitle">Graph lab</span><button id="gFind" type="button">Search <kbd>/</kbd></button></div></div>
+  <div class="gWrap">
+    <header class="gHead"><h1>Graph lab</h1><p>Interactive pages rebuilt from my Desmos graphs. Each one can be panned, zoomed and adjusted. Start with a few favourites, or browse them all by topic.</p></header>
     <section class="pageSec" id="featured" data-title="Selected graphs">
       <h2>Selected graphs</h2>
       <div class="feat" id="feat"></div>
     </section>
-
-    <section class="pageSec" id="research" data-title="Writing & research">
-      <h2>Writing &amp; research</h2>
-      <div><ol class="res" id="res"></ol><p class="resMore"><a href="https://medium.com/@abubakrbatalvi" target="_blank" rel="noopener">All articles on Medium ↗</a></p></div>
-    </section>
-
-    <section class="pageSec" id="projects" data-title="Projects">
-      <h2>Projects</h2>
-      <ol class="proj" id="proj"></ol>
-    </section>
-
     <div class="homeBody" id="graphs">
       <aside class="homeIndex">
         <h2 class="idxTitle">All graphs</h2>
@@ -496,6 +487,44 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
         <button class="toTop" type="button">Back to top ↑</button>
       </main>
     </div>
+  </div>
+</div>
+<div id="home" hidden>
+  <div id="homeBar" aria-hidden="true"><div class="in"><button id="barName" tabindex="-1">Abubakr Batalvi</button><span id="barSec"></span><span class="barLinks" id="barLinks"><button data-jump="about" tabindex="-1">About</button><button data-jump="research" tabindex="-1">Research</button><button data-jump="projects" tabindex="-1">Projects</button><button data-page="graphs" tabindex="-1">Graphs</button><button data-jump="contact" tabindex="-1">Contact</button></span><button id="barSearch" tabindex="-1">Search</button><button id="barLab" tabindex="-1">Graph lab →</button></div></div>
+  <div class="homeWrap">
+    <header class="homeTop">
+      <img class="portrait" src="images/portrait.jpg" width="120" height="120" alt="Abubakr Batalvi" decoding="async">
+      <h1>Abubakr Batalvi</h1>
+      <p>Independent mathematics research in analytic number theory, approximation theory and numerical analysis. Below are my Desmos graphs, rebuilt as interactive pages you can pan, zoom and adjust.</p>
+      <div class="homeLinks">
+        <div class="heroActions"><button id="openLab">Enter the graph lab →</button><button id="homeResume" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div>
+        <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-page="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
+        <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
+      </div>
+    </header>
+
+    <section class="pageSec" id="about" data-title="About">
+      <h2>About</h2>
+      <div class="prose">
+        <p>I’m a student in the Maryland area who does independent mathematics research, mostly in analytic number theory and approximation theory. Most of my work starts in Desmos: I build a graph to look at a question, try an idea against it, and keep the ideas that hold up when the numbers are checked. Several times this has led me back to known results from another direction, among them Stirling’s formula, Chebyshev nodes and Nadaraya–Watson regression.</p>
+        <p>The question I return to most is how well smooth functions can describe the primes: how closely the logarithmic integral Li(x) and Riemann’s R(x) follow the prime counting function π(x), how to build curves that stay above π(x), and whether there is a natural way to define π(x), or the n-th prime, between whole numbers. Alongside that I like building approximations by hand: fit a formula, study what is left over, and fit that.</p>
+        <p>Outside of pure math I co-founded TrXon with Rodrigo Cartagena, an off-road self-driving vehicle project. Its path planner interpolates sensor checkpoints on both sides of a trail and averages them to find the centre line, which is where several of the interpolation pages here come from. I’m also in The Knowledge Society’s Activate program, tutor SAT math on Schoolhouse.world, and take dual-enrollment courses at the College of Southern Maryland.</p>
+      </div>
+    </section>
+
+
+
+    <section class="pageSec" id="research" data-title="Writing & research">
+      <h2>Writing &amp; research</h2>
+      <div><ol class="res" id="res"></ol><p class="resMore"><a href="https://medium.com/@abubakrbatalvi" target="_blank" rel="noopener">All articles on Medium ↗</a></p></div>
+    </section>
+
+    <section class="pageSec" id="projects" data-title="Projects">
+      <h2>Projects</h2>
+      <div><ol class="proj" id="proj"></ol>
+      <div class="labLink"><div><b>Graph lab</b><span id="labLinkText">Interactive pages rebuilt from my Desmos graphs</span></div><a href="#graphs" data-page="graphs">Open the graph lab →</a></div></div>
+    </section>
+
 
     <section class="pageSec" id="contact" data-title="Contact">
       <h2>Contact</h2>
@@ -2375,9 +2404,21 @@ function filterHome(q){q=q.trim().toLowerCase();let n=0;const full=!!q||!!homeTo
     mb.hidden=full||vis<=PREVIEW;mb.textContent=sec.dataset.open==='1'?'Show fewer':`Show all ${vis} →`;}
   $('#homeEmpty').hidden=n>0;$('#homeHint').textContent=q?(n===1?'1 graph matches · Enter opens it':`${n} of ${SIMS.length} graphs match`+(n?' · Enter opens the first':'')):'Press / to search';
   for(const a of document.querySelectorAll('#homeToc a')){const sec=$(a.getAttribute('href'));a.parentElement.hidden=sec.hidden;}}
-function showHome(fromHistory){const fromLab=labActive;labActive=false;if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(fromLab&&window.returnToGraph)returnToGraph();if(window.homeSpy)homeSpy();});try{const u=location.pathname+location.search;if(location.hash){if(fromHistory)history.replaceState(null,'',u);else history.pushState(null,'',u);}}catch(e){}}
-function openLab(i,fromHistory){const h=$('#home');if(!fromHistory){try{history.pushState(null,'','#'+SIMS[i].id);}catch(e){}}labActive=true;setSim(i);h.classList.add('fading');setTimeout(()=>{if(labActive)h.hidden=true;},500);}
-function frontPage(direct){buildHome();buildPages();loadThumbs();$('#homeSearch').oninput=e=>filterHome(e.target.value);$('#openLab').onclick=()=>openLab(idx);$('#brand').onclick=showHome;homeExtras();
+/* Three views: the front page (plain address), the graph lab page (#graphs) and a graph (#graph-id).
+   labFrom remembers which page a graph was opened from, so leaving the graph goes back there. */
+let labFrom='home';
+function viewShow(el){el.hidden=false;requestAnimationFrame(()=>el.classList.remove('fading'));}
+function viewHide(el){if(el.hidden)return;el.classList.add('fading');setTimeout(()=>{if(el.classList.contains('fading'))el.hidden=true;},500);}
+function showGraphs(fromHistory){const fromLab=labActive;labActive=false;if(cur&&fromLab){lastSeen=idx;buildHome();}
+  const g=$('#gpage');viewShow(g);viewHide($('#home'));
+  requestAnimationFrame(()=>{if(fromLab&&window.returnToGraph)returnToGraph();else if(!fromHistory)g.scrollTop=0;g.focus({preventScroll:true});if(window.gSpy)gSpy();});
+  try{if(location.hash!=='#graphs'){if(fromHistory)history.replaceState(null,'','#graphs');else history.pushState(null,'','#graphs');}}catch(e){}}
+function leaveLab(fromHistory){if(labFrom==='graphs')showGraphs(fromHistory);else showHome(fromHistory);}
+function showHome(fromHistory){const fromLab=labActive;labActive=false;viewHide($('#gpage'));if(cur){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}const h=$('#home');h.hidden=false;requestAnimationFrame(()=>{h.classList.remove('fading');if(fromLab&&window.returnToGraph)returnToGraph();if(window.homeSpy)homeSpy();});try{const u=location.pathname+location.search;if(location.hash){if(fromHistory)history.replaceState(null,'',u);else history.pushState(null,'',u);}}catch(e){}}
+function openLab(i,fromHistory){if(!labActive)labFrom=!$('#gpage').hidden?'graphs':'home';if(!fromHistory){try{history.pushState(null,'','#'+SIMS[i].id);}catch(e){}}labActive=true;setSim(i);
+  const b=$('#brand');if(b){b.title=labFrom==='graphs'?'Back to the graph lab (Esc)':'Back to the front page (Esc)';b.setAttribute('aria-label','Abubakr Batalvi: '+b.title.replace(' (Esc)','').toLowerCase());}
+  for(const v of [$('#home'),$('#gpage')])if(!v.hidden){v.classList.add('fading');setTimeout(()=>{if(labActive)v.hidden=true;},500);}}
+function frontPage(direct){buildHome();buildPages();loadThumbs();$('#homeSearch').oninput=e=>filterHome(e.target.value);$('#openLab').onclick=()=>showGraphs();$('#brand').onclick=()=>leaveLab();homeExtras();
   $('#homeThemeBox').checked=LIGHT;$('#homeThemeBox').onchange=e=>setTheme(e.target.checked,true);
   if(direct)return; // a link straight to one graph skips the intro
   labActive=false;const h=$('#home');h.classList.remove('fading');h.hidden=false; // sits behind the opaque splash
@@ -2395,7 +2436,7 @@ function homeExtras(){const home=$('#home'),bar=$('#homeBar');boardGrain();board
     bar.querySelectorAll('button').forEach(b=>b.tabIndex=show?0:-1);$('#barSec').textContent=show?(lab||''):'';};
   home.addEventListener('scroll',homeSpy,{passive:true});homeSpy();
   $('#barName').onclick=()=>home.scrollTo({top:0,behavior:'smooth'});
-  $('#barLab').onclick=()=>openLab(idx);
+  $('#barLab').onclick=()=>showGraphs();
   const focusSearch=()=>{const s=$('#homeSearch');const top=natTop(s)-120;if(vTop(s)<60||vTop(s)>innerHeight)home.scrollTo({top,behavior:'smooth'});s.focus({preventScroll:true});};
   $('#barSearch').onclick=()=>openFind();
   $('#homeResume').onclick=()=>openLab(lastSeen>=0?lastSeen:idx);
@@ -2441,9 +2482,9 @@ const PROJECTS=[
 const CONTACT=[['Email','abubakrbatalvi@gmail.com','mailto:abubakrbatalvi@gmail.com'],['LinkedIn','in/abubakrbatalvi','https://www.linkedin.com/in/abubakrbatalvi'],['Medium','@abubakrbatalvi','https://medium.com/@abubakrbatalvi']];
 const simIdx=id=>SIMS.findIndex(s=>s.id===id);
 function homeImgs(){if(typeof THUMBS==='undefined')return;const k=LIGHT?'l':'d';
-  for(const im of document.querySelectorAll('#home img[data-id]')){const t=(im.dataset.big?FEAT_IMG:THUMBS)[im.dataset.id];if(t&&im.getAttribute('src')!==t[k])im.src=t[k];}}
+  for(const im of document.querySelectorAll('#home img[data-id],#gpage img[data-id]')){const t=(im.dataset.big?FEAT_IMG:THUMBS)[im.dataset.id];if(t&&im.getAttribute('src')!==t[k])im.src=t[k];}}
 function buildPages(){
-  const st=$('#steps');st.textContent='';START.forEach(([id,txt],k)=>{const i=simIdx(id);if(i<0)return;const li=document.createElement('li');const b=document.createElement('button');
+  const st=$('#steps');if(st){st.textContent='';}if(st)START.forEach(([id,txt],k)=>{const i=simIdx(id);if(i<0)return;const li=document.createElement('li');const b=document.createElement('button');
     b.innerHTML=`<span class="sn">${k+1}</span><span class="th"><img alt="" loading="lazy" decoding="async" data-id="${id}"></span><span class="st"></span><span class="sd"></span>`;
     b.querySelector('.st').textContent=SIMS[i].name;b.querySelector('.sd').textContent=txt;b.onclick=()=>openLab(i);li.appendChild(b);st.appendChild(li);});
   const f=$('#feat');f.textContent='';
@@ -2501,7 +2542,7 @@ function loadMathJax(){if(loadMathJax.started)return;loadMathJax.started=true;
 let BOARDS=[],WRAPS=[],boardTop=[],boardH=[],HOLD=0;
 function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap');
   const foot=$('#homeFoot'),contact=$('#contact');if(foot&&contact&&foot.parentNode!==contact)contact.appendChild(foot);
-  BOARDS=[home.querySelector('.homeTop'),...['about','start','featured','research','projects','graphs','contact'].map(id=>$('#'+id))].filter(Boolean);
+  BOARDS=[home.querySelector('.homeTop'),...['about','research','projects','contact'].map(id=>$('#'+id))].filter(Boolean);
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   /* wrap each board; every board but the last gets a stretch of scroll after it, during which it stays put and is erased */
   /* only the first boards are layered (held, erased, slid away); the board after them is revealed from behind, the rest scroll normally */
@@ -2539,10 +2580,10 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
   const ro=new ResizeObserver(measure);BOARDS.forEach(b=>ro.observe(b));ro.observe(home);measure();}
 /* where an element sits in the page (scroll coordinates), ignoring the boards being held in place */
 function natTop(el){const k=BOARDS.findIndex(b=>b===el||b.contains(el));
-  if(k<0){const home=$('#home');return el.getBoundingClientRect().top-home.getBoundingClientRect().top+home.scrollTop;}
+  if(k<0){const sc=el.closest('#gpage')||$('#home');return el.getBoundingClientRect().top-sc.getBoundingClientRect().top+sc.scrollTop;}
   return boardTop[k]+(el===BOARDS[k]?0:el.getBoundingClientRect().top-BOARDS[k].getBoundingClientRect().top);}
-const vTop=el=>natTop(el)-$('#home').scrollTop;
-function homeJump(el,margin=0){const home=$('#home'),k=BOARDS.indexOf(el);
+const vTop=el=>natTop(el)-(el.closest('#gpage')||$('#home')).scrollTop;
+function homeJump(el,margin=0){const home=el.closest('#gpage')||$('#home'),k=BOARDS.indexOf(el);
   home.scrollTo({top:Math.max(0,natTop(el)-(k>=0?0:margin)),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 
 /* ---------- cursor ring: appears around the arrow over anything clickable, and pulses ---------- */
@@ -2665,7 +2706,7 @@ function makeEraser(home){
    Navigation aids: board index, board-by-board keys, site search, return to the graph you were on,
    next graph in a section, topic filters and plain scrolling.
    ===================================================================== */
-const boardTitle=(b,k)=>k===0?'Top':(b.dataset.title||(b.id==='graphs'?'All graphs':b.id));
+const boardTitle=(b,k)=>k===0?'Top':(b.dataset.title||b.id);
 /* the board a scroll position belongs to: the last one whose place has been reached (half a screen of leeway) */
 function boardAt(s,lead){let k=0;for(let i=0;i<BOARDS.length;i++)if(boardTop[i]<=s+lead)k=i;return k;}
 /* the section you are in for the index and top bar; at the very bottom of the page that is the last one, even if it is short */
@@ -2682,7 +2723,14 @@ function navInit(){const home=$('#home');
   home.addEventListener('scroll',railSpy,{passive:true});new ResizeObserver(railSpy).observe(home);railSpy();
   /* top bar links: jump to a section; the one you are in is underlined */
   const barBtns=[...document.querySelectorAll('#barLinks button')];
-  for(const bt of barBtns)bt.onclick=()=>homeJump($('#'+bt.dataset.jump));
+  for(const bt of barBtns)bt.onclick=()=>bt.dataset.page?showGraphs():homeJump($('#'+bt.dataset.jump));
+  /* links to the graph lab page (top bar, first board, end of Projects) */
+  for(const a of document.querySelectorAll('a[data-page="graphs"]'))a.onclick=e=>{e.preventDefault();showGraphs();};
+  $('#gBack').onclick=()=>showHome();$('#gFind').onclick=()=>openFind();
+  {const t=$('#labLinkText');if(t)t.textContent=SIMS.length+' interactive pages rebuilt from my Desmos graphs, in '+CATS.length+' topics';}
+  /* graph lab page: highlight the topic in view in its index */
+  const gp=$('#gpage');window.gSpy=()=>{if(gp.hidden)return;const secs=[...gp.querySelectorAll('.homeSec:not([hidden])')];let on=secs[0];for(const s of secs)if(s.getBoundingClientRect().top<160)on=s;
+    for(const a of gp.querySelectorAll('#homeToc a'))a.classList.toggle('on',!!on&&a.getAttribute('href')==='#'+on.id);};gp.addEventListener('scroll',gSpy,{passive:true});
   const barSpy=()=>{if(home.hidden)return;const b=BOARDS[boardHere()];for(const bt of barBtns){const on=b&&bt.dataset.jump===b.id;bt.classList.toggle('on',on);if(on)bt.setAttribute('aria-current','true');else bt.removeAttribute('aria-current');}};
   home.addEventListener('scroll',barSpy,{passive:true});barSpy();
   /* shortcut cards on the first board, and Back to top */
@@ -2691,7 +2739,7 @@ function navInit(){const home=$('#home');
    $('#cardRes').textContent=pdfs+' papers and notes'+(arts?', '+arts+' articles':'');
    $('#cardProj').textContent=PROJECTS.map(p=>p.title.split(/[:(]/)[0].replace(/^Water Scarcity Satellite Mapping in /,'').trim()).join(' · ');
    for(const c of document.querySelectorAll('.heroCards [data-jump]'))c.onclick=()=>homeJump($('#'+c.dataset.jump));}
-  for(const t of document.querySelectorAll('.toTop'))t.onclick=()=>{home.scrollTo({top:0,behavior:smoothOK()?'smooth':'auto'});const f=$('#openLab');if(f)setTimeout(()=>f.focus({preventScroll:true}),smoothOK()?700:0);};
+  for(const t of document.querySelectorAll('.toTop'))t.onclick=()=>{const sc=t.closest('#gpage')||home;sc.scrollTo({top:0,behavior:smoothOK()?'smooth':'auto'});const f=sc===home?$('#openLab'):$('#gBack');if(f)setTimeout(()=>f.focus({preventScroll:true}),smoothOK()?700:0);};
 
   /* ---- one key moves one board: Page Down / Space / Down arrow forward, Page Up / Shift+Space / Up arrow back.
      Inside a board taller than the screen the keys scroll it normally until its end is on screen. ---- */
@@ -2731,6 +2779,7 @@ function navInit(){const home=$('#home');
 let FIND=null;
 function findIndex(){const items=[];
   BOARDS.forEach((b,k)=>{if(k)items.push({kind:'Section',title:boardTitle(b,k),text:'',go:()=>goBoard(b)});});
+  items.push({kind:'Page',title:'Graph lab',desc:'Selected graphs, then every graph by topic',text:'graphs all selected featured',go:()=>{closeFind();showGraphs();}});
   SIMS.forEach((s,i)=>items.push({kind:'Graph · '+s.cat,title:s.name,desc:s.blurb||s.desc||'',text:[s.cat,s.blurb,s.desc,s.graph].join(' '),go:()=>{closeFind();openLab(i);}}));
   for(const r of RESEARCH){const open=u=>()=>{closeFind();window.open(u,'_blank','noopener');};
     items.push({kind:r.pdf?'Paper (PDF)':'Article',title:r.title,desc:r.desc,text:[r.kind,r.desc].join(' '),go:open(r.url)});
@@ -2739,9 +2788,9 @@ function findIndex(){const items=[];
     for(const l of p.links||[])items.push({kind:'Project file',title:l[0]+': '+p.title,desc:l[2]||'',text:p.title,go:()=>{closeFind();window.open(l[1],'_blank','noopener');}});}
   for(const it of items){it.lt=it.title.toLowerCase();it.all=(it.title+' '+it.kind+' '+(it.text||'')).toLowerCase();}
   return items;}
-function goBoard(b){closeFind();if(labActive){showHome();setTimeout(()=>homeJump(b),80);}else homeJump(b);}
+function goBoard(b){closeFind();if(labActive||!$('#home').contains(b)||$('#home').hidden){showHome();setTimeout(()=>homeJump(b),80);}else homeJump(b);}
 function findRank(items,q){const words=q.toLowerCase().split(/\s+/).filter(Boolean);
-  if(!words.length)return items.filter(i=>i.kind==='Section').concat(FEATURED.map(id=>items.find(i=>i.kind.startsWith('Graph')&&i.title===(SIMS[simIdx(id)]||{}).name)).filter(Boolean));
+  if(!words.length)return items.filter(i=>i.kind==='Section'||i.kind==='Page').concat(FEATURED.map(id=>items.find(i=>i.kind.startsWith('Graph')&&i.title===(SIMS[simIdx(id)]||{}).name)).filter(Boolean));
   const out=[];for(const it of items){if(!words.every(w=>it.all.includes(w)))continue;let sc=0;
     for(const w of words){if(it.lt.startsWith(w))sc+=6;else if(it.lt.includes(' '+w))sc+=4;else if(it.lt.includes(w))sc+=3;else sc+=1;}
     if(!it.kind.startsWith('Graph'))sc+=1;out.push([sc,it]);}
@@ -2766,7 +2815,7 @@ function openFind(){if(!FIND)FIND=findIndex();let qs=$('#qs');
 function closeFind(){const qs=$('#qs');if(!qs||qs.hidden)return;qs.hidden=true;if(findPrevFocus&&findPrevFocus.focus&&document.contains(findPrevFocus))findPrevFocus.focus({preventScroll:true});}
 
 /* ---------- coming back from a graph: put its entry in the list on screen ---------- */
-function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li)return;const home=$('#home');
+function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li)return;const home=$('#gpage');
   /* if the graph is beyond its topic's short preview, open that topic's full list first */
   if(li.hidden){const sec=li.closest('.homeSec');if(sec&&!sec.hidden){sec.dataset.open='1';filterHome($('#homeSearch').value||'');}}if(li.hidden)return;if(window.boardsRefresh)boardsRefresh();
   home.scrollTop=Math.max(0,natTop(li)-home.clientHeight*.35);}
@@ -2774,7 +2823,7 @@ function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li)r
 /* ---------- graph lab: the next graph in the same section ---------- */
 function updateNext(){const a=$('#aNext');if(!a||!cur)return;let j=-1;for(let i=idx+1;i<SIMS.length;i++)if(SIMS[i].cat===cur.cat){j=i;break;}
   if(j>=0){a.textContent='Next in '+cur.cat+': '+SIMS[j].name+' →';a.href='#'+SIMS[j].id;a.onclick=e=>{e.preventDefault();openLab(j);};}
-  else{a.textContent='Last graph in '+cur.cat+' · back to all graphs';a.href='#';a.onclick=e=>{e.preventDefault();showHome();setTimeout(()=>homeJump($('#graphs')),80);};}}
+  else{a.textContent='Last graph in '+cur.cat+' · back to the graph lab';a.href='#graphs';a.onclick=e=>{e.preventDefault();showGraphs();setTimeout(()=>homeJump($('#graphs')),80);};}}
 
 /* ---------- Taylor series: your own function ---------- */
 {
@@ -2900,7 +2949,7 @@ function setTheme(light,save){LIGHT=light;document.body.classList.toggle('light'
 $('#themeBox').onchange=e=>setTheme(e.target.checked,true);
 
 let paused=false;
-addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea,math-field,.cfn'))return;if(!labActive)return;if(e.key==='Escape'){showHome();return;}
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea,math-field,.cfn'))return;if(!labActive)return;if(e.key==='Escape'){leaveLab();return;}
   if(e.key==='ArrowRight')setSim(idx+1);else if(e.key==='ArrowLeft')setSim(idx-1);else if(e.key==='p'||e.key==='P')paused=!paused;});
 
 /* pointer input: graphs claim drags first, otherwise pan; wheel and pinch zoom */
@@ -2945,7 +2994,13 @@ function loop(now){if(!labActive){last=now;requestAnimationFrame(loop);return;}c
 const start=SIMS.findIndex(s=>'#'+s.id===location.hash);
 labActive=start>=0;setSim(start>=0?start:0);
 requestAnimationFrame(loop);
-frontPage(start>=0);
-/* Back and Forward move between the front page (plain address) and the graphs (#graph-id) */
-addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.hash);if(i>=0){if(!labActive)openLab(i,true);else setSim(i);}else if(labActive)showHome(true);});
+const toGraphs=start<0&&location.hash==='#graphs';
+frontPage(start>=0||toGraphs);
+/* a link straight to the graph lab page opens it (no intro) */
+if(toGraphs){$('#splash').hidden=true;$('#home').hidden=true;showGraphs(true);}
+/* Back and Forward move between the front page (plain address), the graph lab page (#graphs) and the graphs (#graph-id) */
+addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.hash);
+  if(i>=0){if(!labActive)openLab(i,true);else setSim(i);}
+  else if(location.hash==='#graphs'){if(labActive||$('#gpage').hidden)showGraphs(true);}
+  else if(labActive||!$('#gpage').hidden)showHome(true);});
 </script>
