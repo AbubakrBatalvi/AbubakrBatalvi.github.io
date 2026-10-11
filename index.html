@@ -2624,6 +2624,8 @@ function boardsInit(){const home=$('#home'),wrap=home.querySelector('.homeWrap')
   /* board k: once its bottom reaches the bottom of the screen it is held for HOLD pixels of scrolling while it is erased
      (progress e from 0 to 1), then it slides up and away over the next screen height (progress q), staying erased */
   const eraser=makeEraser(home);
+  const prepSoon=()=>{const run=()=>eraser.prep(BOARDS[0]);if(window.requestIdleCallback)requestIdleCallback(run,{timeout:2500});else setTimeout(run,1200);};
+  setTimeout(prepSoon,1500);addEventListener('resize',()=>setTimeout(prepSoon,600));
   const erase=()=>{if(home.hidden)return;const s=home.scrollTop,H=home.clientHeight;let act=-1,e=0,q=0;
     if(!still()&&HOLD>0)for(let k=0;k<LAYERED;k++){const a=boardTop[k]+boardH[k]-H,ee=(s-a)/HOLD,qq=(s-a-HOLD)/H;if(ee>0&&qq<1){act=k;e=Math.min(1,ee);q=Math.max(0,qq);break;}}
     eraser.draw(act<0?null:BOARDS[act],act,e,q);};
@@ -2702,7 +2704,7 @@ function makeEraser(home){
   const cm=document.createElement('canvas'),cx2=cm.getContext('2d');let cmI=-1;
   let board=null,surf=null,key='',imgs={},path=null,pkey='',sprite=null;
   const loadImg=u=>{if(!u||u==='none')return null;if(imgs[u])return imgs[u];const m=u.match(/url\("?(.*?)"?\)$/);if(!m)return null;const i=new Image();i.src=m[1];i.onload=()=>{key='';};imgs[u]=i;return i;};
-  const reset=()=>{key='';pkey='';cmI=-1;};
+  const reset=()=>{key='';pkey='';cmI=-1;snapKey='';smI=-1;};
   function surface(b,k,W,H,dpr){const light=document.body.classList.contains('light'),cs=getComputedStyle(b);
     const kk=[k,W,H,dpr,light,b.offsetHeight].join();if(kk===key&&surf)return surf;key=kk;
     const c=surf||document.createElement('canvas');c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
@@ -2729,6 +2731,56 @@ function makeEraser(home){
     const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,'#000');gr.addColorStop(.75,'#000');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._R=R;sprite=s;return s;}
   let dsp=null;function dustSprite(R,rgb){const kk=R+rgb;if(dsp&&dsp._k===kk)return dsp;const s=document.createElement('canvas'),r=Math.ceil(R*1.1);s.width=s.height=2*r;const g=s.getContext('2d');
     const gr=g.createRadialGradient(r,r,0,r,r,r);gr.addColorStop(0,`rgba(${rgb},.5)`);gr.addColorStop(.5,`rgba(${rgb},.25)`);gr.addColorStop(1,`rgba(${rgb},0)`);g.fillStyle=gr;g.fillRect(0,0,2*r,2*r);s._k=kk;dsp=s;return s;}
+  /* ---------- smearing: the eraser picks up the board's own ink (text, buttons, photo) and drags it along its path ----------
+     A copy of the board's content is drawn into a canvas (snap). Each eraser step lifts the ink under the eraser from what
+     is left of that copy (left), carries it (load, fading as it goes), and lays it down a little further on, stretched in
+     the direction of travel (smear, which itself fades slowly). Half resolution: smears are soft anyway. */
+  const SS=.5,STRIDE=1;let snap=null,snapKey='',left=null,load=null,smear=null,smI=-1;
+  const mkc=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;};
+  function snapshot(b,W,H){const light=document.body.classList.contains('light'),key=[W,H,light,b.offsetHeight,b.id||b.className].join();
+    if(snap&&key===snapKey)return snap;snapKey=key;smI=-1;
+    const c=mkc(Math.ceil(W*SS),Math.ceil(H*SS)),g=c.getContext('2d');g.scale(SS,SS);
+    const br=b.getBoundingClientRect(),ox=br.left,oy=br.top+(b.offsetHeight-H);
+    const vis=el=>{const cs=getComputedStyle(el);return cs.visibility!=='hidden'&&cs.display!=='none'&&parseFloat(cs.opacity)>0;};
+    /* boxes with a background or border (buttons), then images, then text, in page order */
+    for(const el of b.querySelectorAll('*')){if(el.closest('.eraseCanvas')||!vis(el))continue;const cs=getComputedStyle(el),r=el.getBoundingClientRect();if(!r.width||!r.height)continue;
+      const x0=r.left-ox,y0=r.top-oy,rad=Math.min(parseFloat(cs.borderTopLeftRadius)||0,r.height/2,r.width/2);
+      const bg=cs.backgroundColor,bw=parseFloat(cs.borderTopWidth)||0,bc=cs.borderTopColor;
+      const rr=()=>{g.beginPath();g.roundRect?g.roundRect(x0,y0,r.width,r.height,rad):g.rect(x0,y0,r.width,r.height);};
+      if(bg&&!/rgba\(.*,\s*0\)$/.test(bg)&&bg!=='transparent'){rr();g.fillStyle=bg;g.fill();}
+      if(bw>0&&bc&&!/rgba\(.*,\s*0\)$/.test(bc)){rr();g.lineWidth=bw;g.strokeStyle=bc;g.stroke();}
+      if(el.tagName==='IMG'&&el.complete&&el.naturalWidth){g.save();rr();g.clip();try{g.drawImage(el,x0,y0,r.width,r.height);}catch(e){}g.restore();}
+      if(el.tagName==='INPUT'&&el.type==='checkbox'){g.strokeStyle=cs.color;g.lineWidth=1;g.strokeRect(x0+.5,y0+.5,r.width-1,r.height-1);if(el.checked){g.fillStyle=getComputedStyle(document.body).getPropertyValue('--accent');g.fillRect(x0+2,y0+2,r.width-4,r.height-4);}}
+      if(el.tagName==='H1'){const a2=getComputedStyle(el,'::after');if(a2&&a2.content&&a2.content!=='none'){g.fillStyle=a2.backgroundColor;const w=parseFloat(a2.width)||56,h=parseFloat(a2.height)||4,mt=parseFloat(a2.marginTop)||14;g.fillRect(x0+(r.width-w)/2,y0+r.height+mt,w,h);}}}
+    /* text, word by word, in its own font and colour */
+    const walker=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);let t;const range=document.createRange();
+    while((t=walker.nextNode())){const p=t.parentElement;if(!p||p.closest('.eraseCanvas')||!vis(p))continue;const cs=getComputedStyle(p);
+      g.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;g.fillStyle=cs.color;g.textBaseline='middle';
+      const re=/\S+/g;let m;while((m=re.exec(t.data))){range.setStart(t,m.index);range.setEnd(t,m.index+m[0].length);const rs=range.getClientRects();
+        for(const q of rs){if(!q.width)continue;g.fillText(m[0],q.left-ox,q.top-oy+q.height/2,q.width+2);break;}}}
+    snap=c;return c;}
+  function smearTo(iT,P,R,W,H){
+    if(!left||left.width!==snap.width||left.height!==snap.height){left=mkc(snap.width,snap.height);smear=mkc(snap.width,snap.height);smI=-1;}
+    const r=Math.max(4,R*.92*SS),D=Math.ceil(2*r);if(!load||load.width!==D){load=mkc(D,D);smI=-1;}
+    const lx=left.getContext('2d'),dx=load.getContext('2d'),sx=smear.getContext('2d');
+    /* scrolling back: keep the smears as they are (the returning writing is drawn over them); start over only from the very beginning */
+    if(smI>iT&&iT>STRIDE)return;
+    if(smI<0||smI>iT){lx.globalCompositeOperation='copy';lx.drawImage(snap,0,0);lx.globalCompositeOperation='source-over';
+      dx.clearRect(0,0,D,D);sx.clearRect(0,0,smear.width,smear.height);smI=0;}
+    for(let i=smI+STRIDE;i<=iT;i+=STRIDE){const px=P[3*i]*SS,py=P[3*i+1]*SS,qx=P[3*(i-STRIDE)]*SS,qy=P[3*(i-STRIDE)+1]*SS,ang=Math.atan2(py-qy,px-qx);
+      /* the load thins as it is spread */
+      dx.globalCompositeOperation='destination-out';dx.globalAlpha=.2;dx.fillRect(0,0,D,D);
+      /* pick up the ink under the eraser */
+      dx.globalCompositeOperation='source-over';dx.globalAlpha=.9;dx.save();dx.beginPath();dx.arc(r,r,r,0,6.2832);dx.clip();dx.filter='blur(1.2px)';dx.drawImage(left,px-r,py-r,D,D,0,0,D,D);dx.filter='none';dx.restore();
+      /* and it is gone from the board */
+      lx.globalCompositeOperation='destination-out';lx.beginPath();lx.arc(px,py,r,0,6.2832);lx.fill();lx.globalCompositeOperation='source-over';
+      /* lay it down ahead, stretched along the direction of travel */
+      /* stretched along the direction of travel (not turned): x' = x + (k-1)(x.u)u, laid down slightly ahead */
+      {const L=Math.hypot(px-qx,py-qy)||1,ux=(px-qx)/L,uy=(py-qy)/L,k=1.7,m=k-1;
+       sx.save();sx.globalAlpha=document.body.classList.contains('light')?.34:.26;sx.setTransform(1+m*ux*ux,m*ux*uy,m*ux*uy,1+m*uy*uy,px+ux*r*.3,py+uy*r*.3);sx.drawImage(load,-r,-r);sx.restore();}
+      /* older smears fade */
+      if(i%6===0){sx.globalCompositeOperation='destination-out';sx.globalAlpha=.035;sx.fillRect(0,0,smear.width,smear.height);sx.globalCompositeOperation='source-over';sx.globalAlpha=1;}
+      smI=i;}}
   function draw(b,k,e,q){
     if(!b){if(board){cv.remove();board=null;}return;}
     const W=home.clientWidth,H=home.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1);
@@ -2761,10 +2813,14 @@ function makeEraser(home){
     const ds=dustSprite(R,dust);const from=hard?iF+1:Math.max(0,Math.floor(iF-.8*perPass));
     for(let i=from;i<=iF;i+=3){const px=P[3*i+0],py=P[3*i+1];if(py<visTop)continue;const age=(iF-i)/(.8*perPass);x.globalAlpha=A*(.18+.5*(1-age));x.drawImage(ds,px-R*1.1,py-R*1.1,R*2.2,R*2.2);}
     x.globalAlpha=1;
+    /* the smeared ink, in its own colours */
+    try{snapshot(b,W,H);smearTo(iF,P,R,W,H);x.setTransform(dpr,0,0,dpr,0,0);x.drawImage(smear,0,0,W,H);}catch(err){}
     /* keep only what the eraser has covered */
     x.globalCompositeOperation='destination-in';x.setTransform(1,0,0,1,0,0);x.imageSmoothingEnabled=!hard;x.drawImage(mk,0,0,cv.width,cv.height);x.imageSmoothingEnabled=true;
     x.globalCompositeOperation='source-over';}
-  return {draw,reset};}
+  /* copy the first board's content ahead of time, so the first scroll does not stutter */
+  const prep=b=>{try{if(!home.hidden)snapshot(b,home.clientWidth,home.clientHeight);}catch(e){}};
+  return {draw,reset,prep};}
 
 /* =====================================================================
    Navigation aids: board index, board-by-board keys, site search, return to the graph you were on,
