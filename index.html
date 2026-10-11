@@ -2710,12 +2710,15 @@ function boardGrain(){
    eraser's recent strokes (a faint smear on the whiteboard), then cut back to the area the eraser has covered. */
 function makeEraser(home){
   const cv=document.createElement('canvas');cv.className='eraseCanvas';cv.setAttribute('aria-hidden','true');const x=cv.getContext('2d');
-  const mk=document.createElement('canvas'),mx=mk.getContext('2d');           /* coverage mask, half resolution (it is soft anyway) */
   /* circles already drawn are kept in cm (up to index cmI), so each frame only adds the newest ones; scrolling back rebuilds it */
   const cm=document.createElement('canvas'),cx2=cm.getContext('2d');let cmI=-1;
   let board=null,surf=null,key='',imgs={},path=null,pkey='',sprite=null;
   const loadImg=u=>{if(!u||u==='none')return null;if(imgs[u])return imgs[u];const m=u.match(/url\("?(.*?)"?\)$/);if(!m)return null;const i=new Image();i.src=m[1];i.onload=()=>{key='';};imgs[u]=i;return i;};
-  const reset=()=>{key='';pkey='';cmI=-1;snapKey='';smI=-1;};
+  const reset=()=>{};/* everything the eraser caches is keyed on what it depends on */addEventListener('load',()=>{snapKey='';});
+  /* phones: the address bar shows and hides while scrolling, changing the screen height; the eraser works on the tallest
+     height seen (for this width) so nothing has to be rebuilt each time it does. Phones also get a smaller work budget per frame. */
+  const TOUCH=matchMedia('(pointer: coarse)').matches;let sW=0,sH=0;
+  const size=()=>{const W=home.clientWidth,H=home.clientHeight;if(!TOUCH)return [W,H];if(W!==sW){sW=W;sH=0;}sH=Math.max(sH,H);return [W,sH];};
   function surface(b,k,W,H,dpr){const light=document.body.classList.contains('light'),cs=getComputedStyle(b);
     const kk=[k,W,H,dpr,light,b.offsetHeight].join();if(kk===key&&surf)return surf;key=kk;
     const c=surf||document.createElement('canvas');c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
@@ -2746,7 +2749,7 @@ function makeEraser(home){
      A copy of the board's content is drawn into a canvas (snap). Each eraser step lifts the ink under the eraser from what
      is left of that copy (left), carries it (load, fading as it goes), and lays it down a little further on, stretched in
      the direction of travel (smear, which itself fades slowly). Half resolution: smears are soft anyway. */
-  const SS=.5,STRIDE=1;let snap=null,snapKey='',left=null,load=null,smear=null,smI=-1;
+  const SS=TOUCH?.4:.5,BUDGET=TOUCH?14:40;let snap=null,snapKey='',left=null,load=null,smear=null,smI=-1,fc=0;
   const mkc=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c;};
   function snapshot(b,W,H){const light=document.body.classList.contains('light'),key=[W,H,light,b.offsetHeight,b.id||b.className].join();
     if(snap&&key===snapKey)return snap;snapKey=key;smI=-1;
@@ -2775,32 +2778,37 @@ function makeEraser(home){
     const r=Math.max(4,R*.92*SS),D=Math.ceil(2*r);if(!load||load.width!==D){load=mkc(D,D);smI=-1;}
     const lx=left.getContext('2d'),dx=load.getContext('2d'),sx=smear.getContext('2d');
     /* scrolling back: keep the smears as they are (the returning writing is drawn over them); start over only from the very beginning */
-    if(smI>iT&&iT>STRIDE)return;
+    if(smI>iT&&iT>1)return;
     if(smI<0||smI>iT){lx.globalCompositeOperation='copy';lx.drawImage(snap,0,0);lx.globalCompositeOperation='source-over';
-      dx.clearRect(0,0,D,D);sx.clearRect(0,0,smear.width,smear.height);smI=0;}
-    for(let i=smI+STRIDE;i<=iT;i+=STRIDE){const px=P[3*i]*SS,py=P[3*i+1]*SS,qx=P[3*(i-STRIDE)]*SS,qy=P[3*(i-STRIDE)+1]*SS,ang=Math.atan2(py-qy,px-qx);
+      dx.clearRect(0,0,D,D);sx.clearRect(0,0,smear.width,smear.height);smI=0;fc=0;}
+    /* at most BUDGET steps per frame: a fast scroll takes bigger strides instead of stalling */
+    const st=Math.max(1,Math.ceil((iT-smI)/BUDGET));
+    for(let i=smI+st;i<=iT;i+=st){const px=P[3*i]*SS,py=P[3*i+1]*SS,qx=P[3*(i-st)]*SS,qy=P[3*(i-st)+1]*SS,ang=Math.atan2(py-qy,px-qx);
       /* the load thins as it is spread */
       dx.globalCompositeOperation='destination-out';dx.globalAlpha=.2;dx.fillRect(0,0,D,D);
       /* pick up the ink under the eraser */
-      dx.globalCompositeOperation='source-over';dx.globalAlpha=.9;dx.save();dx.beginPath();dx.arc(r,r,r,0,6.2832);dx.clip();dx.filter='blur(1.2px)';dx.drawImage(left,px-r,py-r,D,D,0,0,D,D);dx.filter='none';dx.restore();
+      dx.globalCompositeOperation='source-over';dx.globalAlpha=.9;dx.save();dx.beginPath();dx.arc(r,r,r,0,6.2832);dx.clip();if(!TOUCH)dx.filter='blur(1.2px)';dx.drawImage(left,px-r,py-r,D,D,0,0,D,D);if(!TOUCH)dx.filter='none';dx.restore();
       /* and it is gone from the board */
-      lx.globalCompositeOperation='destination-out';lx.beginPath();lx.arc(px,py,r,0,6.2832);lx.fill();lx.globalCompositeOperation='source-over';
+      lx.globalCompositeOperation='destination-out';lx.beginPath();lx.arc(px,py,r,0,6.2832);lx.fill();if(st>1){lx.lineWidth=2*r;lx.lineCap='round';lx.beginPath();lx.moveTo(qx,qy);lx.lineTo(px,py);lx.stroke();}lx.globalCompositeOperation='source-over';
       /* lay it down ahead, stretched along the direction of travel */
       /* stretched along the direction of travel (not turned): x' = x + (k-1)(x.u)u, laid down slightly ahead */
       {const L=Math.hypot(px-qx,py-qy)||1,ux=(px-qx)/L,uy=(py-qy)/L,k=1.7,m=k-1;
-       sx.save();sx.globalAlpha=document.body.classList.contains('light')?.34:.26;sx.setTransform(1+m*ux*ux,m*ux*uy,m*ux*uy,1+m*uy*uy,px+ux*r*.3,py+uy*r*.3);sx.drawImage(load,-r,-r);sx.restore();}
+       /* a long stride (fast scroll) is filled in with several deposits along it, so the streak stays continuous */
+       const ns=Math.min(8,Math.max(1,Math.ceil(L/(r*.7)))),al=(document.body.classList.contains('light')?.34:.26)*Math.min(1,1.6/ns+.15);
+       sx.save();sx.globalAlpha=al;for(let j=ns-1;j>=0;j--){const f=j/ns,cx=px-(px-qx)*f,cy=py-(py-qy)*f;
+         sx.setTransform(1+m*ux*ux,m*ux*uy,m*ux*uy,1+m*uy*uy,cx+ux*r*.3,cy+uy*r*.3);sx.drawImage(load,-r,-r);}sx.restore();}
       /* older smears fade */
-      if(i%6===0){sx.globalCompositeOperation='destination-out';sx.globalAlpha=.035;sx.fillRect(0,0,smear.width,smear.height);sx.globalCompositeOperation='source-over';sx.globalAlpha=1;}
+      fc+=st;if(fc>=6){sx.globalCompositeOperation='destination-out';sx.globalAlpha=1-Math.pow(.965,fc/6);fc=0;sx.fillRect(0,0,smear.width,smear.height);sx.globalCompositeOperation='source-over';sx.globalAlpha=1;}
       smI=i;}}
   function draw(b,k,e,q){
     if(!b){if(board){cv.remove();board=null;}return;}
-    const W=home.clientWidth,H=home.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1);
+    const [W,H]=size(),dpr=Math.min(TOUCH?1:2,window.devicePixelRatio||1);
     if(board!==b){b.appendChild(cv);board=b;}
     const top=(b.offsetHeight-H)+'px';if(cv.style.top!==top)cv.style.top=top;
     if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.height=H+'px';}
     /* whiteboard (light mode): a clean, sharp-edged wipe, drawn at full resolution; blackboard (dark mode): a soft, chalky edge at half resolution */
     const light=document.body.classList.contains('light'),hard=light,ms=hard?dpr:.5;
-    if(mk.width!==Math.ceil(W*ms)||mk.height!==Math.ceil(H*ms)){mk.width=cm.width=Math.ceil(W*ms);mk.height=cm.height=Math.ceil(H*ms);cmI=-1;}
+    if(cm.width!==Math.ceil(W*ms)||cm.height!==Math.ceil(H*ms)){cm.width=Math.ceil(W*ms);cm.height=Math.ceil(H*ms);cmI=-1;}
     if(cm._hard!==hard){cm._hard=hard;cmI=-1;}
     const pk=W+'x'+H;if(pk!==pkey){path=makePath(W,H);pkey=pk;cmI=-1;}
     const {P,n,R,L,passes,ux,uy}=path;
@@ -2815,10 +2823,11 @@ function makeEraser(home){
     const stamp=(g,a,b)=>{if(b<a)return;if(hard){g.fillStyle='#000';g.beginPath();const r=R*.92;for(let i=a;i<=b;i++){const px=P[3*i],py=P[3*i+1];g.moveTo(px+r,py);g.arc(px,py,r,0,6.2832);}g.fill();}
       else for(let i=a;i<=b;i++)g.drawImage(sp,P[3*i]-R,P[3*i+1]-R,2*R,2*R);};
     cx2.setTransform(ms,0,0,ms,0,0);if(cmI<iF-40){stamp(cx2,cmI+1,iF-40);cmI=iF-40;}
-    mx.setTransform(1,0,0,1,0,0);mx.clearRect(0,0,mk.width,mk.height);mx.drawImage(cm,0,0);mx.setTransform(ms,0,0,ms,0,0);
-    stamp(mx,cmI+1,iF);
+    /* the covered area goes straight onto the canvas (cached circles, then the newest), and everything after is painted inside it */
+    x.globalCompositeOperation='source-over';x.imageSmoothingEnabled=!hard;x.drawImage(cm,0,0,cv.width,cv.height);x.imageSmoothingEnabled=true;
+    x.setTransform(dpr,0,0,dpr,0,0);stamp(x,cmI+1,iF);
     /* surface, then dust: a haze and the eraser's recent strokes smeared in chalk */
-    x.setTransform(dpr,0,0,dpr,0,0);x.globalCompositeOperation='source-over';x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
+    x.globalCompositeOperation='source-in';x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);x.globalCompositeOperation='source-atop';
     /* blackboard only: chalk dust smeared along the eraser's recent strokes, soft stamps that build up where it has scrubbed most */
     if(!hard){x.fillStyle=`rgba(${dust},${(A*.12).toFixed(3)})`;x.fillRect(0,0,W,H);}
     const ds=dustSprite(R,dust);const from=hard?iF+1:Math.max(0,Math.floor(iF-.8*perPass));
@@ -2826,11 +2835,9 @@ function makeEraser(home){
     x.globalAlpha=1;
     /* the smeared ink, in its own colours */
     try{snapshot(b,W,H);smearTo(iF,P,R,W,H);x.setTransform(dpr,0,0,dpr,0,0);x.drawImage(smear,0,0,W,H);}catch(err){}
-    /* keep only what the eraser has covered */
-    x.globalCompositeOperation='destination-in';x.setTransform(1,0,0,1,0,0);x.imageSmoothingEnabled=!hard;x.drawImage(mk,0,0,cv.width,cv.height);x.imageSmoothingEnabled=true;
     x.globalCompositeOperation='source-over';}
   /* copy the first board's content ahead of time, so the first scroll does not stutter */
-  const prep=b=>{try{if(!home.hidden)snapshot(b,home.clientWidth,home.clientHeight);}catch(e){}};
+  const prep=b=>{try{if(!home.hidden){const [W,H]=size();snapshot(b,W,H);}}catch(e){}};
   return {draw,reset,prep};}
 
 /* =====================================================================
@@ -3126,11 +3133,12 @@ cv.addEventListener('wheel',e=>{e.preventDefault();const f=Math.exp(-e.deltaY*(e
 
 function resize(){DPR=Math.min(window.devicePixelRatio||1,2);CW=innerWidth;CH=innerHeight;
   cv.width=ov.width=Math.round(CW*DPR);cv.height=ov.height=Math.round(CH*DPR);ox.setTransform(DPR,0,0,DPR,0,0);RW=cv.width;RH=cv.height;trail.resize();view.version++;}
-addEventListener('resize',()=>{resize();if(cur&&cur.fit)cur.fit();});
+/* while the lab is closed (front page, phone address bar showing/hiding), resizing its canvases waits until it opens */
+let needResize=false;addEventListener('resize',()=>{if(!labActive){needResize=true;return;}resize();if(cur&&cur.fit)cur.fit();});
 resize();
 
 let last=performance.now(),T=0;
-function loop(now){if(!labActive){last=now;requestAnimationFrame(loop);return;}const dt=Math.min(.05,(now-last)/1000);last=now;
+function loop(now){if(!labActive){last=now;requestAnimationFrame(loop);return;}if(needResize){needResize=false;resize();if(cur&&cur.fit)cur.fit();}const dt=Math.min(.05,(now-last)/1000);last=now;
   gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,cv.width,cv.height);RW=cv.width;RH=cv.height;gl.disable(gl.BLEND);
   const bg=TH().bg;gl.clearColor(bg[0],bg[1],bg[2],1);gl.clear(gl.COLOR_BUFFER_BIT);
   ox.clearRect(0,0,CW,CH);
