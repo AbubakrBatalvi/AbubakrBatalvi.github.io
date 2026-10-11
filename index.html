@@ -473,7 +473,7 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
       <h2>Selected graphs</h2>
       <div class="feat" id="feat"></div>
     </section>
-    <div class="homeBody" id="graphs">
+    <div class="homeBody" id="allGraphs">
       <aside class="homeIndex">
         <h2 class="idxTitle">All graphs</h2>
         <div><input id="homeSearch" type="search" placeholder="Search graphs" aria-label="Search graphs"><p class="homeHint" id="homeHint">Press / to search</p></div>
@@ -2823,7 +2823,7 @@ function returnToGraph(){const li=document.querySelector('.gl li.last');if(!li)r
 /* ---------- graph lab: the next graph in the same section ---------- */
 function updateNext(){const a=$('#aNext');if(!a||!cur)return;let j=-1;for(let i=idx+1;i<SIMS.length;i++)if(SIMS[i].cat===cur.cat){j=i;break;}
   if(j>=0){a.textContent='Next in '+cur.cat+': '+SIMS[j].name+' →';a.href='#'+SIMS[j].id;a.onclick=e=>{e.preventDefault();openLab(j);};}
-  else{a.textContent='Last graph in '+cur.cat+' · back to the graph lab';a.href='#graphs';a.onclick=e=>{e.preventDefault();showGraphs();setTimeout(()=>homeJump($('#graphs')),80);};}}
+  else{a.textContent='Last graph in '+cur.cat+' · back to the graph lab';a.href='#graphs';a.onclick=e=>{e.preventDefault();showGraphs();setTimeout(()=>homeJump($('#allGraphs')),80);};}}
 
 /* ---------- Taylor series: your own function ---------- */
 {
