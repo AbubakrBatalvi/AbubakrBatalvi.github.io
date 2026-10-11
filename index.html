@@ -2735,28 +2735,34 @@ function makeEraser(home){
     if(board!==b){b.appendChild(cv);board=b;}
     const top=(b.offsetHeight-H)+'px';if(cv.style.top!==top)cv.style.top=top;
     if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.height=H+'px';}
-    if(mk.width!==Math.ceil(W/2)||mk.height!==Math.ceil(H/2)){mk.width=cm.width=Math.ceil(W/2);mk.height=cm.height=Math.ceil(H/2);cmI=-1;}
+    /* whiteboard (light mode): a clean, sharp-edged wipe, drawn at full resolution; blackboard (dark mode): a soft, chalky edge at half resolution */
+    const light=document.body.classList.contains('light'),hard=light,ms=hard?dpr:.5;
+    if(mk.width!==Math.ceil(W*ms)||mk.height!==Math.ceil(H*ms)){mk.width=cm.width=Math.ceil(W*ms);mk.height=cm.height=Math.ceil(H*ms);cmI=-1;}
+    if(cm._hard!==hard){cm._hard=hard;cmI=-1;}
     const pk=W+'x'+H;if(pk!==pkey){path=makePath(W,H);pkey=pk;cmI=-1;}
     const {P,n,R,L,passes,ux,uy}=path;
     /* how far along its path the eraser is (e), and which part of the board is still on screen (it has slid up by q screens) */
     const iF=Math.max(0,Math.min(n-1,Math.round(e*(n-1))));
     x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,cv.width,cv.height);if(iF<1)return;
-    const light=document.body.classList.contains('light'),dust=light?'120,130,145':'225,230,236',A=light?.03:.06;
+    const dust='225,230,236',A=.06;
     /* coverage: every circle the eraser has made so far (half resolution), skipping those already above the screen */
     const perPass=(n-1)/passes,sp=spriteFor(R),visTop=q*H-R;
     if(cmI>iF){cx2.setTransform(1,0,0,1,0,0);cx2.clearRect(0,0,cm.width,cm.height);cmI=-1;}
-    cx2.setTransform(.5,0,0,.5,0,0);while(cmI<iF-40){cmI++;cx2.drawImage(sp,P[3*cmI]-R,P[3*cmI+1]-R,2*R,2*R);}
-    mx.setTransform(1,0,0,1,0,0);mx.clearRect(0,0,mk.width,mk.height);mx.drawImage(cm,0,0);mx.setTransform(.5,0,0,.5,0,0);
-    for(let i=cmI+1;i<=iF;i++)mx.drawImage(sp,P[3*i]-R,P[3*i+1]-R,2*R,2*R);
+    /* stamp circles a..b: solid circles for the whiteboard, soft ones for the blackboard */
+    const stamp=(g,a,b)=>{if(b<a)return;if(hard){g.fillStyle='#000';g.beginPath();const r=R*.92;for(let i=a;i<=b;i++){const px=P[3*i],py=P[3*i+1];g.moveTo(px+r,py);g.arc(px,py,r,0,6.2832);}g.fill();}
+      else for(let i=a;i<=b;i++)g.drawImage(sp,P[3*i]-R,P[3*i+1]-R,2*R,2*R);};
+    cx2.setTransform(ms,0,0,ms,0,0);if(cmI<iF-40){stamp(cx2,cmI+1,iF-40);cmI=iF-40;}
+    mx.setTransform(1,0,0,1,0,0);mx.clearRect(0,0,mk.width,mk.height);mx.drawImage(cm,0,0);mx.setTransform(ms,0,0,ms,0,0);
+    stamp(mx,cmI+1,iF);
     /* surface, then dust: a haze and the eraser's recent strokes smeared in chalk */
     x.setTransform(dpr,0,0,dpr,0,0);x.globalCompositeOperation='source-over';x.drawImage(surface(b,k,W,H,dpr),0,0,W,H);
-    x.fillStyle=`rgba(${dust},${(A*.12).toFixed(3)})`;x.fillRect(0,0,W,H);
-    /* chalk dust smeared along the eraser's recent strokes: soft stamps that build up where it has scrubbed most */
-    const ds=dustSprite(R,dust);const from=Math.max(0,Math.floor(iF-.8*perPass));
+    /* blackboard only: chalk dust smeared along the eraser's recent strokes, soft stamps that build up where it has scrubbed most */
+    if(!hard){x.fillStyle=`rgba(${dust},${(A*.12).toFixed(3)})`;x.fillRect(0,0,W,H);}
+    const ds=dustSprite(R,dust);const from=hard?iF+1:Math.max(0,Math.floor(iF-.8*perPass));
     for(let i=from;i<=iF;i+=3){const px=P[3*i+0],py=P[3*i+1];if(py<visTop)continue;const age=(iF-i)/(.8*perPass);x.globalAlpha=A*(.18+.5*(1-age));x.drawImage(ds,px-R*1.1,py-R*1.1,R*2.2,R*2.2);}
     x.globalAlpha=1;
     /* keep only what the eraser has covered */
-    x.globalCompositeOperation='destination-in';x.setTransform(1,0,0,1,0,0);x.drawImage(mk,0,0,cv.width,cv.height);
+    x.globalCompositeOperation='destination-in';x.setTransform(1,0,0,1,0,0);x.imageSmoothingEnabled=!hard;x.drawImage(mk,0,0,cv.width,cv.height);x.imageSmoothingEnabled=true;
     x.globalCompositeOperation='source-over';}
   return {draw,reset};}
 
