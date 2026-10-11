@@ -6,13 +6,13 @@
 /* Layout: full-bleed WebGL canvas; dat.GUI-style menu pinned top-right holding navigation, category, description, colour key and controls; name top-left. */
 :root{
   --bg:#07080b; --panel:#1a1a1a; --row:#1a1a1a; --row-line:#2c2c2c; --title:#000; --input:#303030;
-  --fg:#eeeeee; --muted:#a3a9b4; --accent:#2fa1d6;
+  --fg:#eeeeee; --muted:#a3a9b4; --accent:#6db3f2; --accent2:#f2a65a; --btn-bg:#eeeeee; --btn-fg:#0b0d12; --on-accent:#0b0d12;
   --font:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
   color-scheme:dark;
 }
 body.light{
   --bg:#f7f8fa; --panel:#f1f2f4; --row:#f1f2f4; --row-line:#d9dce1; --title:#dfe2e7; --input:#ffffff;
-  --fg:#1d2026; --muted:#5b616c; --accent:#1478b4;
+  --fg:#1d2026; --muted:#5b616c; --accent:#1a5fb4; --accent2:#b05216; --btn-bg:#1d2026; --btn-fg:#ffffff; --on-accent:#ffffff;
   color-scheme:light;
 }
 [hidden]{display:none!important}
@@ -479,6 +479,42 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 .pageSec{grid-template-columns:minmax(0,1fr);gap:32px}
 .pageSec>h2{font:normal 38px/1.15 var(--font);letter-spacing:-.02em;padding-top:0}
 @media (max-width:760px){.pageSec>h2{font-size:30px}.pageSec{gap:24px}}
+
+/* =====================================================================
+   Colour scheme, the same on every page: ink (text and solid buttons), marker blue (links, current place, active
+   choices, hover) and warm amber (heading strokes and small labels). Light mode is a whiteboard, dark mode a blackboard.
+   ===================================================================== */
+/* solid buttons: dark with white text on the whiteboard, light with dark text on the blackboard; blue on hover */
+#home .homeTop .homeNav a,#gpage .gActions button,.labLink a,.toTop,#homeBar #barLab,#homeBar #barSearch,#gpage .gBar #gFind{
+  background:var(--btn-bg)!important;color:var(--btn-fg)!important;border:1px solid var(--btn-bg)!important;font-weight:600;text-decoration:none}
+#home .homeTop .homeNav a:hover,#gpage .gActions button:hover,.labLink a:hover,.toTop:hover,#homeBar #barLab:hover,#homeBar #barSearch:hover,#gpage .gBar #gFind:hover{
+  background:var(--accent)!important;border-color:var(--accent)!important;color:var(--on-accent)!important}
+#gpage .gActions #openLab{border-color:var(--btn-bg)!important}
+#gpage .gActions button kbd,#gpage .gBar #gFind kbd{background:transparent;border-color:currentColor;color:inherit;opacity:.7}
+.labLink a{padding:9px 18px;border-radius:99px}
+.toTop{padding:7px 14px;border-radius:99px}
+#homeBar #barLab,#homeBar #barSearch,#gpage .gBar #gFind{padding:6px 14px;border-radius:99px}
+/* choices that are switched on (topic, arrangement) are filled with blue */
+.topicChips button[aria-pressed="true"],.homeView button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+/* current section and links */
+#homeBar .barLinks button.on{color:var(--accent)!important;box-shadow:inset 0 -2px 0 var(--accent)}
+#boardRail button.on i{background:var(--accent)}
+.homeSec .more,#gpage .feat a:hover .ft,.gl a:hover .t,.res a.rt:hover,.contact a:hover{color:var(--accent)}
+.res a.rt,.contact a,.res .rx a,.resMore a{border-bottom-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+/* amber: a marker stroke under each heading, and the small labels */
+.pageSec>h2::after,#gpage .gHead h1::after,#home .homeTop h1::after{content:"";display:block;width:56px;height:4px;border-radius:2px;background:var(--accent2);margin-top:14px}
+#home .homeTop h1::after{margin:14px auto 0}
+.res .rk,.proj .pk,.feat .fc,.contact .k,.gl .n,.homeIndex h2,.idxTitle,.homeSec h3 span{color:var(--accent2)!important}
+.res .pdf{border-color:var(--accent2);color:var(--accent2)}
+.homeSec h3{border-bottom:1px solid color-mix(in srgb,var(--accent2) 35%,transparent)}
+
+/* graph lab controls in the same colours: blue for sliders and numbers, amber for switches and actions */
+.dg .c .slider-fg{background:var(--accent)!important}
+.dg .c .slider:hover .slider-fg{background:color-mix(in srgb,var(--accent) 80%,var(--fg))!important}
+.dg .c input[type=text]{color:var(--accent)!important}
+.dg .cr.number,.dg .cr.string{border-left-color:var(--accent)!important}
+.dg .cr.boolean,.dg .cr.function{border-left-color:var(--accent2)!important}
+.dg .cr.color{border-left-color:var(--accent2)!important}
 </style>
 
 <canvas id="gl"></canvas>
