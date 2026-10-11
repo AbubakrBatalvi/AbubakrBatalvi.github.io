@@ -517,11 +517,12 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 .dg .cr.color{border-left-color:var(--accent2)!important}
 
 /* Keep reading: plays the erase slowly and brings the reader to About */
-#home .homeTop .heroMore{all:unset;order:4;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:11px 22px;border-radius:99px;
-  font-size:14.5px;font-weight:600;background:var(--btn-bg);color:var(--btn-fg);border:1px solid var(--btn-bg);transition:background-color .15s,border-color .15s,color .15s}
-#home .homeTop .heroMore span{display:inline-block;animation:moreNudge 1.8s ease-in-out infinite}
-#home .homeTop .heroMore:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-#home .homeTop .heroMore:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+#home .homeTop .heroMore{all:unset;order:4;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:10px;margin-top:6px;padding:7px 8px 7px 20px;border-radius:99px;
+  font-size:14.5px;font-weight:600;letter-spacing:.01em;background:transparent;color:var(--accent2);border:1.5px dashed var(--accent2);transition:background-color .15s,border-color .15s,color .15s}
+#home .homeTop .heroMore span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent2);color:var(--on-accent);font-size:14px;line-height:1;animation:moreNudge 1.8s ease-in-out infinite;transition:background-color .15s,color .15s}
+#home .homeTop .heroMore:hover{background:var(--accent2);border-style:solid;color:var(--on-accent)}
+#home .homeTop .heroMore:hover span{background:var(--on-accent);color:var(--accent2)}
+#home .homeTop .heroMore:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}
 @keyframes moreNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
 @media (prefers-reduced-motion:reduce){#home .homeTop .heroMore span{animation:none}}
 </style>
