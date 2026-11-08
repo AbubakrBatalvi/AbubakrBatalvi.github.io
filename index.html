@@ -525,6 +525,87 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 #home .homeTop .heroMore:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}
 @keyframes moreNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
 @media (prefers-reduced-motion:reduce){#home .homeTop .heroMore span{animation:none}}
+/* ---------- knowledge map ---------- */
+.kmSection>p.kmIntro{max-width:720px;color:var(--muted);margin:0 0 4px}
+.km{position:relative;width:min(1360px,calc(100vw - 56px));margin:18px 0 0 calc((100% - min(1360px,calc(100vw - 56px)))/2);height:min(78vh,780px);min-height:440px;border-radius:14px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.1);font-family:system-ui,-apple-system,sans-serif}
+body.light .km{background:#fbfbfc;border-color:#d9dde3}
+.km canvas.kmC{position:static!important;inset:auto!important;display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.km:fullscreen canvas.kmC,.km.kmFull canvas.kmC{cursor:var(--kmcur,grab)!important}
+.km:fullscreen *{cursor:auto!important}
+.km.kmFull,.km:fullscreen{position:fixed;inset:0;width:auto;height:auto;min-height:0;margin:0;border-radius:0;border:0;z-index:9000}
+.kmPanel{position:absolute;top:14px;left:14px;width:330px;max-height:calc(100% - 86px);overflow:auto;background:rgba(0,0,0,.93);color:#e0e0e0;padding:15px 16px 14px;border:1px solid rgba(255,255,255,.12);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.6);z-index:3;font-size:13px;line-height:1.5;overscroll-behavior:contain}
+body.light .kmPanel{background:rgba(255,255,255,.97);color:#1d2026;border-color:#d9dde3;box-shadow:0 4px 18px rgba(20,28,40,.14)}
+.kmPanel h3{font-size:16px;margin:6px 22px 6px 0;line-height:1.3;color:#fff;font-weight:650}
+body.light .kmPanel h3{color:#14181f}
+.kmKind{font-size:11.5px;color:#9a9a9a;display:flex;align-items:center;gap:6px;padding-right:20px}
+body.light .kmKind{color:#5b616c}
+.km i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none;background:#bbb}
+.km i.tri{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%);width:11px;height:10px}
+.kmSum{color:#cfcfcf;margin:0 0 10px}
+body.light .kmSum{color:#3a3f48}
+.kmRead{display:inline-block;background:var(--btn-bg);color:var(--btn-fg)!important;padding:6px 15px;border-radius:99px;font-weight:600;text-decoration:none;margin:0 0 6px}
+.kmRead:hover{background:var(--accent);color:var(--on-accent)!important}
+.kmSec{margin-top:11px}
+.kmSt{color:#999;font-size:10.5px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+body.light .kmSt{color:#6b717c}
+.kmChip{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);color:#b9c3ff;padding:2px 8px;border-radius:4px;margin:2px;cursor:pointer;font-size:12px;line-height:1.5;border:1px solid rgba(255,255,255,.06);transition:background .15s}
+.kmChip:hover,.kmChip:focus-visible{background:rgba(255,255,255,.16)}
+body.light .kmChip{background:rgba(20,28,40,.05);color:#1a5fb4;border-color:rgba(20,28,40,.08)}
+body.light .kmChip:hover{background:rgba(20,28,40,.1)}
+.kmChip.kmG{color:#f2c27a}
+body.light .kmChip.kmG{color:#b05216}
+.kmCrit{font-size:12px;line-height:1.9}
+.kmCrit button{all:unset;cursor:pointer;color:#ffd750}
+.kmCrit button:hover{text-decoration:underline}
+.kmCrit button.me{color:#fff;font-weight:650}
+.kmCrit span{margin:0 5px;color:#777}
+body.light .kmCrit button{color:#b05216}
+body.light .kmCrit button.me{color:#14181f}
+.kmClose{all:unset;position:absolute;top:9px;right:12px;font-size:21px;line-height:1;color:#888;cursor:pointer;padding:2px}
+.kmClose:hover{color:#fff}
+body.light .kmClose:hover{color:#000}
+.kmTop{position:absolute;top:14px;right:18px;text-align:right;line-height:1.65;pointer-events:none;z-index:2}
+.kmTitle{color:#ccc;font-size:16px;font-weight:600;letter-spacing:.3px}
+.kmStats{color:#777;font-size:12px}
+.kmHelp{color:#5d5d5d;font-size:11px}
+body.light .kmTitle{color:#1d2026}
+body.light .kmStats{color:#5b616c}
+body.light .kmHelp{color:#8a9099}
+.kmSide{position:absolute;bottom:14px;right:14px;display:flex;flex-direction:column;gap:8px;z-index:2}
+.kmLegend{color:#ccc;font-size:11px;display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(0,0,0,.85)}
+.kmLegend>div{display:flex;align-items:center;gap:7px}
+.kmLegend .kmShapes{gap:12px;margin-top:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,.1)}
+.kmShapes span{display:flex;align-items:center;gap:5px}
+body.light .kmLegend{color:#2b3038;background:rgba(255,255,255,.94);border-color:#d9dde3}
+body.light .kmLegend .kmShapes{border-color:#e3e6ea}
+body.light .kmShapes i{background:#5b616c}
+.kmMini{position:static!important;inset:auto!important;z-index:auto!important;display:block;border:1px solid rgba(255,255,255,.1);border-radius:6px;cursor:crosshair;width:170px;height:130px}
+body.light .kmMini{border-color:#d9dde3}
+.kmCtl{position:absolute;left:14px;bottom:14px;display:flex;gap:6px;z-index:2}
+.kmCtl button{all:unset;box-sizing:border-box;background:rgba(0,0,0,.82);color:#ddd;border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:5px 11px;font-size:12.5px;cursor:pointer;min-width:32px;text-align:center;line-height:1.4}
+.kmCtl button:hover{background:rgba(255,255,255,.12)}
+.kmCtl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body.light .kmCtl button{background:rgba(255,255,255,.95);color:#1d2026;border-color:#d0d4da}
+body.light .kmCtl button:hover{background:#eef0f3}
+.kmHint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.82);color:#fff;padding:8px 14px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:4;white-space:nowrap}
+.kmHint.on{opacity:1}
+@media (max-width:640px){
+  .km{height:70vh;min-height:380px;width:calc(100vw - 24px);margin-left:calc((100% - (100vw - 24px))/2);border-radius:10px}
+  .kmPanel{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:55%}
+  .kmSide,.kmHelp{display:none}
+  .kmTop{top:10px;right:12px}
+  .kmTitle{display:none}
+  .kmCtl{left:10px;bottom:10px}
+}
+/* writing list: field and level from the knowledge map */
+.res li.rGroup{list-style:none;margin:28px 0 -4px;padding:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;border:0}
+.res li.rGroup:first-child{margin-top:0}
+.res li.rGroup i,.rkDom i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.rkDom i.tri{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%);width:11px}
+.rkDom{display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:12px;color:var(--muted)}
+.rkMap{all:unset;cursor:pointer;display:inline-block;margin-top:8px;font-size:13.5px;font-weight:600;color:var(--accent)}
+.rkMap:hover{text-decoration:underline}
+.rkMap:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
 </style>
 
 <canvas id="gl"></canvas>
@@ -538,6 +619,18 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
   <div class="gWrap">
     <header class="gHead"><h1>Graph lab</h1><p>Interactive pages rebuilt from my Desmos graphs. Each one can be panned, zoomed and adjusted. Start with a few favourites, or browse them all by topic.</p>
       <div class="gActions"><button id="openLab" type="button">Enter the graph lab →</button><button id="homeResume" type="button" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div></header>
+    <section class="pageSec kmSection" id="knowledge" data-title="Knowledge map">
+      <h2>Knowledge map</h2>
+      <p class="kmIntro">Every technique behind my papers, articles and graphs. Circles are topics and triangles are papers and articles on this site. The higher a shape sits, the longer the chain of ideas it builds on, and the colour shows the field. Click a shape for a summary, its graphs and its critical chain: the path down to the basics that drops the fewest levels at each step.</p>
+      <div id="kmap" class="km">
+        <canvas class="kmC" role="img" aria-label="Knowledge map of topics and papers. Use the buttons below the map or the topic links in each summary to move around."></canvas>
+        <div class="kmPanel" hidden></div>
+        <div class="kmTop"><div class="kmTitle">Knowledge map</div><div class="kmStats"></div><div class="kmHelp">Drag to move · scroll or pinch to zoom · click a shape</div></div>
+        <div class="kmSide"><div class="kmLegend"></div><canvas class="kmMini" width="340" height="260" aria-hidden="true"></canvas></div>
+        <div class="kmCtl"><button type="button" class="kmIn" aria-label="Zoom in">+</button><button type="button" class="kmOut" aria-label="Zoom out">−</button><button type="button" class="kmFit">Fit</button><button type="button" class="kmFs">Full screen</button></div>
+        <div class="kmHint" aria-live="polite"></div>
+      </div>
+    </section>
     <section class="pageSec" id="featured" data-title="Selected graphs">
       <h2>Selected graphs</h2>
       <div class="feat" id="feat"></div>
@@ -640,6 +733,354 @@ kbd{font:10.5px var(--font);padding:1px 5px;border:1px solid var(--row-line);bor
 <script>
 window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},
   startup:{typeset:false,ready(){MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>window.renderFormula&&window.renderFormula());}}};
+</script>
+
+<script>
+/* ---------- knowledge map: topics (circles) and documents on the site (triangles) ----------
+   Each topic: [id, name, domain, prerequisites (space separated), summary, graphs (space separated)].
+   Height on the map is the length of the longest prerequisite chain below a topic, so it is computed, not set. */
+const KM_DOMAINS=['Foundations','Analysis','Series & summation','Number theory','Approximation & numerics','Probability & statistics','Geometry & mechanics'];
+const KM_TOPICS=[
+/* Foundations */
+['functions','Functions and graphs',0,'','Rules that send each input to one output, and the curves that picture them. Every page in the graph lab is a picture of one or more functions.',''],
+['limits','Limits',0,'functions','What a quantity approaches as its input approaches some value or grows without bound. Convergence, derivatives and integrals are all defined through limits.',''],
+['derivatives','Derivatives',0,'limits','The instantaneous rate of change of a function, the slope of its graph at a point.',''],
+['integrals','Integrals',0,'derivatives','Accumulated area under a curve, and the inverse of differentiation by the fundamental theorem of calculus.',''],
+['logexp','Exponentials and logarithms',0,'functions','The functions eˣ and ln x. Prime counting, Stirling’s formula and the Gaussian are all built from them.',''],
+['trig','Trigonometric functions',0,'functions','Sine, cosine and their relatives: the basic periodic functions, used throughout the approximation pages.',''],
+['polynomials','Polynomials',0,'functions','Sums of powers of x with constant coefficients. The simplest functions to compute, and the usual building block for approximation.',''],
+['odd-even','Odd and even functions',0,'functions','f(−x) = −f(x) or f(−x) = f(x). Spotting the symmetry tells you which correction terms an approximation can need.','nested-sines'],
+['inverse-functions','Inverse functions',0,'functions','Functions that undo another one, such as arcsin, arctan, cosh⁻¹ and the Lambert W function.','arctan-fit arcsine-poly'],
+['logistic','Logistic switches',0,'logexp','The S-shaped curve 1/(1 + e⁻ˣ), used as a smooth on/off switch between two behaviours.','sign-step gaussian-sigmoids nested-sines windowed-interpolation'],
+['hyperbolic','Hyperbolic functions',0,'logexp','cosh, sinh and tanh, built from eˣ and e⁻ˣ. A hanging chain is a cosh curve.','cosh-csc'],
+['standard-limit','The limit (1 + t/n)ⁿ → eᵗ',0,'limits logexp','The compound-interest limit. It turns a power of something close to 1 into an exponential, which is how a Gaussian can come out of a rational function.','gaussian-fraction'],
+['sequences-series','Sequences and series',0,'limits','Infinite lists of numbers and their sums: when a sum converges, how fast, and what to do when it does not.',''],
+['geometric-series','Geometric series',0,'sequences-series','1 + r + r² + … = 1/(1 − r) for |r| < 1. Several Li(x) series on this site come from turning 1/ln t into a geometric series.','li-recursive li-minus-li-e'],
+['complex-numbers','Complex numbers',0,'trig','Numbers a + bi. They explain why a Taylor series stops converging and where the zeros of the zeta function live.',''],
+['factorial','Factorials',0,'functions','n! = 1·2·…·n, the count of orderings of n objects. It grows faster than any exponential.',''],
+['iteration','Iteration and recurrences',0,'functions','Applying the same rule again and again to its own output.','collatz ik-chain'],
+['vectors','Vectors in the plane',0,'functions','Quantities with direction and length, added tip to tail. Used for chains of joints and distances between points.',''],
+['riemann-sums','Riemann sums',0,'integrals','Approximating an integral by adding up thin rectangles. In the triangular-limits paper the coefficients turn out to be Riemann sums.',''],
+['big-o','Rates and big-O notation',0,'limits','Saying how fast an error shrinks, for example O(1/N), without tracking constants.',''],
+['probability','Probability and expectation',5,'functions','Chance, averages and spread for random quantities.',''],
+/* Analysis */
+['taylor-series','Taylor series',1,'derivatives sequences-series','Rewriting a smooth function as a power series built from its derivatives at one point.','taylor x-sin-x square-cosines x-arcsine'],
+['radius-convergence','Radius of convergence',1,'taylor-series complex-numbers','A power series converges inside a disc whose edge is set by the nearest singularity, even one off the real line.','taylor'],
+['fourier-cosine','Cosine series',1,'trig integrals','Writing a function as a sum of cos x, cos 3x, cos 5x, … The sine-of-cosine page finds such coefficients by fitting rather than by integrals.','sin-cos square-cosines'],
+['gamma-function','Gamma function',1,'factorial integrals','Γ(t + 1) extends t! to non-integer t through an integral, so a factorial can sit inside a smooth formula.','cosine-factorials'],
+['digamma','Digamma and Euler–Mascheroni',1,'gamma-function','ψ = Γ′/Γ. Its value ψ(1) = −γ pins Euler’s constant γ to the position of a maximum on one page.','gamma-peak log-factorial'],
+['stirling','Stirling’s formula',1,'gamma-function logexp','n! ≈ √(2πn)(n/e)ⁿ, with refinements such as √(2π(n + 1/6)).','stirling-shift log-factorial'],
+['incomplete-gamma','Incomplete gamma function',1,'gamma-function integrals','The gamma integral cut off at a finite point. It is the bridge between Li(x) and the triangular sums, and gives an exact tail in the supplementary note.','li-series'],
+['li-function','Logarithmic integral Li(x)',1,'integrals logexp','Li(x) = ∫₂ˣ dt/ln t, the main term in the count of primes up to x.','li-series li-recursive li-minus-li-e'],
+['exp-integral','Exponential integral Ei',1,'li-function incomplete-gamma','Ei relates to Li by Li(x) = Ei(ln x) up to a constant. The supplementary note uses its classical power series.',''],
+['lambert-w','Lambert W function',1,'inverse-functions logexp','The inverse of w·eʷ. It gives x/W(x) as a simple curve that stays above π(x), computed by Newton steps.','prime-sandwich'],
+['holomorphic','Complex analysis basics',1,'complex-numbers derivatives','Functions differentiable in the complex sense are determined everywhere by their values near one point.',''],
+['analytic-continuation','Analytic continuation',1,'holomorphic taylor-series','Extending a function beyond the region where its defining formula converges, in the only consistent way.',''],
+['residues','Contour integrals and residues',1,'holomorphic integrals','Evaluating integrals by walking around poles in the complex plane and adding up their residues.',''],
+['principal-value','Principal-value integrals',1,'residues','Giving an integral that passes through a pole a value by cutting out a symmetric gap and letting it shrink.',''],
+['laplace-integrals','Laplace-type integrals',1,'integrals logexp','Integrals of e^{−st} against a function. Borel sums and the Borel-model error law are written this way.',''],
+['infinite-products','Infinite products',1,'sequences-series trig','sin(πx)/(πx) = ∏(1 − x²/n²). Raised to a power, a truncated product becomes a Gaussian.','gaussian-product'],
+['cotangent','Cotangent expansions',1,'infinite-products residues','The partial-fraction series of π cot(πx). The Borel–Lambert manuscript derives a zeta-free cotangent representation from it.',''],
+['barnes','Mellin–Barnes integrals',1,'residues gamma-function','Integrals of gamma-function ratios along vertical lines, evaluated by summing residues. The Borel–Lambert manuscript ends on an open problem about a Barnes residue kernel.',''],
+/* Series & summation */
+['alternating-series','Alternating series',2,'sequences-series','Sums whose signs alternate. Their partial sums bracket the limit, so the error is at most the next term.','e-alternating'],
+['abel-partial','Summation by parts',2,'sequences-series','The discrete version of integration by parts, used for the exact half-sum (Abel) identity in the fractional-primes paper.',''],
+['summation-methods','Summation methods',2,'alternating-series','Abel, Cesàro and Euler means that assign values to some divergent series. The fractional-primes paper shows why they fail there.',''],
+['asymptotic-series','Divergent asymptotic series',2,'sequences-series taylor-series','Series whose terms shrink and then grow, so they diverge, yet early partial sums are very accurate.','li-divergent'],
+['optimal-truncation','Optimal truncation',2,'asymptotic-series','Stopping a divergent series near its smallest term to get the best possible accuracy from it.','li-divergent'],
+['euler-maclaurin','Euler–Maclaurin formula',2,'integrals sequences-series taylor-series','Converting a sum into an integral plus derivative corrections at the ends.','sum-continuation'],
+['sum-continuation','Sums with non-integer upper limits',2,'euler-maclaurin','Giving Σ_{n=a}^{x} s(n) a value at non-integer x by adding the first terms exactly and replacing the rest with Euler–Maclaurin.','sum-continuation e-alternating'],
+['euler-boole','Euler–Boole summation',2,'euler-maclaurin alternating-series','The alternating-sum counterpart of Euler–Maclaurin. Its first step is exactly the d = 1 correction that makes the fractional-primes interpolant converge.',''],
+['borel','Borel summation',2,'asymptotic-series laplace-integrals factorial','Dividing the k-th term by k!, summing, and undoing the division with a Laplace integral. It assigns values to many factorially divergent series.',''],
+['lateral-borel','Lateral Borel sums',2,'borel principal-value','When the Borel integral meets a pole, passing above or below it gives two lateral sums. Their average and their jump carry the information.',''],
+['lambert-series','Lambert series',2,'geometric-series','Series Σ aₙ qⁿ/(1 − qⁿ). In Ramanujan’s formula a Lambert series is the correction to a finite sum of zeta values.',''],
+['continued-fractions','Continued fractions',2,'sequences-series','Nested fractions a₀ + 1/(a₁ + 1/(a₂ + …)). One collapses to a rational function that becomes a Gaussian.','gaussian-fraction'],
+['finite-differences','Finite differences',4,'polynomials sequences-series','Δf(n) = f(n + 1) − f(n), the discrete derivative, and the difference table built from repeated Δ.',''],
+['newton-series','Newton forward-difference series',2,'finite-differences','Σ Δⁿf(1)·C(x − 1, n): the discrete Taylor series. Through the primes it diverges at every non-integer x.',''],
+['triangular-limits','Order-dependent limits',2,'asymptotic-series riemann-sums','A family of sums whose series diverges for every fixed parameter but converges when the parameter is tied to the number of terms, a = N.',''],
+['double-scaling','Double-scaling limits',2,'triangular-limits borel clt','Letting two parameters move together at a fixed rate. Different rates give different limiting error laws, with a crossover between them.',''],
+['multiscale','Multiscale expansions',2,'asymptotic-series geometric-series','Joining local expansions on successive ranges into one representation with a signed remainder.',''],
+/* Number theory */
+['primes','Prime numbers',3,'','Whole numbers above 1 with no divisors except 1 and themselves.',''],
+['divisors','Divisor counting',3,'primes','d(n), the number of divisors of n. Its record values occur at highly composite numbers.','divisor-count'],
+['collatz','Collatz problem',3,'iteration','Halve n if even, send it to 3n + 1 if odd, repeat. Every number checked reaches 1; that all do is unproved.','collatz'],
+['prime-counting','Prime-counting function π(x)',3,'primes','π(x) counts the primes up to x. Much of the research on this site is about approximating or smoothing it.',''],
+['pnt','Prime number theorem',3,'prime-counting li-function','π(x) ~ x/ln x, and more precisely π(x) ≈ Li(x).',''],
+['pi-bounds','Elementary bounds on π(x)',3,'prime-counting logexp','Simple curves that stay above or below π(x), such as (x − 2)/ln(x − 1) and x/W(x).','prime-sandwich pi-bounds'],
+['mobius','Möbius function and inversion',3,'primes divisors','μ(n) = 0, 1 or −1 by the prime factorisation of n. It inverts sums over divisors.','pi-bounds'],
+['riemann-r','Riemann’s R(x)',3,'mobius pnt','R(x) = Σ μ(n)/n · Li(x^{1/n}), a sharper approximation to π(x) than Li(x).','pi-bounds prime-sandwich'],
+['zeta','Riemann zeta function',3,'primes holomorphic sequences-series','ζ(s) = Σ 1/nˢ = ∏ 1/(1 − p⁻ˢ). The Euler product ties it to the primes.',''],
+['even-zeta','Even zeta values',3,'zeta taylor-series','ζ(2) = π²/6 and in general ζ(2n) is a rational multiple of π²ⁿ, through Bernoulli numbers.','gaussian-product'],
+['ramanujan-zeta','Ramanujan’s formula for odd zeta values',3,'even-zeta lambert-series','ζ(4m + 3) as a finite sum of even zeta values plus a Lambert series. Letting the index vary continuously is the starting point of the Borel–Lambert manuscript.',''],
+['zeta-zeros','Zeta zeros and the critical line',3,'zeta analytic-continuation','The non-trivial zeros of ζ(s), all found so far on Re s = ½.','zeta-voronoi'],
+['explicit-formula','Primes from zeros, zeros from primes',3,'zeta-zeros prime-counting','Explicit formulas link prime sums and zeta zeros, so either can be rebuilt approximately from the other.','zeta'],
+['riemann-von-mangoldt','Counting zeros: N(T) and S(T)',3,'explicit-formula','N(T), the number of zeros up to height T, is a main term plus a small oscillating part S(T) given by a prime sum.','zeta'],
+['rh','Riemann Hypothesis',3,'zeta-zeros','The conjecture that every non-trivial zero lies on Re s = ½. The fractional-primes paper shows what it controls there and what it does not.',''],
+['prime-gaps','Prime gaps',3,'primes','gₙ = pₙ₊₁ − pₙ, the distances between consecutive primes, about ln p on average.',''],
+['alt-gap-sum','Alternating sums of prime gaps',3,'prime-gaps alternating-series','G(k) = Σ (−1)ʲ gⱼ. Its size decides how fast the fractional-primes interpolant converges, and whether it converges at all.',''],
+['exp-sums','Exponential sums',3,'complex-numbers primes','Sums of e^{2πiθ(n)}. Gap sums are shown to be exponential sums of π(n).',''],
+['hardy-littlewood','Hardy–Littlewood conjecture',3,'prime-gaps probability','Predicted frequencies of prime patterns such as twin primes. Assumed in one of the conditional results on fractional primes.',''],
+['random-primes','Random models of the primes',3,'prime-gaps random-walk','Cramér’s model and sieve-corrected models treat primes as random. The measured gap statistics match the sieve models, not Cramér’s.',''],
+/* Approximation & numerics */
+['residual-fitting','Fitting by residual layers',4,'functions polynomials','Add a term, look at what is still wrong, add a term shaped like that error, repeat. Most of the approximation pages are built this way.','nested-sines arctan-fit abs-sine x-sin-x gaussian-residual arcsine-poly x-arcsine sign-step'],
+['rational-approx','Rational approximation',4,'polynomials residual-fitting','Approximating with a ratio of polynomials, which can level off or blow up where polynomials cannot.','cosine-rational square-rational'],
+['iterated-log','Iterated logarithms',4,'logexp','ln ln x and deeper nestings: very slow growth, used to fit sorted data and ln(ln x) itself.','log-log soccer-sorted'],
+['constants','Approximating constants',4,'logexp','Searching for simple expressions that match π, e or γ to many digits, and counting the digits matched.','constants'],
+['newton-method','Newton’s method',4,'derivatives','Solve f(x) = 0 by following tangent lines. A few steps compute the Lambert W function.','prime-sandwich'],
+['solving-systems','Solving nonlinear equations',4,'newton-method','Finding unknowns that satisfy several equations at once, such as the three constants of a hanging chain.','catenary'],
+['lagrange','Polynomial interpolation',4,'polynomials','The unique polynomial of degree n through n + 1 points.','kernel-regression'],
+['runge','Chebyshev nodes and Runge’s phenomenon',4,'lagrange trig','Equally spaced nodes make high-degree interpolants swing near the ends; nodes clustered like cos θ do not.','chebyshev'],
+['piecewise-linear','Piecewise-linear interpolation',4,'functions','Joining data points with straight segments.','windowed-interpolation'],
+['smoothstep','Smoothstep blending',4,'polynomials logistic piecewise-linear','Polynomial switches that blend neighbouring pieces into one smooth curve.','windowed-interpolation'],
+['barycentric','Barycentric interpolation',4,'lagrange','Writing an interpolant as a weighted average of the data values, which is stable and cheap to evaluate.',''],
+['floater-hormann','Floater–Hormann interpolation',4,'barycentric rational-approx','A family of barycentric rational interpolants with blending degree d. With d = 1 through the primes, it converges as more primes are added.','fractional-primes'],
+['richardson','Richardson extrapolation',4,'big-o sequences-series','Combining results at several step sizes to cancel the leading error terms.','fractional-primes'],
+['sampling','Sampling and the Nyquist frequency',4,'fourier-cosine','Equally spaced samples can only represent frequencies up to half the sampling rate. Growth like 2ⁿ in a difference table is the signature of content at that limit.',''],
+['sinc','Sinc interpolation',4,'sampling','Whittaker–Shannon reconstruction from equally spaced samples, and a regularised version that does not ring at the ends.','sinc'],
+['cardinal-series','Cardinal series',4,'sinc','The sinc-weighted series through integer samples. In this form the fractional-primes residual is exactly one sin(πx) mode.',''],
+['enclosures','Certified enclosures',4,'alternating-series big-o','Upper and lower bounds that provably contain the true value, so a number comes with a guaranteed error.',''],
+['stable-recurrences','Stable recurrences',4,'iteration','Ways of computing a sequence term by term without rounding errors growing.',''],
+['diagnostics','Numerical diagnostics',4,'big-o richardson','Checking a claimed rate or limit with careful computation, and keeping what was tested separate from what was proved.',''],
+/* Probability & statistics */
+['gaussian','The Gaussian curve',5,'logexp integrals','e^{−x²}, the bell curve. Eight pages build it from other functions.','gaussian-residual gaussian-sigmoids gaussian-fraction gaussian-product'],
+['least-squares','Least squares',5,'derivatives probability','Choosing parameters that minimise the sum of squared errors.','soccer-log soccer-sorted'],
+['log-scaling','Log transforms for skewed data',5,'least-squares logexp','Taking logarithms so a few extreme values do not dominate a fit.','soccer-log'],
+['kde','Kernel density estimation',5,'gaussian probability','Estimating a density by placing a small bump on every data point and adding them.','kernel-density'],
+['kernel-regression','Kernel regression',5,'kde lagrange','The Nadaraya–Watson smoother: a weighted average of nearby data, with a correction that makes it pass through a chosen point.','kernel-regression'],
+['gaussian-smoothing','Gaussian smoothing of a staircase',5,'gaussian prime-counting','Spreading each step of π(x) with a Gaussian so the staircase becomes a smooth curve whose bends can be read.','gaussian-smearing'],
+['variance','Variance and correlation',5,'probability','How spread out a quantity is, and how two quantities move together. Consecutive prime gaps are negatively correlated.',''],
+['random-walk','Random walks and diffusion',5,'variance','Sums of random steps grow like the square root of the number of steps. G(k) is measured to behave this way.',''],
+['poisson','Poisson approximation',5,'probability factorial','Counts of rare independent events follow a Poisson law. Used in the triangular-limits paper and in Hardy–Littlewood parity correlations.',''],
+['neg-binomial','Negative-binomial tails',5,'probability factorial','Tail probabilities of the negative binomial law. The triangular-limits coefficients are such tails.',''],
+['clt','Gaussian limits',5,'gaussian variance','Sums of many small effects tend to a Gaussian. Gives the shifted-Gaussian phase in the triangular-limits paper.',''],
+['likelihood-ratio','Likelihood-ratio estimates',5,'probability logexp','Comparing two probability laws term by term to bound one by the other. Gives a uniform remainder in the triangular-limits paper.',''],
+['remote-sensing','Satellite data layers',5,'functions','Gridded rainfall (CHIRPS), vegetation (Landsat NDVI), terrain (SRTM) and surface-water layers from satellites.',''],
+['risk-overlay','Combining layers into a risk map',5,'remote-sensing probability','Weighting and stacking data layers into a map of where herds are likely to converge, checked against recorded events.',''],
+/* Geometry & mechanics */
+['polar','Polar curves',6,'trig','Curves given as a radius ρ(θ) for each angle.','wheel-road'],
+['arc-length','Arc length',6,'integrals','The length of a curve, ∫√(1 + y′²) dx.',''],
+['rolling','Rolling without slipping',6,'polar arc-length','A wheel of any shape rolls level on a road built so that the contact point stays under the axle.','wheel-road'],
+['catenary','Catenary',6,'hyperbolic arc-length solving-systems','The shape y = b + a cosh((x − c)/a) of a chain hanging under its own weight.','catenary'],
+['smooth-max','Smooth maximum',6,'geometric-series logexp','A smooth curve that hugs the larger of two functions; the cloth page builds one from a finite geometric series.','cloth'],
+['distance-metrics','Distance metrics',6,'vectors','Ordinary, taxicab and other p-power distances, which change the shape of “closest”.','zeta-voronoi kernel-density'],
+['voronoi','Voronoi diagrams',6,'distance-metrics','Splitting the plane by which point is nearest.','zeta-voronoi kernel-density'],
+['ik','Follow-the-leader chains',6,'vectors iteration','Each joint is pulled toward the one ahead and placed one link length behind it.','ik-chain'],
+['diff-geometry','Curves and surfaces',6,'derivatives vectors','Tangents, curvature and surfaces described by coordinates: the setting for interpolation on manifolds.',''],
+['manifold-interp','Interpolation on manifolds',6,'diff-geometry kernel-regression','Interpolating so the result stays on a constraint surface instead of cutting through it.',''],
+['centre-line','Centre line from two edges',6,'piecewise-linear smoothstep','Fit a smooth curve through checkpoints on each edge of a trail and average the two to get a path to drive (TrXon).','windowed-interpolation']
+];
+/* documents that are on this site: [id, title, domain, prerequisites, summary, link, kind] */
+const KM_DOCS=[
+['d-cf','From a Continued Fraction to the Critical Line',3,'continued-fractions riemann-r pi-bounds mobius','Medium article. Starts from a continued fraction and builds curves meant to stay above π(x), then tests them against prime counts up to one billion.','https://medium.com/@abubakrbatalvi/from-a-continued-fraction-to-the-critical-line-ab90bb1bb3f1?sharedUserId=abubakrbatalvi','Article · Medium'],
+['d-manifold','Stabilizing AI Training Using a New Manifold Interpolation Method',6,'manifold-interp kernel-regression','Medium article. An interpolation method that keeps points on a constraint surface, and how it might be used to keep AI training stable.','https://medium.com/@abubakrbatalvi/a-new-approach-to-with-manifolds-bb58fa31e01c','Article · Medium'],
+['d-borel','A Borel–Lambert Continuation of Ramanujan’s Formula for Odd Zeta Values',2,'ramanujan-zeta lateral-borel analytic-continuation cotangent barnes','Working manuscript, not yet peer reviewed. Resums the divergent sum in Ramanujan’s formula with a Borel sum, proves the average of the two lateral sums equals an explicit principal-value family, and shows the Lambert series is exactly the jump between them.','papers/borel-lambert.pdf','Working manuscript · 11 pages'],
+['d-tri','Order-Dependent Triangular Limits and Double-Scaling Transitions for the Logarithmic Integral',2,'triangular-limits double-scaling incomplete-gamma neg-binomial poisson likelihood-ratio li-function','Research draft. Finite sums for Li(x) − Li(x/e) whose series diverges for every fixed parameter but converges when the parameter is tied to the number of terms; proves error estimates and two limiting error laws, a Borel model and a shifted-Gaussian model.','papers/li-triangular-limits.pdf','Research draft · 32 pages'],
+['d-supp','Supplementary note: enclosures, multiscale expansions and numerical diagnostics',4,'d-tri enclosures multiscale exp-integral stable-recurrences diagnostics','Companion to the triangular-limits paper. Elementary enclosures, an exact incomplete-gamma tail, multiscale expansions with signed remainders, and the numerical checks behind the main paper.','papers/li-supplementary-note.pdf','Supplementary note · 18 pages'],
+['d-fp','From a Divergent Newton Series to a Convergent Interpolation of the Primes',3,'newton-series floater-hormann euler-boole cardinal-series richardson summation-methods optimal-truncation abel-partial alt-gap-sum exp-sums rh random-primes hardy-littlewood','Research paper. Why the Newton series through the primes diverges, and how a Floater–Hormann interpolant with d = 1 converges instead. The rate splits into an analytic part, proved O(log M/M), and an arithmetic part set by alternating prime-gap sums; existence is proved under stated hypotheses.','papers/fractional-primes.pdf','Research paper · 25 pages'],
+['d-sudan','Water Scarcity Satellite Mapping in South Sudan',5,'risk-overlay','Team project slides (TKS Global Challenge, with the United Nations). An early-warning map of where cattle herds are likely to converge, built from rainfall, vegetation, terrain and surface-water layers; checked against one month of past events.','projects/south-sudan-satellite-mapping.pdf','Project slides · 24 slides']
+];
+
+/* ---------- knowledge map (graph lab page) ----------
+   Circles are topics, triangles are documents on this site. A node sits higher the longer its chain of
+   prerequisites. The critical chain walks down from a node, at each step to the prerequisite that sits
+   highest (the smallest drop), until it reaches a starting topic. UI modelled on taylor.town/kakm. */
+const KM=(()=>{
+  const DOM_ORDER=[6,4,5,0,1,2,3];                 /* left to right on the map */
+  const COL={dark:['#56b6c2','#61afef','#c678dd','#e06c75','#98c379','#e5c07b','#ef8fc0'],
+             light:['#13808b','#1a5fb4','#8e44ad','#c0392b','#3d8b2f','#a87700','#c2417f']};
+  const nodes=[],byId=new Map(),edges=[];
+  for(const [id,name,dom,pre,sum,g] of KM_TOPICS)nodes.push({id,name,dom,preS:pre,sum,graphs:g?g.split(' '):[],doc:false});
+  for(const [id,name,dom,pre,sum,url,kind] of KM_DOCS)nodes.push({id,name,dom,preS:pre,sum,url,kind,graphs:[],doc:true});
+  for(const n of nodes){n.pre=[];n.dep=[];byId.set(n.id,n);}
+  for(const n of nodes)for(const t of n.preS.split(' ').filter(Boolean)){const p=byId.get(t);if(!p){console.warn('km: unknown prerequisite',t,'of',n.id);continue;}n.pre.push(p);p.dep.push(n);edges.push([p,n]);}
+  /* level = longest prerequisite chain below the node */
+  const lv=n=>n.level!=null?n.level:(n.level=n.pre.length?1+Math.max(...n.pre.map(lv)):0);nodes.forEach(lv);
+  const MAXL=Math.max(...nodes.map(n=>n.level));
+  /* everything below a node (transitive prerequisites) */
+  const below=n=>{if(n.below)return n.below;const s=new Set();const st=[...n.pre];while(st.length){const p=st.pop();if(s.has(p))continue;s.add(p);st.push(...p.pre);}return n.below=s;};
+  const above=n=>{const s=new Set();const st=[...n.dep];while(st.length){const p=st.pop();if(s.has(p))continue;s.add(p);st.push(...p.dep);}return s;};
+
+  /* ---------- layout: rows by level, columns by domain, ordered to keep prerequisites close ---------- */
+  const RH=140,GAP=104,COLW=330;
+  const cx={};DOM_ORDER.forEach((d,i)=>cx[d]=(i-(DOM_ORDER.length-1)/2)*COLW);
+  const rows=[];for(const n of nodes){(rows[n.level]=rows[n.level]||[]).push(n);n.x=cx[n.dom];n.y=-n.level*RH;}
+  const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
+  const settle=(row,key)=>{row.forEach(n=>n.t=key(n));row.sort((a,b)=>a.t-b.t||a.dom-b.dom);
+    for(let i=0;i<row.length;i++)row[i].x=i?Math.max(row[i].t,row[i-1].x+GAP):row[i].t;
+    const sh=mean(row.map(n=>n.t))-mean(row.map(n=>n.x));row.forEach(n=>n.x+=sh);};
+  for(let it=0;it<40;it++){
+    const w=it<20?.5:.3;
+    for(let l=0;l<rows.length;l++)if(rows[l])settle(rows[l],n=>n.pre.length?w*cx[n.dom]+(1-w)*mean(n.pre.map(p=>p.x)):cx[n.dom]);
+    for(let l=rows.length-1;l>=0;l--)if(rows[l])settle(rows[l],n=>{const d=n.dep.filter(m=>m.level===n.level+1);return d.length?.55*n.x+.45*mean(d.map(m=>m.x)):n.x;});}
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const n of nodes){minX=Math.min(minX,n.x);maxX=Math.max(maxX,n.x);minY=Math.min(minY,n.y);maxY=Math.max(maxY,n.y);}
+  const PAD=110;minX-=PAD;maxX+=PAD;minY-=PAD;maxY+=PAD;
+
+  /* ---------- critical chain ---------- */
+  function chain(n){const path=[n];let c=n;
+    while(c.pre.length){const cur=c;c=cur.pre.reduce((b,p)=>{if(p.level!==b.level)return p.level>b.level?p:b;
+        if((p.dom===cur.dom)!==(b.dom===cur.dom))return p.dom===cur.dom?p:b;return Math.abs(p.x-cur.x)<Math.abs(b.x-cur.x)?p:b;});path.unshift(c);}
+    return path;}
+
+  /* ---------- state ---------- */
+  let wrap,cv,ctx,mm,mmx,panel,hint,W=0,H=0,dpr=1,scale=1,ox=0,oy=0,dirty=true,raf=0,ready=false;
+  let hovered=null,selected=null,crit=[],critE=new Set(),hovE=new Set(),hovN=new Set(),engaged=false;
+  const light=()=>document.body.classList.contains('light');
+  const colorOf=n=>COL[light()?'light':'dark'][n.dom];
+  const w2s=(x,y)=>[(x-ox)*scale,(y-oy)*scale],s2w=(x,y)=>[x/scale+ox,y/scale+oy];
+  const req=()=>{dirty=true;if(!raf)raf=requestAnimationFrame(render);};
+  function fit(){const fw=W/(maxX-minX),fh=H/(maxY-minY);/* tall narrow screens fit the height and pan sideways */scale=(W<H?Math.max(fw,Math.min(fh*.92,fw*2.4)):Math.min(fw,fh))*.98;ox=(minX+maxX)/2-W/scale/2;oy=(minY+maxY)/2-H/scale/2;req();}
+  function zoomAt(f,sx,sy){const [wx,wy]=s2w(sx,sy);scale=Math.max(.08,Math.min(6,scale*f));ox=wx-sx/scale;oy=wy-sy/scale;req();}
+  const rOf=n=>(n.doc?1.9:1)*Math.max(3.2,Math.min(7,scale*5))*(1+Math.min(n.dep.length/5,1.4));
+  function pick(sx,sy,touch){const [wx,wy]=s2w(sx,sy);let best=null,bd=Infinity;
+    for(const n of nodes){const [px,py]=w2s(n.x,n.y);const lim=Math.max(rOf(n)+4,touch?22:13);const d=Math.hypot(px-sx,py-sy);if(d<lim&&d<bd){bd=d;best=n;}}return best;}
+
+  /* ---------- selection, panel ---------- */
+  function select(n,center){selected=n;crit=n?chain(n):[];critE=new Set();for(let i=0;i<crit.length-1;i++)critE.add(crit[i].id+'>'+crit[i+1].id);
+    if(n&&center){ox=n.x-W/scale/2;oy=n.y-(innerWidth<640?.24:.3)*H/scale;if(innerWidth>=640&&W>760)ox-=175/scale;}
+    showPanel(n);req();}
+  const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const chip=m=>`<button type="button" class="kmChip" data-id="${m.id}"><i style="background:${colorOf(m)}" class="${m.doc?'tri':''}"></i>${esc(m.name)}</button>`;
+  function showPanel(n){if(!n){panel.hidden=true;return;}
+    const docs=nodes.filter(d=>d.doc&&d!==n&&below(d).has(n));
+    let h=`<button type="button" class="kmClose" aria-label="Close">×</button>`;
+    h+=`<div class="kmKind"><i style="background:${colorOf(n)}" class="${n.doc?'tri':''}"></i>${n.doc?esc(n.kind):'Topic'} · ${KM_DOMAINS[n.dom]} · level ${n.level}</div>`;
+    h+=`<h3>${esc(n.name)}</h3><p class="kmSum">${esc(n.sum)}</p>`;
+    if(n.doc)h+=`<a class="kmRead" href="${n.url}" target="_blank" rel="noopener">Read ↗</a>`;
+    if(crit.length>1)h+=`<div class="kmSec"><div class="kmSt">Critical chain</div><div class="kmCrit">${crit.map(m=>`<button type="button" data-id="${m.id}"${m===n?' class="me"':''}>${esc(m.name)}</button>`).join('<span>→</span>')}</div></div>`;
+    const gs=n.graphs.map(g=>typeof simIdx==='function'?simIdx(g):-1).filter(i=>i>=0);
+    if(gs.length)h+=`<div class="kmSec"><div class="kmSt">Graphs</div>${gs.map(i=>`<button type="button" class="kmChip kmG" data-sim="${i}">${esc(SIMS[i].name)} →</button>`).join('')}</div>`;
+    if(n.pre.length)h+=`<div class="kmSec"><div class="kmSt">${n.doc?'Uses':'Builds on'} (${n.pre.length})</div>${n.pre.map(chip).join('')}</div>`;
+    const dep=n.dep.filter(m=>!m.doc);if(dep.length)h+=`<div class="kmSec"><div class="kmSt">Leads to (${dep.length})</div>${dep.map(chip).join('')}</div>`;
+    if(docs.length)h+=`<div class="kmSec"><div class="kmSt">Used in</div>${docs.map(chip).join('')}</div>`;
+    panel.innerHTML=h;panel.hidden=false;panel.scrollTop=0;
+    panel.querySelector('.kmClose').onclick=()=>select(null);
+    panel.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>select(byId.get(b.dataset.id),true));
+    panel.querySelectorAll('[data-sim]').forEach(b=>b.onclick=()=>{exitFull();openLab(+b.dataset.sim);});}
+
+  function hoverPath(){hovE.clear();hovN.clear();if(!selected||!hovered||selected===hovered)return;
+    const bfs=(a,b)=>{const par=new Map([[a,null]]),q=[a];while(q.length){const c=q.shift();if(c===b){const p=[];for(let x=b;x;x=par.get(x))p.push(x);return p.reverse();}for(const d of c.dep)if(!par.has(d)){par.set(d,c);q.push(d);}}return null;};
+    const p=bfs(selected,hovered)||bfs(hovered,selected);if(!p)return;for(let i=0;i<p.length-1;i++)hovE.add(p[i].id+'>'+p[i+1].id);p.forEach(m=>hovN.add(m));}
+
+  /* ---------- drawing ---------- */
+  function tri(x,y,r){ctx.beginPath();ctx.moveTo(x,y-r*1.15);ctx.lineTo(x+r,y+r*.65);ctx.lineTo(x-r,y+r*.65);ctx.closePath();}
+  function render(){raf=0;if(!dirty||!ready)return;dirty=false;hoverPath();
+    const L=light(),bg=L?'#fbfbfc':'#000',ink=L?'20,26,36':'255,255,255',critC=L?'176,82,22':'255,215,80',hovC=L?'26,95,180':'150,220,255';
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    /* faint level guides */
+    ctx.font='11px system-ui,-apple-system,sans-serif';ctx.textAlign='left';
+    for(let l=0;l<=MAXL;l++){const [,y]=w2s(0,-l*RH);if(y<-10||y>H+10)continue;ctx.fillStyle=`rgba(${ink},${L?.05:.045})`;ctx.fillRect(0,y,W,1);
+      if(scale>.32){ctx.fillStyle=`rgba(${ink},${L?.32:.28})`;ctx.fillText('level '+l,8,y-4);}}
+    const near=new Set();if(selected){selected.pre.forEach(m=>near.add(m));selected.dep.forEach(m=>near.add(m));crit.forEach(m=>near.add(m));hovN.forEach(m=>near.add(m));}
+    const baseA=Math.min(L?.28:.36,Math.max(L?.1:.08,scale*.2));
+    for(const [a,b] of edges){const [x1,y1]=w2s(a.x,a.y),[x2,y2]=w2s(b.x,b.y);
+      if(Math.max(x1,x2)<-60||Math.min(x1,x2)>W+60||Math.max(y1,y2)<-60||Math.min(y1,y2)>H+60)continue;
+      const k=a.id+'>'+b.id,isC=critE.has(k),isH=hovE.has(k),isN=selected&&(a===selected||b===selected);
+      if(isH){ctx.strokeStyle=`rgba(${hovC},.85)`;ctx.lineWidth=2.5;}
+      else if(isC){ctx.strokeStyle=`rgba(${critC},.9)`;ctx.lineWidth=3;}
+      else if(isN){ctx.strokeStyle=b===selected?(L?'rgba(176,82,22,.55)':'rgba(255,180,100,.7)'):(L?'rgba(26,95,180,.55)':'rgba(100,200,255,.7)');ctx.lineWidth=2;}
+      else if(selected){ctx.strokeStyle=`rgba(${ink},.03)`;ctx.lineWidth=.5;}
+      else{ctx.strokeStyle=`rgba(${ink},${baseA})`;ctx.lineWidth=1;}
+      const mx=(x1+x2)/2,my=(y1+y2)/2,dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,cu=Math.min(len*.12,20),sg=((a.id.length*7+b.id.length*13)%3)-1;
+      const cpx=mx-dy/len*cu*sg,cpy=my+dx/len*cu*sg;
+      ctx.beginPath();ctx.moveTo(x1,y1);ctx.quadraticCurveTo(cpx,cpy,x2,y2);ctx.stroke();
+      if(scale>.45&&(isH||isC||isN||!selected)){const t=.82,ax=(1-t)*(1-t)*x1+2*(1-t)*t*cpx+t*t*x2,ay=(1-t)*(1-t)*y1+2*(1-t)*t*cpy+t*t*y2;
+        let tx=2*(1-t)*(cpx-x1)+2*t*(x2-cpx),ty=2*(1-t)*(cpy-y1)+2*t*(y2-cpy);const tl=Math.hypot(tx,ty)||1;tx/=tl;ty/=tl;const al=Math.min(8,4+scale*2),an=.4;
+        ctx.beginPath();ctx.moveTo(ax-al*(tx*Math.cos(an)-ty*Math.sin(an)),ay-al*(ty*Math.cos(an)+tx*Math.sin(an)));ctx.lineTo(ax,ay);
+        ctx.lineTo(ax-al*(tx*Math.cos(an)+ty*Math.sin(an)),ay-al*(ty*Math.cos(an)-tx*Math.sin(an)));ctx.stroke();}}
+    for(const n of nodes){const [sx,sy]=w2s(n.x,n.y);if(sx<-30||sx>W+30||sy<-30||sy>H+30)continue;const r=rOf(n);
+      ctx.globalAlpha=selected&&n!==selected&&!near.has(n)?(L?.16:.12):1;const c=colorOf(n);
+      if(!L&&r>3&&ctx.globalAlpha>.5){ctx.shadowColor=c;ctx.shadowBlur=r*2.5;}
+      if(n.doc)tri(sx,sy,r);else{ctx.beginPath();ctx.arc(sx,sy,r,0,6.2832);}
+      ctx.fillStyle=c;ctx.fill();ctx.shadowBlur=0;
+      if(n===hovered||n===selected){ctx.strokeStyle=L?'#14181f':'#fff';ctx.lineWidth=2;ctx.stroke();}
+      else if(selected&&crit.includes(n)){ctx.strokeStyle=`rgba(${critC},.9)`;ctx.lineWidth=1.8;ctx.stroke();}
+      else if(L){ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=1;ctx.stroke();}
+      ctx.globalAlpha=1;}
+    /* labels */
+    /* labels: highest priority first, and a label that would overlap one already drawn is skipped */
+    ctx.textAlign='center';const all=scale>.9,imp=scale>.36,boxes=[];
+    const pri=n=>n===hovered?1e4:n===selected?9e3:(selected&&crit.includes(n)?5e3:0)+(n.doc?2e3:0)+n.dep.length*10+n.level;
+    const cand=nodes.filter(n=>{const isH=n===hovered,isS=n===selected;
+      if(!isH&&!isS&&!all&&!(imp&&(n.doc||n.dep.length>=4))&&!(selected&&crit.includes(n)&&scale>.3))return false;
+      return isH||!selected||n===selected||near.has(n);}).sort((a,b)=>pri(b)-pri(a));
+    for(const n of cand){const isH=n===hovered,isS=n===selected;
+      const [sx,sy]=w2s(n.x,n.y);if(sx<-120||sx>W+120||sy<-40||sy>H+40)continue;const r=rOf(n);
+      const fs=isH||isS?13:Math.max(10,Math.min(13,9+scale*2.5));
+      ctx.font=`${isH||isS||n.doc?'600 ':''}${fs}px system-ui,-apple-system,sans-serif`;
+      let t=n.name;if(!isH&&!isS&&t.length>38)t=t.slice(0,36)+'…';const tw=ctx.measureText(t).width,ty=sy-r*(n.doc?1.2:1)-6;
+      const bx=[sx-tw/2-4,ty-fs-1,sx+tw/2+4,ty+5];
+      if(!isH&&!isS&&boxes.some(q=>bx[0]<q[2]&&bx[2]>q[0]&&bx[1]<q[3]&&bx[3]>q[1]))continue;boxes.push(bx);
+      ctx.globalAlpha=isH||isS?1:Math.max(0,Math.min(1,(scale-.2)/.25));
+      ctx.fillStyle=L?'rgba(251,251,252,.88)':'rgba(0,0,0,.75)';ctx.fillRect(sx-tw/2-3,ty-fs,tw+6,fs+4);
+      ctx.fillStyle=L?'#14181f':(isH?'#fff':'#eee');ctx.fillText(t,sx,ty);}
+    ctx.globalAlpha=1;drawMini(L);}
+  function drawMini(L){if(mm.offsetParent===null)return;const w=mm.width,h=mm.height,ms=Math.min(w/(maxX-minX),h/(maxY-minY)),mx0=(w-(maxX-minX)*ms)/2,my0=(h-(maxY-minY)*ms)/2;
+    mmx.fillStyle=L?'rgba(251,251,252,.95)':'rgba(0,0,0,.9)';mmx.fillRect(0,0,w,h);
+    for(const n of nodes){mmx.fillStyle=n===selected?(L?'#14181f':'#fff'):colorOf(n);const s=n===selected?3.5:n.doc?3:1.8;mmx.fillRect(mx0+(n.x-minX)*ms-s/2,my0+(n.y-minY)*ms-s/2,s,s);}
+    mmx.strokeStyle=L?'rgba(20,26,36,.55)':'rgba(255,255,255,.6)';mmx.lineWidth=1;mmx.strokeRect(mx0+(ox-minX)*ms,my0+(oy-minY)*ms,W/scale*ms,H/scale*ms);
+    mm._t=[ms,mx0,my0];}
+
+  /* ---------- input ---------- */
+  let drag=null,moved=0,pinch=0;const pts=new Map();
+  function setCur(c){cv.style.cursor=c;wrap.style.setProperty('--kmcur',c);}
+  function flash(t){hint.textContent=t;hint.classList.add('on');clearTimeout(flash.t);flash.t=setTimeout(()=>hint.classList.remove('on'),1600);}
+  const isFull=()=>wrap.classList.contains('kmFull')||document.fullscreenElement===wrap;
+  function bind(){
+    cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.offsetX,e.offsetY]);engaged=true;wrap.classList.add('engaged');
+      if(pts.size===1){drag=[e.offsetX,e.offsetY];moved=0;}else if(pts.size===2){const [a,b]=[...pts.values()];pinch=Math.hypot(a[0]-b[0],a[1]-b[1]);moved=99;}});
+    cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId)){const h=pick(e.offsetX,e.offsetY,false);if(h!==hovered){hovered=h;setCur(h?'pointer':'grab');req();}return;}
+      pts.set(e.pointerId,[e.offsetX,e.offsetY]);
+      if(pts.size===2){const [a,b]=[...pts.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pinch)zoomAt(d/pinch,(a[0]+b[0])/2,(a[1]+b[1])/2);pinch=d;return;}
+      if(drag){const dx=e.offsetX-drag[0],dy=e.offsetY-drag[1];moved+=Math.abs(dx)+Math.abs(dy);ox-=dx/scale;oy-=dy/scale;drag=[e.offsetX,e.offsetY];if(moved>4)setCur('grabbing');req();}});
+    const up=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);if(pts.size)return;pinch=0;
+      if(drag&&moved<(e.pointerType==='touch'?12:5)){const n=pick(e.offsetX,e.offsetY,e.pointerType==='touch');hovered=n;select(n,false);}
+      drag=null;setCur(hovered?'pointer':'grab');};
+    cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+    cv.addEventListener('pointerleave',()=>{if(hovered&&!pts.size){hovered=null;req();}});
+    wrap.addEventListener('pointerleave',()=>{engaged=false;wrap.classList.remove('engaged');});
+    cv.addEventListener('wheel',e=>{if(!(engaged||e.ctrlKey||e.metaKey||isFull())){flash('Click the map first to zoom with the scroll wheel');return;}
+      e.preventDefault();const f=Math.exp(-Math.max(-60,Math.min(60,e.deltaY*(e.deltaMode?16:1)))*(e.ctrlKey?.012:.0028));zoomAt(f,e.offsetX,e.offsetY);},{passive:false});
+    mm.addEventListener('pointerdown',e=>{const go=ev=>{const r=mm.getBoundingClientRect(),[ms,a,b]=mm._t,k=mm.width/r.width;ox=((ev.clientX-r.left)*k-a)/ms+minX-W/scale/2;oy=((ev.clientY-r.top)*k-b)/ms+minY-H/scale/2;req();};
+      go(e);mm.setPointerCapture(e.pointerId);mm.onpointermove=ev=>{if(ev.buttons)go(ev);};});
+    addEventListener('keydown',e=>{if(!(engaged||isFull())||wrap.closest('[hidden]'))return;if(e.target.closest&&e.target.closest('input,textarea'))return;
+      const k=e.key;if(k==='Escape'){if(isFull())exitFull();else if(selected)select(null);else return;}
+      else if(k==='+'||k==='=')zoomAt(1.2,W/2,H/2);else if(k==='-')zoomAt(1/1.2,W/2,H/2);
+      else if(k==='ArrowLeft')ox-=60/scale;else if(k==='ArrowRight')ox+=60/scale;else if(k==='ArrowUp')oy-=60/scale;else if(k==='ArrowDown')oy+=60/scale;else return;
+      e.preventDefault();e.stopPropagation();req();},true);
+    wrap.querySelector('.kmIn').onclick=()=>zoomAt(1.25,W/2,H/2);wrap.querySelector('.kmOut').onclick=()=>zoomAt(1/1.25,W/2,H/2);
+    wrap.querySelector('.kmFit').onclick=()=>fit();
+    wrap.querySelector('.kmFs').onclick=()=>isFull()?exitFull():enterFull();
+    document.addEventListener('fullscreenchange',()=>{wrap.classList.toggle('kmFull',document.fullscreenElement===wrap);sync();setTimeout(sync,120);});
+    new ResizeObserver(sync).observe(wrap);
+    new MutationObserver(()=>{if(selected)showPanel(selected);legend();req();}).observe(document.body,{attributes:true,attributeFilter:['class']});}
+  /* the writing list's colour marks follow the theme too */
+  new MutationObserver(()=>{for(const i of document.querySelectorAll('#res i[data-dom]'))i.style.background=COL[light()?'light':'dark'][+i.dataset.dom];}).observe(document.body,{attributes:true,attributeFilter:['class']});
+  function enterFull(){if(wrap.requestFullscreen&&!/iPhone|iPod/.test(navigator.userAgent))wrap.requestFullscreen().catch(()=>wrap.classList.add('kmFull'));else wrap.classList.add('kmFull');
+    wrap.querySelector('.kmFs').textContent='Exit full screen';setTimeout(sync,60);}
+  function exitFull(){if(document.fullscreenElement===wrap)document.exitFullscreen();wrap.classList.remove('kmFull');if(wrap)wrap.querySelector('.kmFs').textContent='Full screen';setTimeout(sync,60);}
+  function sync(){const r=cv.getBoundingClientRect();if(!r.width)return;const nw=r.width,nh=r.height,first=!W;
+    const cxw=W?ox+W/scale/2:0,cyw=H?oy+H/scale/2:0;W=nw;H=nh;dpr=Math.min(2,devicePixelRatio||1);cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
+    if(first)fit();else{ox=cxw-W/scale/2;oy=cyw-H/scale/2;}req();}
+  function legend(){const el=wrap.querySelector('.kmLegend');el.innerHTML=DOM_ORDER.slice().sort((a,b)=>a-b).map(d=>`<div><i style="background:${COL[light()?'light':'dark'][d]}"></i>${KM_DOMAINS[d]}</div>`).join('')+
+    `<div class="kmShapes"><span><i></i>topic</span><span><i class="tri"></i>paper or article</span></div>`;}
+  function init(){if(ready)return;wrap=document.getElementById('kmap');if(!wrap)return;
+    cv=wrap.querySelector('canvas.kmC');ctx=cv.getContext('2d');mm=wrap.querySelector('canvas.kmMini');mmx=mm.getContext('2d');panel=wrap.querySelector('.kmPanel');hint=wrap.querySelector('.kmHint');
+    wrap.querySelector('.kmStats').textContent=`${nodes.length-KM_DOCS.length} topics · ${KM_DOCS.length} papers and articles · ${edges.length} links`;
+    legend();bind();ready=true;sync();}
+  return {init,show(){init();if(ready){sync();req();}},
+    focus(id){init();const n=byId.get(id);if(!n)return;sync();scale=Math.max(scale,.6);select(n,true);
+      const g=document.getElementById('gpage');if(g&&!g.hidden){const t=wrap.getBoundingClientRect().top+g.scrollTop-70;g.scrollTo({top:Math.max(0,t),behavior:'smooth'});}},
+    docFor(url){return nodes.find(n=>n.doc&&n.url===url)||null;},
+    color:n=>colorOf(n),domains:KM_DOMAINS,nodes};
+})();
+
+/* writing list on the front page: grouped by field, easier pieces first within a field, each with a link to its place on the map */
+function kmSortRes(list){const d=it=>KM.docFor(it.url);return list.slice().sort((a,b)=>{const x=d(a),y=d(b);if(!x||!y)return x?-1:y?1:0;return x.dom-y.dom||x.level-y.level;});}
+function kmTag(li,k,it,r){const n=KM.docFor(it.url);if(!n)return;
+  if(r.dataset.lastDom!==String(n.dom)){r.dataset.lastDom=n.dom;const g=document.createElement('li');g.className='rGroup';g.setAttribute('aria-hidden','true');g.innerHTML=`<i data-dom="${n.dom}" style="background:${KM.color(n)}"></i>`;g.append(KM.domains[n.dom]);r.appendChild(g);}
+  const t=document.createElement('span');t.className='rkDom';t.innerHTML=`<i class="tri" data-dom="${n.dom}" style="background:${KM.color(n)}"></i>`;t.append(`${KM.domains[n.dom]} · level ${n.level}`);k.appendChild(t);
+  const b=document.createElement('button');b.type='button';b.className='rkMap';b.textContent='Show on the knowledge map →';b.onclick=()=>{showGraphs();setTimeout(()=>KM.focus(n.id),380);};li.appendChild(b);}
 </script>
 
 <script>
@@ -2479,7 +2920,7 @@ let labFrom='home';
 function viewShow(el){el.hidden=false;requestAnimationFrame(()=>el.classList.remove('fading'));}
 function viewHide(el){if(el.hidden)return;el.classList.add('fading');setTimeout(()=>{if(el.classList.contains('fading'))el.hidden=true;},500);}
 function showGraphs(fromHistory){const fromLab=labActive;labActive=false;if(cur&&fromLab){lastSeen=idx;const r=$('#homeResume');r.hidden=false;r.textContent='Continue: '+cur.name+' →';buildHome();}
-  const g=$('#gpage');viewShow(g);viewHide($('#home'));
+  const g=$('#gpage');viewShow(g);viewHide($('#home'));requestAnimationFrame(()=>KM.show());
   requestAnimationFrame(()=>{if(fromLab&&window.returnToGraph)returnToGraph();else if(!fromHistory)g.scrollTop=0;g.focus({preventScroll:true});if(window.gSpy)gSpy();});
   try{if(location.hash!=='#graphs'){if(fromHistory)history.replaceState(null,'','#graphs');else history.pushState(null,'','#graphs');}}catch(e){}}
 function leaveLab(fromHistory){if(labFrom==='graphs')showGraphs(fromHistory);else showHome(fromHistory);}
@@ -2561,12 +3002,12 @@ function buildPages(){
     a.innerHTML=`<span class="img"><img alt="" data-id="${id}" data-big="1" decoding="async"></span><span class="ft"></span><span class="fd"></span><span class="fc"></span>`;
     a.querySelector('.ft').textContent=s.name;a.querySelector('.fd').textContent=s.blurb||'';a.querySelector('.fc').textContent=s.cat;a.onclick=e=>{e.preventDefault();openLab(i);};f.appendChild(a);}
   const r=$('#res');r.textContent='';
-  for(const it of RESEARCH){const li=document.createElement('li');const k=document.createElement('div');k.className='rk';k.textContent=it.kind;
+  delete $('#res').dataset.lastDom;for(const it of kmSortRes(RESEARCH)){const li=document.createElement('li');const k=document.createElement('div');k.className='rk';k.textContent=it.kind;
     const t=document.createElement(it.url?'a':'div');t.className='rt';t.textContent=it.title;if(it.url){t.href=it.url;t.target='_blank';t.rel='noopener';}
     if(it.url)t.append(' ↗');if(it.pdf){const b=document.createElement('span');b.className='pdf';b.textContent='PDF';t.appendChild(b);}const d=document.createElement('p');d.className='rd';d.textContent=it.desc;li.append(k,t,d);for(const [lab,u,note] of (it.extra||[])){const x=document.createElement('div');x.className='rx';x.append('Also: ');const a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';a.textContent=lab+' ↗';x.append(a,' ('+note+')');li.appendChild(x);}
     const rel=(it.rel||[]).map(simIdx).filter(i=>i>=0);if(rel.length){const rr=document.createElement('div');rr.className='rr';rr.append('Related graphs:');
       for(const i of rel){const b=document.createElement('button');b.textContent=SIMS[i].name;b.onclick=()=>openLab(i);rr.appendChild(b);}li.appendChild(rr);}
-    r.appendChild(li);}
+    kmTag(li,k,it,r);r.appendChild(li);}
   const pj=$('#proj');pj.textContent='';
   for(const it of PROJECTS){const li=document.createElement('li');const first=it.links[0];
     if(it.cover){const a=document.createElement(first?'a':'div');a.className='pc';if(first){a.href=first[1];a.target='_blank';a.rel='noopener';a.setAttribute('aria-label',it.title+': open the slides');}
