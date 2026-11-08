@@ -935,7 +935,7 @@ const KM=(()=>{
   const above=n=>{const s=new Set();const st=[...n.dep];while(st.length){const p=st.pop();if(s.has(p))continue;s.add(p);st.push(...p.dep);}return s;};
 
   /* ---------- layout: rows by level, columns by domain, ordered to keep prerequisites close ---------- */
-  const RH=140,GAP=104,COLW=330;
+  const RH=180,GAP=104,COLW=330;
   const cx={};DOM_ORDER.forEach((d,i)=>cx[d]=(i-(DOM_ORDER.length-1)/2)*COLW);
   const rows=[];for(const n of nodes){(rows[n.level]=rows[n.level]||[]).push(n);n.x=cx[n.dom];n.y=-n.level*RH;}
   const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
@@ -946,27 +946,37 @@ const KM=(()=>{
     const w=it<20?.5:.3;
     for(let l=0;l<rows.length;l++)if(rows[l])settle(rows[l],n=>n.pre.length?w*cx[n.dom]+(1-w)*mean(n.pre.map(p=>p.x)):cx[n.dom]);
     for(let l=rows.length-1;l>=0;l--)if(rows[l])settle(rows[l],n=>{const d=n.dep.filter(m=>m.level===n.level+1);return d.length?.55*n.x+.45*mean(d.map(m=>m.x)):n.x;});}
-  /* Poisson-disk placement: sample points no closer than RMIN (Bridson's algorithm, fixed seed so the map
-     is the same on every visit), then give each node the free point nearest to where the ordered layout above
-     wanted it, staying inside its level's band. Levels still read bottom to top; the rows become scattered. */
+  /* Placement by field and level. Each field gets one vertical strip (so every colour forms a single region) and
+     each level a horizontal band (so height still means level). Inside that, nodes sit on Poisson-disk sample
+     points (Bridson's algorithm, fixed seed): no two closer than RMIN, with no grid rows. Each node takes the free
+     point in its own strip and band nearest to the pull of the topics it links to, which keeps links short. */
+  const RMIN=76,BAND=RH*.4,STRIPS={};
   {let seed=20261108;const rnd=()=>(seed=(seed*48271)%2147483647)/2147483647;
-    const RMIN=78,BAND=RH*.4;let x0=Infinity,x1=-Infinity;for(const n of nodes){x0=Math.min(x0,n.x);x1=Math.max(x1,n.x);}
-    x0-=40;x1+=40;const y0=-MAXL*RH-BAND,y1=BAND,cs=RMIN/Math.SQRT2,gw=Math.ceil((x1-x0)/cs),gh=Math.ceil((y1-y0)/cs),grid=new Int32Array(gw*gh).fill(-1),P=[],act=[];
-    const put=(x,y)=>{P.push([x,y]);grid[Math.floor((y-y0)/cs)*gw+Math.floor((x-x0)/cs)]=P.length-1;act.push(P.length-1);};
-    const ok=(x,y)=>{if(x<x0||x>=x1||y<y0||y>=y1)return false;const gx=Math.floor((x-x0)/cs),gy=Math.floor((y-y0)/cs);
-      for(let j=Math.max(0,gy-2);j<=Math.min(gh-1,gy+2);j++)for(let i=Math.max(0,gx-2);i<=Math.min(gw-1,gx+2);i++){const q=grid[j*gw+i];if(q>=0&&(P[q][0]-x)**2+(P[q][1]-y)**2<RMIN*RMIN)return false;}return true;};
+    /* strip widths: enough room for the busiest level of that field */
+    let x=0;for(const d of DOM_ORDER){const per={};for(const n of nodes)if(n.dom===d)per[n.level]=(per[n.level]||0)+1;
+      const cnt=Object.values(per).reduce((a,b)=>a+b,0),w=Math.max(260,Math.max(...Object.values(per))*RMIN*1.1,Math.sqrt(cnt)*RMIN*1.5);STRIPS[d]=[x,x+w];x+=w+60;}
+    const x0=-20,x1=x+20,y0=-MAXL*RH-BAND,y1=BAND,cs=RMIN/Math.SQRT2,gw=Math.ceil((x1-x0)/cs),gh=Math.ceil((y1-y0)/cs),grid=new Int32Array(gw*gh).fill(-1),P=[],act=[];
+    const put=(px,py)=>{P.push([px,py]);grid[Math.floor((py-y0)/cs)*gw+Math.floor((px-x0)/cs)]=P.length-1;act.push(P.length-1);};
+    const ok=(px,py)=>{if(px<x0||px>=x1||py<y0||py>=y1)return false;const gx=Math.floor((px-x0)/cs),gy=Math.floor((py-y0)/cs);
+      for(let j=Math.max(0,gy-2);j<=Math.min(gh-1,gy+2);j++)for(let i=Math.max(0,gx-2);i<=Math.min(gw-1,gx+2);i++){const q=grid[j*gw+i];if(q>=0&&(P[q][0]-px)**2+(P[q][1]-py)**2<RMIN*RMIN)return false;}return true;};
     put((x0+x1)/2,(y0+y1)/2);
     while(act.length){const k=Math.floor(rnd()*act.length),[px,py]=P[act[k]];let found=false;
-      for(let t=0;t<30;t++){const a=rnd()*6.2832,d=RMIN*(1+rnd());const x=px+Math.cos(a)*d,y=py+Math.sin(a)*d;if(ok(x,y)){put(x,y);found=true;break;}}
+      for(let t=0;t<30;t++){const a=rnd()*6.2832,dd=RMIN*(1+rnd());const qx=px+Math.cos(a)*dd,qy=py+Math.sin(a)*dd;if(ok(qx,qy)){put(qx,qy);found=true;break;}}
       if(!found)act.splice(k,1);}
-    const used=new Uint8Array(P.length);
-    /* most-connected nodes choose first, so the hubs keep the spots closest to their intended places */
-    for(const n of nodes.slice().sort((a,b)=>(b.pre.length+b.dep.length)-(a.pre.length+a.dep.length))){
-      let best=-1,bd=Infinity;for(let i=0;i<P.length;i++){if(used[i]||Math.abs(P[i][1]-n.y)>BAND)continue;const d=(P[i][0]-n.x)**2+1.6*(P[i][1]-n.y)**2;if(d<bd){bd=d;best=i;}}
-      if(best>=0){used[best]=1;n.x=P[best][0];n.y=P[best][1];}}}
+    const mid=d=>(STRIPS[d][0]+STRIPS[d][1])/2;
+    for(const n of nodes){n.x=mid(n.dom);n.y=-n.level*RH;}
+    const order=nodes.slice().sort((a,b)=>(b.pre.length+b.dep.length)-(a.pre.length+a.dep.length));
+    for(let pass=0;pass<4;pass++){const used=new Uint8Array(P.length);
+      for(const n of order){const [a,b]=STRIPS[n.dom],nb=n.pre.concat(n.dep);
+        /* target: the strip's centre, pulled toward linked topics but kept inside the strip */
+        const tx=nb.length&&pass?Math.min(b,Math.max(a,.35*mid(n.dom)+.65*mean(nb.map(m=>m.x)))):mid(n.dom),ty=-n.level*RH;
+        let best=-1,bd=Infinity;for(let tries=0;tries<3&&best<0;tries++){const pad=tries*RMIN*.6;
+          for(let i=0;i<P.length;i++){if(used[i])continue;const [px,py]=P[i];if(px<a-pad||px>b+pad||Math.abs(py-ty)>BAND+pad*.5)continue;
+            const dd=(px-tx)**2+2*(py-ty)**2;if(dd<bd){bd=dd;best=i;}}}
+        if(best>=0){used[best]=1;n.x=P[best][0];n.y=P[best][1];}}}}
   let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
   for(const n of nodes){minX=Math.min(minX,n.x);maxX=Math.max(maxX,n.x);minY=Math.min(minY,n.y);maxY=Math.max(maxY,n.y);}
-  const PAD=60;minX-=PAD;maxX+=PAD;minY-=PAD;maxY+=PAD;
+  const PAD=60;minX-=PAD;maxX+=PAD;minY-=PAD+RH*.7;maxY+=PAD;
 
   /* ---------- critical chain ---------- */
   function chain(n){const path=[n];let c=n;
@@ -1059,6 +1069,16 @@ const KM=(()=>{
     for(let l=0;l<=MAXL;l++){const [,y]=w2s(0,-l*RH);if(y<-10||y>H+10)continue;
       ctx.strokeStyle=L?'rgba(31,36,48,.1)':chalk('#ecece2');ctx.globalAlpha=L?1:.12;ctx.setLineDash(L?[6,7]:[]);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
       if(scale>.32){ctx.fillStyle=L?'rgba(31,36,48,.42)':'rgba(236,236,226,.4)';ctx.fillText('level '+l,10,y-5);}}
+    /* field names above their strips */
+    ctx.textAlign='center';
+    for(const d of DOM_ORDER){const [a,b]=STRIPS[d],[sx,sy]=w2s((a+b)/2,-MAXL*RH-RH*.55);if(sx<-200||sx>W+200||sy<-40||sy>H+30)continue;
+      /* the name fits its strip: shrink it, and break it at "&" if it is still too wide */
+      const room=(b-a)*scale-8,name=KM_DOMAINS[d];let fs=Math.max(13,Math.min(22,13+scale*8));ctx.font=`700 ${fs}px ${HAND}`;let lines=[name];
+      if(ctx.measureText(name).width>room&&name.includes(' & '))lines=[name.split(' & ')[0]+' &',name.split(' & ')[1]];
+      const wid=()=>Math.max(...lines.map(t=>ctx.measureText(t).width));while(fs>10&&wid()>room){fs-=1;ctx.font=`700 ${fs}px ${HAND}`;}
+      ctx.globalAlpha=selected?.35:.9;ctx.fillStyle=COL[L?'light':'dark'][d];lines.forEach((t,i)=>ctx.fillText(t,sx,sy-(lines.length-1-i)*fs*1.05));
+      const [ax]=w2s(a,0),[bx]=w2s(b,0);ctx.globalAlpha=selected?.15:.4;ctx.fillRect(ax,sy+6,bx-ax,1.5);}
+    ctx.globalAlpha=1;
     const near=new Set();if(selected){selected.pre.forEach(m=>near.add(m));selected.dep.forEach(m=>near.add(m));crit.forEach(m=>near.add(m));hovN.forEach(m=>near.add(m));}
     const baseA=Math.min(L?.3:.34,Math.max(L?.12:.14,scale*.22));
     const pen=(col,a,w)=>{ctx.strokeStyle=L?col:chalk(col);ctx.globalAlpha=a;ctx.lineWidth=L?w:w*1.35;};
