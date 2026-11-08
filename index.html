@@ -625,16 +625,31 @@ body.light .kmHint{background:#1d2026}
 .rkMap{all:unset;cursor:pointer;display:inline-block;margin-top:8px;font-size:13.5px;font-weight:600;color:var(--accent)}
 .rkMap:hover{text-decoration:underline}
 .rkMap:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+/* ---------- light / dark switch: in the top bars next to Search, floating where no bar is showing ---------- */
+.themeTog{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:99px;border:1px solid var(--row-line);background:color-mix(in srgb,var(--bg) 80%,transparent);flex:none}
+.themeTog button,#gpage .gBar .themeTog button,#homeBar .themeTog button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:12.5px;font-weight:600;line-height:1.2;color:var(--muted);transition:background-color .15s,color .15s}
+.themeTog button:hover,#gpage .gBar .themeTog button:hover,#homeBar .themeTog button:hover{color:var(--fg)}
+.themeTog button[aria-pressed="true"],#gpage .gBar .themeTog button[aria-pressed="true"],#homeBar .themeTog button[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg)}
+.themeTog button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.themeTog svg{display:block;flex:none}
+#gpage .gBar #gFind{margin-left:auto}
+#gpage .gBar .themeTog{margin-left:-12px}
+#homeBar .themeTog{margin-left:-12px}
+#themeFloat{position:fixed;z-index:25;top:calc(env(safe-area-inset-top,0px) + 12px);right:max(16px,calc((100vw - 1040px)/2));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#themeFloat[hidden]{display:none}
+@media (max-width:600px){.themeTog span{display:none}.themeTog button,#gpage .gBar .themeTog button,#homeBar .themeTog button{padding:5px 8px}#gpage .gBar .themeTog,#homeBar .themeTog{margin-left:-14px}}
 </style>
 
 <canvas id="gl"></canvas>
 <canvas id="ov"></canvas>
 
+<div class="themeTog" id="themeFloat" hidden role="group" aria-label="Colour theme"><button type="button" data-light="1" title="Light mode"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg><span>Light</span></button><button type="button" data-light="0" title="Dark mode"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg><span>Dark</span></button></div>
 <button id="brand" title="Back to the front page (Esc)" aria-label="Abubakr Batalvi: back to the front page"><span class="name">Abubakr Batalvi</span><span class="crumb" id="crumb"></span></button>
 
 
 <div id="gpage" hidden tabindex="-1">
-  <div class="gBar"><div class="in"><button id="gBack" type="button">← Abubakr Batalvi</button><span class="gTitle">Graph lab</span><button id="gFind" type="button">Search <kbd>/</kbd></button></div></div>
+  <div class="gBar"><div class="in"><button id="gBack" type="button">← Abubakr Batalvi</button><span class="gTitle">Graph lab</span><button id="gFind" type="button">Search <kbd>/</kbd></button><div class="themeTog" role="group" aria-label="Colour theme"><button type="button" data-light="1" title="Light mode"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg><span>Light</span></button><button type="button" data-light="0" title="Dark mode"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg><span>Dark</span></button></div></div></div>
   <div class="gWrap">
     <header class="gHead"><h1>Graph lab</h1><p>Interactive pages rebuilt from my Desmos graphs. Each one can be panned, zoomed and adjusted. Start with a few favourites, or browse them all by topic.</p>
       <div class="gActions"><button id="openLab" type="button">Enter the graph lab →</button><button id="homeResume" type="button" hidden></button><button id="homeFind" type="button" title="Search graphs, papers and projects (/ or Ctrl+K)">Search <kbd>/</kbd></button></div></header>
@@ -644,7 +659,7 @@ body.light .kmHint{background:#1d2026}
       <div id="kmap" class="km">
         <canvas class="kmC" role="img" aria-label="Knowledge map of topics and papers. Use the buttons below the map or the topic links in each summary to move around."></canvas>
         <div class="kmPanel" hidden></div>
-        <div class="kmTop"><div class="kmTheme" role="group" aria-label="Board style"><button type="button" data-light="1">Whiteboard</button><button type="button" data-light="0">Blackboard</button></div><div class="kmTitle">Knowledge map</div><div class="kmStats"></div><div class="kmHelp">Drag to move · scroll or pinch to zoom · click a shape</div></div>
+        <div class="kmTop"><div class="kmTitle">Knowledge map</div><div class="kmStats"></div><div class="kmHelp">Drag to move · scroll or pinch to zoom · click a shape</div></div>
         <div class="kmSide"><div class="kmLegend"></div><canvas class="kmMini" width="340" height="260" aria-hidden="true"></canvas></div>
         <div class="kmCtl"><button type="button" class="kmIn" aria-label="Zoom in">+</button><button type="button" class="kmOut" aria-label="Zoom out">−</button><button type="button" class="kmFit">Fit</button><button type="button" class="kmFs">Full screen</button></div>
         <div class="kmHint" aria-live="polite"></div>
@@ -671,7 +686,7 @@ body.light .kmHint{background:#1d2026}
   </div>
 </div>
 <div id="home" hidden>
-  <div id="homeBar" aria-hidden="true"><div class="in"><button id="barName" tabindex="-1">Abubakr Batalvi</button><span id="barSec"></span><span class="barLinks" id="barLinks"><button data-jump="about" tabindex="-1">About</button><button data-jump="research" tabindex="-1">Research</button><button data-jump="projects" tabindex="-1">Projects</button><button data-page="graphs" tabindex="-1">Graphs</button><button data-jump="contact" tabindex="-1">Contact</button></span><button id="barSearch" tabindex="-1">Search</button><button id="barLab" tabindex="-1">Graph lab →</button></div></div>
+  <div id="homeBar" aria-hidden="true"><div class="in"><button id="barName" tabindex="-1">Abubakr Batalvi</button><span id="barSec"></span><span class="barLinks" id="barLinks"><button data-jump="about" tabindex="-1">About</button><button data-jump="research" tabindex="-1">Research</button><button data-jump="projects" tabindex="-1">Projects</button><button data-page="graphs" tabindex="-1">Graphs</button><button data-jump="contact" tabindex="-1">Contact</button></span><button id="barSearch" tabindex="-1">Search</button><div class="themeTog" data-bar="1" role="group" aria-label="Colour theme"><button type="button" data-light="1" title="Light mode"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg><span>Light</span></button><button type="button" data-light="0" title="Dark mode"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg><span>Dark</span></button></div><button id="barLab" tabindex="-1">Graph lab →</button></div></div>
   <div class="homeWrap">
     <header class="homeTop">
       <img class="portrait" src="images/portrait.jpg" width="120" height="120" alt="Abubakr Batalvi" decoding="async">
@@ -931,9 +946,27 @@ const KM=(()=>{
     const w=it<20?.5:.3;
     for(let l=0;l<rows.length;l++)if(rows[l])settle(rows[l],n=>n.pre.length?w*cx[n.dom]+(1-w)*mean(n.pre.map(p=>p.x)):cx[n.dom]);
     for(let l=rows.length-1;l>=0;l--)if(rows[l])settle(rows[l],n=>{const d=n.dep.filter(m=>m.level===n.level+1);return d.length?.55*n.x+.45*mean(d.map(m=>m.x)):n.x;});}
+  /* Poisson-disk placement: sample points no closer than RMIN (Bridson's algorithm, fixed seed so the map
+     is the same on every visit), then give each node the free point nearest to where the ordered layout above
+     wanted it, staying inside its level's band. Levels still read bottom to top; the rows become scattered. */
+  {let seed=20261108;const rnd=()=>(seed=(seed*48271)%2147483647)/2147483647;
+    const RMIN=78,BAND=RH*.4;let x0=Infinity,x1=-Infinity;for(const n of nodes){x0=Math.min(x0,n.x);x1=Math.max(x1,n.x);}
+    x0-=40;x1+=40;const y0=-MAXL*RH-BAND,y1=BAND,cs=RMIN/Math.SQRT2,gw=Math.ceil((x1-x0)/cs),gh=Math.ceil((y1-y0)/cs),grid=new Int32Array(gw*gh).fill(-1),P=[],act=[];
+    const put=(x,y)=>{P.push([x,y]);grid[Math.floor((y-y0)/cs)*gw+Math.floor((x-x0)/cs)]=P.length-1;act.push(P.length-1);};
+    const ok=(x,y)=>{if(x<x0||x>=x1||y<y0||y>=y1)return false;const gx=Math.floor((x-x0)/cs),gy=Math.floor((y-y0)/cs);
+      for(let j=Math.max(0,gy-2);j<=Math.min(gh-1,gy+2);j++)for(let i=Math.max(0,gx-2);i<=Math.min(gw-1,gx+2);i++){const q=grid[j*gw+i];if(q>=0&&(P[q][0]-x)**2+(P[q][1]-y)**2<RMIN*RMIN)return false;}return true;};
+    put((x0+x1)/2,(y0+y1)/2);
+    while(act.length){const k=Math.floor(rnd()*act.length),[px,py]=P[act[k]];let found=false;
+      for(let t=0;t<30;t++){const a=rnd()*6.2832,d=RMIN*(1+rnd());const x=px+Math.cos(a)*d,y=py+Math.sin(a)*d;if(ok(x,y)){put(x,y);found=true;break;}}
+      if(!found)act.splice(k,1);}
+    const used=new Uint8Array(P.length);
+    /* most-connected nodes choose first, so the hubs keep the spots closest to their intended places */
+    for(const n of nodes.slice().sort((a,b)=>(b.pre.length+b.dep.length)-(a.pre.length+a.dep.length))){
+      let best=-1,bd=Infinity;for(let i=0;i<P.length;i++){if(used[i]||Math.abs(P[i][1]-n.y)>BAND)continue;const d=(P[i][0]-n.x)**2+1.6*(P[i][1]-n.y)**2;if(d<bd){bd=d;best=i;}}
+      if(best>=0){used[best]=1;n.x=P[best][0];n.y=P[best][1];}}}
   let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
   for(const n of nodes){minX=Math.min(minX,n.x);maxX=Math.max(maxX,n.x);minY=Math.min(minY,n.y);maxY=Math.max(maxY,n.y);}
-  const PAD=110;minX-=PAD;maxX+=PAD;minY-=PAD;maxY+=PAD;
+  const PAD=60;minX-=PAD;maxX+=PAD;minY-=PAD;maxY+=PAD;
 
   /* ---------- critical chain ---------- */
   function chain(n){const path=[n];let c=n;
@@ -948,7 +981,15 @@ const KM=(()=>{
   const colorOf=n=>COL[light()?'light':'dark'][n.dom];
   const w2s=(x,y)=>[(x-ox)*scale,(y-oy)*scale],s2w=(x,y)=>[x/scale+ox,y/scale+oy];
   const req=()=>{dirty=true;if(!raf)raf=requestAnimationFrame(render);};
-  function fit(){const fw=W/(maxX-minX),fh=H/(maxY-minY);/* tall narrow screens fit the height and pan sideways */scale=(W<H?Math.max(fw,Math.min(fh*.92,fw*2.4)):Math.min(fw,fh))*.98;ox=(minX+maxX)/2-W/scale/2;oy=(minY+maxY)/2-H/scale/2;req();}
+  /* the part of the board not covered by the overlays: [left, top, right, bottom] in canvas pixels */
+  function clear(){let l=16,t=16,r=W-16,b=H-16;if(!wrap)return [l,t,r,b];const cr=cv.getBoundingClientRect(),q=el=>{const x=el&&el.getBoundingClientRect();return x&&x.width?x:null;};
+    const top=q(wrap.querySelector('.kmTop')),side=q(wrap.querySelector('.kmSide')),ctl=q(wrap.querySelector('.kmCtl'));
+    if(top)t=Math.max(t,top.bottom-cr.top+8);if(side)r=Math.min(r,side.left-cr.left-12);if(ctl)b=Math.min(b,ctl.top-cr.top-8);l=Math.max(l,44);
+    if(r-l<W*.45)r=W-16;return [l,t,r,b];}
+  /* first view: the whole map; tall narrow screens start zoomed to the height and pan sideways */
+  function fit(initial){const [l,t,r,b]=clear(),aw=r-l,ah=b-t,ww=maxX-minX,wh=maxY-minY;
+    scale=Math.min(aw/ww,ah/wh);if(initial&&W<H)scale=Math.min(ah/wh,scale*2.4);
+    ox=minX-(l+(aw-ww*scale)/2)/scale;oy=minY-(t+(ah-wh*scale)/2)/scale;req();}
   function zoomAt(f,sx,sy){const [wx,wy]=s2w(sx,sy);scale=Math.max(.08,Math.min(6,scale*f));ox=wx-sx/scale;oy=wy-sy/scale;req();}
   const rOf=n=>(n.doc?1.9:1)*Math.max(3.2,Math.min(7,scale*5))*(1+Math.min(n.dep.length/5,1.4));
   function pick(sx,sy,touch){const [wx,wy]=s2w(sx,sy);let best=null,bd=Infinity;
@@ -1075,24 +1116,31 @@ const KM=(()=>{
 
   /* ---------- input ---------- */
   let drag=null,moved=0,pinch=0;const pts=new Map();
+  const pos=e=>{const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];};
   function setCur(c){cv.style.cursor=c;wrap.style.setProperty('--kmcur',c);}
   function flash(t){hint.textContent=t;hint.classList.add('on');clearTimeout(flash.t);flash.t=setTimeout(()=>hint.classList.remove('on'),1600);}
   const isFull=()=>wrap.classList.contains('kmFull')||document.fullscreenElement===wrap;
   function bind(){
-    cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.offsetX,e.offsetY]);engaged=true;wrap.classList.add('engaged');
-      if(pts.size===1){drag=[e.offsetX,e.offsetY];moved=0;}else if(pts.size===2){const [a,b]=[...pts.values()];pinch=Math.hypot(a[0]-b[0],a[1]-b[1]);moved=99;}});
-    cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId)){const h=pick(e.offsetX,e.offsetY,false);if(h!==hovered){hovered=h;setCur(h?'pointer':'grab');req();}return;}
-      pts.set(e.pointerId,[e.offsetX,e.offsetY]);
+    cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);const [px,py]=pos(e);pts.set(e.pointerId,[px,py]);engaged=true;wrap.classList.add('engaged');
+      if(pts.size===1){drag=[px,py];moved=0;}else if(pts.size===2){const [a,b]=[...pts.values()];pinch=Math.hypot(a[0]-b[0],a[1]-b[1]);moved=99;}});
+    cv.addEventListener('pointermove',e=>{const [px,py]=pos(e);if(!pts.has(e.pointerId)){const h=pick(px,py,false);if(h!==hovered){hovered=h;setCur(h?'pointer':'grab');req();}return;}
+      pts.set(e.pointerId,[px,py]);
       if(pts.size===2){const [a,b]=[...pts.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pinch)zoomAt(d/pinch,(a[0]+b[0])/2,(a[1]+b[1])/2);pinch=d;return;}
-      if(drag){const dx=e.offsetX-drag[0],dy=e.offsetY-drag[1];moved+=Math.abs(dx)+Math.abs(dy);ox-=dx/scale;oy-=dy/scale;drag=[e.offsetX,e.offsetY];if(moved>4)setCur('grabbing');req();}});
+      if(drag){const dx=px-drag[0],dy=py-drag[1];moved+=Math.abs(dx)+Math.abs(dy);ox-=dx/scale;oy-=dy/scale;drag=[px,py];if(moved>4)setCur('grabbing');req();}});
     const up=e=>{if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);if(pts.size)return;pinch=0;
-      if(drag&&moved<(e.pointerType==='touch'?12:5)){const n=pick(e.offsetX,e.offsetY,e.pointerType==='touch');hovered=n;select(n,false);}
+      if(drag&&moved<(e.pointerType==='touch'?12:5)){const [px,py]=pos(e),n=pick(px,py,e.pointerType==='touch');hovered=n;select(n,false);}
       drag=null;setCur(hovered?'pointer':'grab');};
     cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
     cv.addEventListener('pointerleave',()=>{if(hovered&&!pts.size){hovered=null;req();}});
-    wrap.addEventListener('pointerleave',()=>{engaged=false;wrap.classList.remove('engaged');});
+    /* once clicked, the map keeps the scroll wheel until you click somewhere else on the page */
+    document.addEventListener('pointerdown',e=>{if(!wrap.contains(e.target)){engaged=false;wrap.classList.remove('engaged');}},true);
+    wrap.addEventListener('pointerdown',()=>{engaged=true;});
     cv.addEventListener('wheel',e=>{if(!(engaged||e.ctrlKey||e.metaKey||isFull())){flash('Click the map first to zoom with the scroll wheel');return;}
-      e.preventDefault();const f=Math.exp(-Math.max(-60,Math.min(60,e.deltaY*(e.deltaMode?16:1)))*(e.ctrlKey?.012:.0028));zoomAt(f,e.offsetX,e.offsetY);},{passive:false});
+      e.preventDefault();const f=Math.exp(-Math.max(-60,Math.min(60,e.deltaY*(e.deltaMode?16:1)))*(e.ctrlKey?.012:.0028));const [px,py]=pos(e);zoomAt(f,px,py);},{passive:false});
+    /* Safari trackpad pinch arrives as gesture events; without this it zooms the whole page instead of the map */
+    let gs=1;wrap.addEventListener('gesturestart',e=>{e.preventDefault();gs=1;});
+    wrap.addEventListener('gesturechange',e=>{e.preventDefault();const [px,py]=pos(e);zoomAt(e.scale/gs,px,py);gs=e.scale;});
+    wrap.addEventListener('gestureend',e=>e.preventDefault());
     mm.addEventListener('pointerdown',e=>{const go=ev=>{const r=mm.getBoundingClientRect(),[ms,a,b]=mm._t,k=mm.width/r.width;ox=((ev.clientX-r.left)*k-a)/ms+minX-W/scale/2;oy=((ev.clientY-r.top)*k-b)/ms+minY-H/scale/2;req();};
       go(e);mm.setPointerCapture(e.pointerId);mm.onpointermove=ev=>{if(ev.buttons)go(ev);};});
     addEventListener('keydown',e=>{if(!(engaged||isFull())||wrap.closest('[hidden]'))return;if(e.target.closest&&e.target.closest('input,textarea'))return;
@@ -1113,21 +1161,19 @@ const KM=(()=>{
   function exitFull(){if(document.fullscreenElement===wrap)document.exitFullscreen();wrap.classList.remove('kmFull');if(wrap)wrap.querySelector('.kmFs').textContent='Full screen';setTimeout(sync,60);}
   function sync(){const r=cv.getBoundingClientRect();if(!r.width)return;const nw=r.width,nh=r.height,first=!W;
     const cxw=W?ox+W/scale/2:0,cyw=H?oy+H/scale/2:0;W=nw;H=nh;dpr=Math.min(2,devicePixelRatio||1);cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
-    if(first)fit();else{ox=cxw-W/scale/2;oy=cyw-H/scale/2;}req();}
+    if(first)fit(true);else{ox=cxw-W/scale/2;oy=cyw-H/scale/2;}req();}
   function legend(){const el=wrap.querySelector('.kmLegend');el.innerHTML=DOM_ORDER.slice().sort((a,b)=>a-b).map(d=>`<div><i style="background:${COL[light()?'light':'dark'][d]}"></i>${KM_DOMAINS[d]}</div>`).join('')+
     `<div class="kmShapes"><span><i></i>topic</span><span><i class="tri"></i>paper or article</span></div>`;}
   function init(){if(ready)return;wrap=document.getElementById('kmap');if(!wrap)return;
     cv=wrap.querySelector('canvas.kmC');ctx=cv.getContext('2d');mm=wrap.querySelector('canvas.kmMini');mmx=mm.getContext('2d');panel=wrap.querySelector('.kmPanel');hint=wrap.querySelector('.kmHint');
     wrap.querySelector('.kmStats').textContent=`${nodes.length-KM_DOCS.length} topics · ${KM_DOCS.length} papers and articles · ${edges.length} links`;
     legend();bind();ready=true;sync();
-    const tb=wrap.querySelectorAll('.kmTheme button'),mark=()=>tb.forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.light==='1')===light())));
-    tb.forEach(b=>b.onclick=()=>{setTheme(b.dataset.light==='1',true);mark();});mark();new MutationObserver(mark).observe(document.body,{attributes:true,attributeFilter:['class']});
     if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('16px Kalam'),document.fonts.load('700 16px Kalam')]).then(()=>{dirty=true;req();},()=>{});}
   return {init,show(){init();if(ready){sync();req();}},
     focus(id){init();const n=byId.get(id);if(!n)return;sync();scale=Math.max(scale,.6);select(n,true);
       const g=document.getElementById('gpage');if(g&&!g.hidden){const t=wrap.getBoundingClientRect().top+g.scrollTop-70;g.scrollTo({top:Math.max(0,t),behavior:'smooth'});}},
     docFor(url){return nodes.find(n=>n.doc&&n.url===url)||null;},
-    color:n=>colorOf(n),domains:KM_DOMAINS,nodes};
+    color:n=>colorOf(n),domains:KM_DOMAINS,nodes,view:()=>({scale,ox,oy,W,H,clear:clear()})};
 })();
 
 /* writing list on the front page: grouped by field, easier pieces first within a field, each with a link to its place on the map */
@@ -3654,4 +3700,19 @@ addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.h
   if(i>=0){if(!labActive)openLab(i,true);else setSim(i);}
   else if(location.hash==='#graphs'){if(labActive||$('#gpage').hidden)showGraphs(true);}
   else if(labActive||!$('#gpage').hidden)showHome(true);});
+
+/* light / dark switches: every copy shows the current theme; the floating copy appears only where no bar is showing */
+(function(){const all=()=>document.querySelectorAll('.themeTog'),fl=document.getElementById('themeFloat');
+  const mark=()=>{const L=document.body.classList.contains('light');for(const b of document.querySelectorAll('.themeTog button'))b.setAttribute('aria-pressed',String((b.dataset.light==='1')===L));};
+  document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.themeTog button');if(!b)return;e.stopPropagation();if(typeof setTheme==='function')setTheme(b.dataset.light==='1',true);mark();},true);
+  function place(){const home=document.getElementById('home'),gp=document.getElementById('gpage'),bar=document.getElementById('homeBar'),br=document.getElementById('brand');
+    const onHome=home&&!home.hidden&&!home.classList.contains('fading'),onPage=gp&&!gp.hidden&&!gp.classList.contains('fading');
+    if(onPage){fl.hidden=true;return;}
+    if(onHome){fl.style.left='';fl.style.top='';fl.style.right='';fl.style.bottom='';fl.hidden=!!(bar&&bar.classList.contains('show'));return;}
+    /* inside a graph: beside the name button (top left on wide screens, bottom left on phones) */
+    fl.hidden=false;if(br){const r=br.getBoundingClientRect(),h=fl.offsetHeight||30;fl.style.right='auto';fl.style.left=Math.round(r.right+8)+'px';fl.style.top=Math.round(r.top+(r.height-h)/2)+'px';fl.style.bottom='auto';}}
+  const mo=new MutationObserver(()=>{mark();place();});
+  mo.observe(document.body,{attributes:true,attributeFilter:['class'],childList:true});
+  for(const id of ['home','gpage','homeBar','brand']){const el=document.getElementById(id);if(el)mo.observe(el,{attributes:true,attributeFilter:['hidden','class']});}
+  addEventListener('resize',place);addEventListener('hashchange',()=>setTimeout(place,60));setInterval(place,1000);mark();place();})();
 </script>
