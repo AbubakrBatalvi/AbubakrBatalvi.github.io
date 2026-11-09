@@ -678,7 +678,6 @@ body.light .kmFindList button:hover{background:#f0f2f4}
 @media (max-width:640px){.kmFind{width:130px}.kmFindList{width:min(300px,calc(100vw - 60px))}}
 
 /* ---------- depth: the board surface stays still while the content slides over it ---------- */
-#home .board,#home .boardWrap:nth-child(even)>.board{background-position:0 var(--bgy,0px),0 var(--bgy,0px),0 0}
 #depthTrails{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:24}
 #depthTrails[hidden]{display:none}
 </style>
@@ -5679,48 +5678,57 @@ addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.h
   for(const id of ['home','gpage','homeBar','brand']){const el=document.getElementById(id);if(el)mo.observe(el,{attributes:true,attributeFilter:['hidden','class']});}
   addEventListener('resize',place);addEventListener('hashchange',()=>setTimeout(place,60));setInterval(place,1000);mark();place();})();
 
-/* ---------- depth trails: a very light, broken-up fade left behind elements as they slide ----------
-   Each frame, every visible element's movement since the last frame is measured (so pinned boards and the
-   erase hold leave no trail). Behind each moving line of text or block, a short gradient is drawn opposite to the
-   motion, scaled by the speed, then broken up with the same chalk grain the knowledge map uses. Off when the
+/* ---------- depth trails: a heavily blurred, fainter copy of each element trails behind it as it slides ----------
+   For each element a small copy is rendered once (its boxes, images and words in their own font and colour) at
+   about a tenth of its size; drawing that copy back at full size blurs it heavily. While an element moves, a few
+   copies are drawn behind it, each further back and fainter. Movement is measured per element, so pinned boards
+   leave nothing behind, and the front page's first board leaves nothing once its erasing has begun. Off when the
    reader prefers reduced motion. */
 (function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const cv=document.createElement('canvas');cv.id='depthTrails';cv.setAttribute('aria-hidden','true');document.body.appendChild(cv);
-  const g=cv.getContext('2d'),SS=.5;let W=0,H=0,raf=0,lastAct=0,grainPat=null,grainKey='';
-  const SEL='h1,h2,h3,p,img,.th,.homeNav a,.heroMore,.gActions button,.labLink a,.rt,.pt,.toTop,.chips button,.homeSec .gl li';
-  const state=new WeakMap();
+  const g=cv.getContext('2d'),SS=.5,SC=.11,PAD=4;let W=0,H=0,raf=0,lastAct=0;
+  const SEL='h1,h2,h3,p,img,.th,.homeNav a,.heroMore,.gActions button,.labLink a,.toTop,.chips button,#res > li,.homeSec .gl li';
+  const state=new WeakMap(),sprites=new WeakMap();
   const size=()=>{W=innerWidth;H=innerHeight;cv.width=Math.ceil(W*SS);cv.height=Math.ceil(H*SS);};size();addEventListener('resize',size);
   const scroller=()=>{const h=document.getElementById('home'),gp=document.getElementById('gpage');if(gp&&!gp.hidden&&!gp.classList.contains('fading'))return gp;if(h&&!h.hidden&&!h.classList.contains('fading'))return h;return null;};
-  function grain(L){const k=L?'l':'d';if(grainPat&&grainKey===k)return grainPat;grainKey=k;
-    /* gaps in the trail: the chalk tile's empty and faint pixels punch holes so the fade looks broken, not smooth */
-    const t=document.createElement('canvas');t.width=t.height=64;const x=t.getContext('2d'),im=x.createImageData(64,64);
-    for(let i=0;i<im.data.length;i+=4){const v=Math.random();im.data[i+3]=v<.3?255:v<.55?120:0;}x.putImageData(im,0,0);
-    grainPat=g.createPattern(t,'repeat');return grainPat;}
-  function frame(now){raf=0;const sc=scroller();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,cv.width,cv.height);
-    if(!sc){return;}
-    const L=document.body.classList.contains('light'),ink=L?'31,36,48':'236,236,226',base=L?.1:.13;
-    g.setTransform(SS,0,0,SS,0,0);let active=false;
-    for(const el of sc.querySelectorAll(SEL)){if(el.closest('.km,.eraseCanvas,[hidden]'))continue;
-      const r=el.getBoundingClientRect();if(!r.width||r.bottom<-80||r.top>H+80){state.delete(el);continue;}
+  const clear=c=>!c||/rgba\(.*,\s*0\)$/.test(c)||c==='transparent';
+  /* the small copy of an element, cached until the theme or its size changes */
+  function sprite(el,r,L){const key=(L?'l':'d')+Math.round(r.width)+'x'+Math.round(r.height);const old=sprites.get(el);if(old&&old.key===key)return old.c;
+    const c=document.createElement('canvas');c.width=Math.ceil(r.width*SC)+2*PAD;c.height=Math.ceil(r.height*SC)+2*PAD;const x=c.getContext('2d');
+    x.translate(PAD,PAD);x.scale(SC,SC);x.translate(-r.left,-r.top);const fg=getComputedStyle(document.body).color;
+    for(const e of [el,...el.querySelectorAll('*')]){const cs=getComputedStyle(e);if(cs.visibility==='hidden'||cs.display==='none')continue;const q=e.getBoundingClientRect();if(!q.width||!q.height)continue;
+      if(!clear(cs.backgroundColor)){x.fillStyle=cs.backgroundColor;x.fillRect(q.left,q.top,q.width,q.height);}
+      if(e.tagName==='IMG'&&e.complete&&e.naturalWidth){try{x.drawImage(e,q.left,q.top,q.width,q.height);}catch(_){}}}
+    const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),rg=document.createRange();let t;
+    while((t=tw.nextNode())){const pe=t.parentElement;if(!pe)continue;const cs=getComputedStyle(pe);if(cs.visibility==='hidden'||cs.display==='none')continue;
+      x.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;x.fillStyle=clear(cs.webkitTextFillColor||'')&&clear(cs.color)?fg:(clear(cs.webkitTextFillColor||'x')?fg:cs.color);x.textBaseline='middle';
+      const re=/\S+/g;let m;while((m=re.exec(t.data))){rg.setStart(t,m.index);rg.setEnd(t,m.index+m[0].length);const b=rg.getClientRects()[0];if(b&&b.width)x.fillText(m[0],b.left,b.top+b.height/2,b.width+2);}}
+    sprites.set(el,{key,c});return c;}
+  function frame(now){raf=0;const sc=scroller();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,cv.width,cv.height);if(!sc)return;
+    const L=document.body.classList.contains('light'),base=L?.2:.26;
+    /* the first board stops leaving trails once erasing has begun (layered mode, scrolled at all) */
+    const heroOff=sc.id==='home'&&!sc.classList.contains('plain')&&sc.scrollTop>0;
+    g.setTransform(SS,0,0,SS,0,0);g.imageSmoothingEnabled=true;g.imageSmoothingQuality='low';let active=false,built=0;
+    for(const el of sc.querySelectorAll(SEL)){if(el.closest('.km,.eraseCanvas,[hidden]'))continue;if(el.parentElement&&el.parentElement.closest(SEL))continue;
+      if(heroOff&&el.closest('.homeTop')){state.delete(el);continue;}
+      const r=el.getBoundingClientRect();if(!r.width||r.bottom<-120||r.top>H+120){state.delete(el);continue;}
       let st=state.get(el);if(!st){state.set(el,{top:r.top,v:0});continue;}
       const dy=r.top-st.top;st.top=r.top;st.v=dy?st.v*.5+dy*.5:st.v*.8;const v=st.v;if(Math.abs(v)<.35)continue;active=true;
-      /* text: the trailing line of the element; everything else: the whole block */
-      let boxes=[r];if(/^(H1|H2|H3|P|A)$/.test(el.tagName)||el.classList.contains('rt')||el.classList.contains('pt')){const rg=document.createRange();rg.selectNodeContents(el);const ls=[...rg.getClientRects()].filter(q=>q.width>2);if(ls.length){/* only the trailing line: the fade comes off the element, not through it */const edge=v<0?Math.max(...ls.map(q=>q.bottom)):Math.min(...ls.map(q=>q.top));boxes=ls.filter(q=>Math.abs((v<0?q.bottom:q.top)-edge)<3);}}
-      const len=Math.min(70,Math.abs(v)*3.4),a=base*Math.min(1,Math.abs(v)/12);
-      for(const q of boxes){const y0=v<0?q.bottom:q.top,dir=v<0?1:-1,cx=q.left+q.width/2,rx=Math.max(8,q.width/2),jit=.7+.3*Math.abs(Math.sin(q.left*.13+q.width*.07)),ry=len*jit;
-        /* an oval glow centred on the trailing edge, squashed to the element's width: it thins with distance and toward the sides */
-        g.save();g.translate(cx,y0);g.scale(rx/ry,1);const gr=g.createRadialGradient(0,0,0,0,0,ry);
-        gr.addColorStop(0,`rgba(${ink},${a})`);gr.addColorStop(.45,`rgba(${ink},${a*.45})`);gr.addColorStop(1,`rgba(${ink},0)`);
-        g.fillStyle=gr;g.beginPath();g.rect(-ry,dir>0?0:-ry,2*ry,ry);g.fill();g.restore();}}
-    if(active){g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='destination-out';g.fillStyle=grain(L);g.fillRect(0,0,cv.width,cv.height);g.globalCompositeOperation='source-over';lastAct=now;}
+      if(!sprites.get(el)&&built>=6)continue;if(!sprites.get(el))built++;
+      const sp=sprite(el,r,L),len=Math.min(90,Math.abs(v)*4.2),a=base*Math.min(1,Math.abs(v)/10),dir=v<0?1:-1;
+      const sw=sp.width/SC,sh=sp.height/SC,ox=r.left-PAD/SC,oy=r.top-PAD/SC;
+      /* three copies behind the element, each further back and fainter */
+      for(const [t,k] of [[.3,.55],[.62,.3],[1,.15]]){g.globalAlpha=a*k*1.6;g.drawImage(sp,ox,oy+dir*len*t,sw,sh);}}
+    g.globalAlpha=1;if(active)lastAct=now;
     if(active||now-lastAct<120)raf=requestAnimationFrame(frame);}
   const kick=()=>{if(!raf)raf=requestAnimationFrame(frame);};
   for(const id of ['home','gpage']){const el=document.getElementById(id);if(el)el.addEventListener('scroll',kick,{passive:true});}
+  new MutationObserver(()=>{kick();}).observe(document.body,{attributes:true,attributeFilter:['class']});
 })();
 
 /* ---------- the board surface holds still: each board's texture is offset by minus its position on screen ---------- */
 (function(){const home=document.getElementById('home');if(!home)return;let raf=0;
-  const sync=()=>{raf=0;for(const b of home.querySelectorAll('.board')){const t=b.getBoundingClientRect().top;b.style.setProperty('--bgy',(-Math.round(t))+'px');}};
+  const sync=()=>{raf=0;for(const b of home.querySelectorAll('.board')){const y=-Math.round(b.getBoundingClientRect().top)+'px';/* set on the board itself: a CSS variable would be inherited and restyle everything inside */b.style.backgroundPosition=`0 ${y},0 ${y},0 0`;}};
   const kick=()=>{if(!raf)raf=requestAnimationFrame(sync);};home.addEventListener('scroll',kick,{passive:true});addEventListener('resize',kick);
   new MutationObserver(kick).observe(home,{attributes:true,attributeFilter:['hidden','class']});setTimeout(sync,0);setTimeout(sync,800);})();
 </script>
