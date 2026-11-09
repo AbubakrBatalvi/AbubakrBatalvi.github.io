@@ -1,0 +1,81 @@
+D 7
+ls-prop|Propositions and truth values||Statements that are either true or false, the raw material of logic.
+ls-connectives|Logical connectives|ls-prop|And, or, not, implies and if-and-only-if, and how they combine truth values.
+ls-truth-tables|Truth tables|ls-connectives|Listing every combination of truth values to decide whether a compound statement is true.
+ls-tautology|Tautologies and contradictions|ls-truth-tables|Statements true under every assignment, or false under every assignment.
+ls-equivalence|Logical equivalence|ls-truth-tables|Two statements with the same truth table, such as p → q and ¬q → ¬p.
+ls-demorgan|De Morgan’s laws|ls-equivalence|Not (p and q) is (not p) or (not q), and dually; the same pattern holds for sets.
+ls-predicates|Predicates and variables|ls-prop|Statements with open variables, such as “n is even”, that become true or false once the variables are fixed.
+ls-quantifiers|Quantifiers|ls-predicates|“For all” and “there exists”, and the rule that negating one turns it into the other.
+ls-nested-quant|Nested quantifiers|ls-quantifiers|The order of “for all” and “there exists” matters; ε–δ definitions are the standard example.
+ls-first-order|First-order logic|ls-nested-quant ls-connectives|A formal language of predicates, functions, constants and quantifiers over a domain of objects.
+ls-proof-direct|Direct proof|ls-connectives|Assume the hypothesis and derive the conclusion through a chain of valid steps.
+ls-contrapositive|Proof by contrapositive|ls-proof-direct ls-equivalence|Prove “if p then q” by proving “if not q then not p”.
+ls-contradiction|Proof by contradiction|ls-proof-direct|Assume the statement is false and derive an impossibility.
+ls-cases|Proof by cases|ls-proof-direct|Split into exhaustive cases and prove the claim in each one.
+ls-counterexample|Counterexamples|ls-quantifiers|One instance where a universal claim fails is enough to refute it.
+ls-existence|Existence proofs|ls-quantifiers|Showing something exists, either by constructing it or by ruling out its absence.
+ls-uniqueness|Uniqueness proofs|ls-existence|Showing at most one object has a property, usually by assuming two and proving them equal.
+ls-induction|Mathematical induction|ls-peano ls-proof-direct|Prove a base case and that each case implies the next; then the claim holds for every natural number.
+ls-strong-induction|Strong induction|ls-induction|Assume all earlier cases, not just the previous one, when proving the next.
+ls-well-ordering|Well-ordering principle|ls-induction|Every non-empty set of natural numbers has a least element; equivalent to induction.
+ls-sets|Sets and membership||Collections of objects, described by listing them or by a property, with x ∈ A meaning x belongs to A.
+ls-subsets|Subsets and equality|ls-sets|A ⊆ B when every element of A is in B; two sets are equal when each is a subset of the other.
+ls-set-ops|Union, intersection, complement|ls-subsets ls-connectives|Building new sets from old ones, mirroring or, and and not.
+ls-empty-set|The empty set|ls-sets|The unique set with no elements, a subset of every set.
+ls-power-set|Power set|ls-subsets|The set of all subsets of A; it has 2ⁿ elements when A has n.
+ls-ordered-pairs|Ordered pairs|ls-sets|(a, b) with order mattering, definable purely from sets as {{a}, {a, b}}.
+ls-cartesian|Cartesian product|ls-ordered-pairs ls-set-ops|A × B, the set of all ordered pairs with first entry from A and second from B.
+ls-relations|Relations|ls-cartesian|A subset of A × B, recording which elements are related to which.
+ls-equiv-rel|Equivalence relations|ls-relations|Reflexive, symmetric and transitive relations; they split a set into disjoint classes.
+ls-partitions|Partitions and quotient sets|ls-equiv-rel|Dividing a set into disjoint pieces; the pieces of an equivalence relation form the quotient set.
+ls-orders|Partial and total orders|ls-relations|Reflexive, antisymmetric and transitive relations, total when any two elements are comparable.
+ls-function|Functions as sets|ls-relations|A relation pairing each input with exactly one output, so a function is a set of ordered pairs.
+ls-injective|Injective, surjective, bijective|ls-function|One-to-one, onto, and both; bijections are exactly the invertible functions.
+ls-composition|Composition of functions|ls-function|Applying one function after another, (g ∘ f)(x) = g(f(x)).
+ls-inverse-fn|Inverse functions (set-theoretic)|ls-injective ls-composition|A bijection has an inverse that undoes it on both sides.
+ls-image-preimage|Images and preimages|ls-function ls-set-ops|The set of outputs of a subset, and the set of inputs landing in a subset.
+ls-indexed|Indexed families|ls-function ls-set-ops|Collections Aᵢ labelled by an index set, with unions and intersections over all i.
+ls-cardinality|Cardinality|ls-injective|Two sets have the same size when a bijection exists between them.
+ls-finite|Finite sets|ls-cardinality ls-naturals-sets|Sets in bijection with {1, …, n} for some n.
+ls-countable|Countable sets|ls-cardinality ls-naturals-sets|Sets that can be listed as a sequence; the integers and rationals are countable.
+ls-cantor-diag|Cantor’s diagonal argument|ls-countable ls-contradiction|The real numbers cannot be listed, so there are more reals than natural numbers.
+ls-cantor-thm|Cantor’s theorem|ls-power-set ls-cardinality|Every set is strictly smaller than its power set.
+ls-schroder|Schröder–Bernstein theorem|ls-cardinality|If each of two sets injects into the other, they have the same cardinality.
+ls-uncountable|Uncountable sets|ls-cantor-diag|Sets too big to list, such as ℝ and the power set of ℕ.
+ls-continuum|Continuum hypothesis|ls-uncountable ls-zfc|The question whether some set is strictly between ℕ and ℝ in size; it is independent of ZFC.
+ls-zfc|Zermelo–Fraenkel axioms (ZFC)|ls-first-order ls-set-ops ls-power-set|The standard axioms for sets: extensionality, pairing, union, power set, infinity, separation, replacement, foundation and choice.
+ls-russell|Russell’s paradox|ls-sets ls-contradiction|The set of all sets that do not contain themselves cannot exist, which is why set formation needs axioms.
+ls-choice|Axiom of choice|ls-zfc|For any family of non-empty sets one can pick an element from each.
+ls-zorn|Zorn’s lemma|ls-choice ls-orders|If every chain in a partial order has an upper bound, there is a maximal element; equivalent to choice.
+ls-well-order-thm|Well-ordering theorem|ls-choice ls-orders|Every set can be well ordered; equivalent to the axiom of choice.
+ls-naturals-sets|Natural numbers from sets|ls-zfc ls-empty-set|0 = ∅, 1 = {0}, 2 = {0, 1}, …: the axiom of infinity gives a set containing all of them.
+ls-peano|Peano axioms|ls-predicates|Zero, a successor function, and induction: the axioms that pin down the natural numbers.
+ls-recursion-thm|Definition by recursion|ls-peano ls-function|A value at 0 and a rule from n to n + 1 define a unique function on all natural numbers.
+ls-ordinals|Ordinal numbers|ls-naturals-sets ls-well-order-thm|Order types of well-ordered sets, continuing past the natural numbers to ω, ω + 1, ….
+ls-cardinals|Cardinal numbers|ls-ordinals ls-cardinality|The sizes of sets, ℵ₀, ℵ₁, …, defined as particular ordinals.
+ls-transfinite-ind|Transfinite induction|ls-ordinals ls-induction|Induction along any well-order, including limit stages.
+ls-models|Models and structures|ls-first-order|A set with interpretations of the language’s symbols in which sentences can be true or false.
+ls-soundness|Soundness and completeness|ls-models|What can be proved is true in every model, and (Gödel) what is true in every model can be proved.
+ls-compactness|Compactness theorem|ls-soundness|A set of sentences has a model if every finite part of it does.
+ls-godel-incompleteness|Gödel’s incompleteness theorems|ls-soundness ls-peano|Any consistent, effective theory containing arithmetic has true statements it cannot prove, including its own consistency.
+ls-independence|Independence results|ls-godel-incompleteness ls-zfc|Statements, such as the continuum hypothesis, that a theory can neither prove nor refute.
+ls-computability|Computability and algorithms|ls-recursion-thm|What can be computed by a mechanical procedure, made precise by Turing machines.
+ls-halting|Halting problem|ls-computability ls-cantor-diag|No algorithm decides whether an arbitrary program halts.
+ls-complexity|Computational complexity|ls-computability|How the running time of algorithms grows with input size, and classes such as P and NP.
+ls-axioms-method|The axiomatic method|ls-first-order|Fixing a few unproved statements and deriving everything else from them.
+ls-definitions|Definitions and notation|ls-predicates|Introducing names for objects defined by properties, so later statements stay short.
+ls-iff-proofs|Proving if-and-only-if|ls-proof-direct|Prove both directions separately.
+ls-pigeonhole-logic|Pigeonhole reasoning|ls-finite|If more objects than boxes, some box holds two.
+ls-infinite-sets|Infinite sets|ls-finite|Sets not in bijection with any {1, …, n}; Dedekind: those in bijection with a proper subset.
+ls-hilbert-hotel|Hilbert’s hotel|ls-infinite-sets|A full hotel with infinitely many rooms can still take new guests, showing how infinite sets behave.
+ls-boolean-algebra|Boolean algebra|ls-connectives ls-set-ops|The algebra of and, or and not, shared by logic, sets and digital circuits.
+ls-lattices|Lattices|ls-orders|Partial orders where every pair has a least upper bound and greatest lower bound.
+ls-sup-inf-order|Suprema and infima in orders|ls-orders|Least upper and greatest lower bounds of subsets, when they exist.
+ls-fixed-point-order|Fixed-point theorems for orders|ls-lattices|Monotone maps on complete lattices have fixed points (Knaster–Tarski).
+ls-constructive|Constructive mathematics|ls-existence|Mathematics where an existence proof must provide a construction.
+ls-type-theory|Type theory|ls-first-order ls-function|A foundation where every object has a type, used by proof assistants.
+ls-proof-assistants|Proof assistants|ls-type-theory|Software such as Lean and Coq that checks every step of a formal proof.
+ls-category-basics|Categories|ls-composition|Objects and arrows that compose associatively, a common language for structures and maps.
+ls-functors|Functors and natural transformations|ls-category-basics|Structure-preserving maps between categories, and maps between such maps.
+ls-universal-props|Universal properties|ls-functors|Defining an object by how it maps to or from everything else, like products and quotients.

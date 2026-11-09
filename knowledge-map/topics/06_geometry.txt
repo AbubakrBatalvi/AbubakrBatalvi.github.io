@@ -1,0 +1,130 @@
+D 6
+ge-euclid-axioms|Euclid’s postulates|ls-axioms-method|Points, lines and circles from five postulates, including the parallel postulate.
+ge-hilbert-axioms|Hilbert’s axioms for geometry|ge-euclid-axioms ls-first-order|A complete modern axiom system for Euclidean geometry.
+ge-congruence|Congruent triangles|ge-euclid-axioms|SSS, SAS, ASA: when two triangles are the same shape and size.
+ge-similarity|Similar triangles|ge-congruence fd-rationals|Triangles with equal angles have proportional sides.
+ge-parallel|Parallel lines and angles|ge-euclid-axioms|Corresponding and alternate angles; the angles of a triangle sum to 180°.
+ge-pythagoras|Pythagorean theorem|ge-similarity|a² + b² = c² in a right triangle.
+ge-circle-thms|Circle theorems|ge-congruence ge-parallel|Inscribed angles, tangents and chords.
+ge-area|Area|ge-congruence|Areas of polygons by cutting and rearranging.
+ge-pi|The number π|ge-circle-thms ge-area|The ratio of a circle’s circumference to its diameter.
+ge-archimedes-pi|Archimedes’ bounds for π|ge-pi ge-pythagoras|Inscribed and circumscribed polygons squeeze π between 223/71 and 22/7.
+ge-trig-triangle|Trigonometry of triangles|ge-similarity trig|Laws of sines and cosines.
+ge-constructions|Ruler-and-compass constructions|ge-circle-thms|Bisecting angles, drawing perpendiculars, constructing regular polygons.
+ge-polygons|Regular polygons and tilings|ge-parallel|Polygons with equal sides and angles, and which ones tile the plane.
+ge-polyhedra|Polyhedra and Euler’s formula|ge-polygons co-planar|V − E + F = 2; the five Platonic solids.
+ge-conic-sections|Conic sections|fd-circles|Ellipses, parabolas and hyperbolas as slices of a cone, and their focus properties.
+ge-analytic|Analytic geometry|fd-cartesian-plane fd-lines|Proving geometric facts with coordinates.
+ge-vectors-geom|Vectors in geometry|fd-dot-product ge-analytic|Lines, planes and projections with vectors.
+ge-transformations|Isometries of the plane|ge-congruence la-orthogonal-mat|Translations, rotations, reflections and glide reflections.
+ge-symmetry-groups|Symmetry groups of figures|ge-transformations al-symmetry|Groups of isometries leaving a figure unchanged.
+ge-wallpaper|Wallpaper groups|ge-symmetry-groups ge-polygons|The 17 symmetry types of repeating plane patterns.
+ge-affine-geom|Affine geometry|la-affine|Geometry of parallelism and ratios along lines, without distance.
+ge-projective|Projective geometry|ge-affine-geom|Adding points at infinity so any two lines meet.
+ge-inversive|Inversive geometry|ge-circle-thms an-mobius-trans|Inversion in circles, which maps circles and lines to circles and lines.
+ge-non-euclid|Non-Euclidean geometry|ge-parallel ge-hilbert-axioms|Geometries where the parallel postulate fails: spherical and hyperbolic.
+ge-spherical|Spherical geometry|ge-non-euclid fd-polar-coords|Geometry on a sphere, where triangle angles sum to more than 180°.
+ge-hyperbolic|Hyperbolic geometry|ge-non-euclid an-mobius-trans|Geometry of constant negative curvature, modelled in the disc or half-plane.
+ge-metrics|Metrics and distances|distance-metrics an-metric-spaces|Distance functions and the shapes of their unit balls.
+ge-lp-balls|Lᵖ unit balls|ge-metrics la-norms|The shape of {|x|ᵖ + |y|ᵖ ≤ 1} as p varies.
+ge-convex-sets|Convex sets|ge-analytic an-convex|Sets containing the segment between any two of their points.
+ge-convex-hull|Convex hulls|ge-convex-sets|The smallest convex set containing given points.
+ge-delaunay|Delaunay triangulation|voronoi ge-convex-hull|The triangulation dual to the Voronoi diagram, avoiding thin triangles.
+ge-comp-geom|Computational geometry|ge-convex-hull co-algorithms|Algorithms for hulls, intersections, nearest neighbours and meshes.
+ge-mesh|Meshes|ge-delaunay|Dividing a region into triangles or quadrilaterals for computation.
+ge-curves-param|Parametrised curves|fd-param-curves vectors|Curves as maps t ↦ γ(t).
+ge-tangent-normal|Tangent and normal vectors|ge-curves-param derivatives|Velocity direction and its perpendicular.
+ge-arc-length-param|Arc-length parametrisation|arc-length ge-curves-param|Reparametrising a curve so it moves at unit speed.
+ge-curvature|Curvature of curves|ge-arc-length-param fd-higher-deriv|How fast the direction turns; κ = |γ″| at unit speed.
+ge-osculating|Osculating circle|ge-curvature|The circle that best matches a curve at a point, of radius 1/κ.
+ge-frenet|Frenet–Serret frame|ge-curvature fd-cross-product|Tangent, normal and binormal, with curvature and torsion for space curves.
+ge-evolutes|Evolutes and involutes|ge-osculating|The curve of centres of curvature, and curves unwound from it.
+ge-envelopes|Envelopes of curve families|fd-partial-deriv ge-curves-param|A curve tangent to every member of a family.
+ge-cycloid|Cycloids and roulettes|ge-curves-param polar|Curves traced by a point on a rolling circle.
+ge-brachistochrone|Brachistochrone|ge-cycloid an-euler-lagrange|The cycloid is the curve of fastest descent.
+ge-isoperimetric|Isoperimetric inequality|ge-curvature an-variational|Among closed curves of given length the circle encloses the most area.
+ge-surfaces|Surfaces in space|fd-multivar ge-curves-param|Two-parameter maps into ℝ³, such as graphs and spheres.
+ge-first-ff|First fundamental form|ge-surfaces la-bilinear|Measuring lengths and angles on a surface.
+ge-second-ff|Second fundamental form|ge-first-ff ge-curvature|How a surface bends in space.
+ge-gauss-curvature|Gaussian curvature|ge-second-ff|The product of principal curvatures; positive on spheres, negative on saddles.
+ge-theorema|Theorema Egregium|ge-gauss-curvature|Gaussian curvature depends only on lengths measured within the surface.
+ge-geodesics|Geodesics|ge-first-ff an-euler-lagrange|Locally shortest paths on a surface.
+ge-gauss-bonnet|Gauss–Bonnet theorem|ge-gauss-curvature ge-euler-char|Total curvature of a closed surface equals 2π times its Euler characteristic.
+ge-minimal-surfaces|Minimal surfaces|ge-second-ff an-variational|Surfaces with zero mean curvature, like soap films.
+ge-catenoid|Catenoid|ge-minimal-surfaces catenary|The minimal surface formed by rotating a catenary.
+ge-manifolds|Smooth manifolds|ge-surfaces an-topology-basic an-implicit-fn|Spaces that look like ℝⁿ near every point, with smooth changes of coordinates.
+ge-tangent-spaces|Tangent spaces|ge-manifolds la-vector-spaces|The vector space of directions at a point of a manifold.
+ge-vector-fields|Vector fields and flows|ge-tangent-spaces fd-odes-intro|An arrow at every point, and the motion it generates.
+ge-submanifolds|Submanifolds and constraint surfaces|ge-manifolds an-implicit-fn|Level sets {g = c} with non-zero gradient are smooth submanifolds.
+ge-projection-manifold|Projecting onto a constraint surface|ge-submanifolds la-projections|Moving a point back onto a surface along its normal.
+ge-riemannian|Riemannian metrics|ge-tangent-spaces la-inner-product|An inner product on each tangent space, measuring lengths of curves.
+ge-geodesics-manifold|Geodesics on manifolds|ge-riemannian ge-geodesics|Curves with no acceleration within the manifold.
+ge-exp-map|Exponential and logarithm maps|ge-geodesics-manifold|Following geodesics from a point; the logarithm map undoes it.
+ge-frechet-mean|Fréchet means on manifolds|ge-exp-map pr-expectation|The point minimising the sum of squared geodesic distances.
+ge-manifold-interp-geo|Geodesic interpolation|ge-exp-map lagrange|Interpolating points on a manifold along geodesics, as in slerp for rotations.
+ge-slerp|Spherical linear interpolation|ge-manifold-interp-geo al-quaternions|Interpolating rotations along great circles.
+ge-curvature-tensor|Riemann curvature tensor|ge-riemannian la-tensors|The general measure of curvature on a manifold.
+ge-diff-forms-geo|Differential forms on manifolds|an-diff-forms ge-manifolds|Integrating over manifolds and the general Stokes theorem.
+ge-lie-groups-geo|Lie groups and rotation groups|al-lie-groups la-rotations|SO(3) and other groups of transformations as manifolds.
+ge-topology|Topology|an-topology-basic|Properties preserved by continuous deformation.
+ge-connectedness|Connectedness|ge-topology fd-ivt|Spaces that cannot be split into two disjoint open pieces.
+ge-compact-top|Compactness|ge-topology an-heine-borel|Every open cover has a finite subcover.
+ge-homeomorphism|Homeomorphisms|ge-topology ls-inverse-fn|Continuous bijections with continuous inverses: topological equivalence.
+ge-euler-char|Euler characteristic|ge-polyhedra ge-homeomorphism|V − E + F, a topological invariant of surfaces.
+ge-classification-surfaces|Classification of surfaces|ge-euler-char|Closed surfaces are spheres with handles or crosscaps.
+ge-fundamental-group|Fundamental group|ge-homeomorphism al-groups|Loops up to deformation, forming a group.
+ge-covering-spaces|Covering spaces|ge-fundamental-group|Spaces that locally look like several copies of another.
+ge-homology|Homology|ge-euler-char al-quotient-group|Counting holes of each dimension with algebra.
+ge-brouwer|Brouwer fixed-point theorem|ge-homology ge-compact-top|Every continuous map of a disc to itself has a fixed point.
+ge-knots|Knot theory|ge-homeomorphism|Classifying closed loops in space up to deformation.
+ge-fractal-geom|Fractal geometry|an-fractals|Self-similar shapes and their dimensions.
+ge-graphs-of-fns|Shapes of graphs|functions fd-second-deriv-test|Reading monotonicity, concavity and asymptotes from a function’s graph.
+ge-plane-curves-implicit|Implicit curves|fd-implicit-diff fd-circles|Curves given by F(x, y) = 0.
+ge-polar-curves-ex|Roses, spirals and limaçons|polar fd-polar-coords|Classic families of polar curves.
+ge-spirals|Spirals|ge-polar-curves-ex logexp|Archimedean and logarithmic spirals.
+ge-3d-perspective|Perspective projection|ge-projective la-matrices|Drawing three-dimensional scenes on a plane by projecting toward a viewpoint.
+ge-homogeneous|Homogeneous coordinates|ge-3d-perspective|Coordinates (x, y, w) that make translations and projections matrix multiplications.
+ge-computer-graphics|Computer graphics|ge-homogeneous ge-mesh|Rendering scenes with transforms, projection and shading.
+ge-shaders|Shaders|ge-computer-graphics ap-shader-plotting|Small programs run per vertex or per pixel on a graphics card.
+ge-mechanics|Newtonian mechanics|vectors fd-odes-intro|Forces cause accelerations: F = ma.
+ge-kinematics|Kinematics|fd-param-curves derivatives|Position, velocity and acceleration as derivatives.
+ge-projectile|Projectile motion|ge-kinematics|Motion under constant gravity traces a parabola.
+ge-energy|Work and energy|ge-mechanics integrals|Kinetic and potential energy, and their conservation.
+ge-momentum|Momentum and collisions|ge-mechanics|Conservation of momentum in collisions.
+ge-oscillators|Harmonic oscillators|ge-mechanics an-ode-linear2 trig|Springs and pendulums, x″ = −ω²x.
+ge-damped|Damped and driven oscillations|ge-oscillators fd-exp-growth|Oscillations that decay or resonate with a driving force.
+ge-pendulum|The pendulum|ge-oscillators an-elliptic-int|Small swings are harmonic; large swings have a period given by an elliptic integral.
+ge-orbits|Orbits and Kepler’s laws|ge-mechanics ge-conic-sections|Planets move on ellipses under inverse-square gravity.
+ge-rigid-body|Rigid-body motion|ge-mechanics la-rotations|Rotation, angular velocity and moments of inertia.
+ge-rolling-contact|Rolling contact|rolling ge-kinematics|A rolling body’s contact point is momentarily at rest.
+ge-statics|Statics and equilibrium|ge-mechanics|Forces and torques that balance.
+ge-hanging-cable|Hanging cables|ge-statics catenary|A cable under its own weight takes a catenary shape; under a uniform horizontal load, a parabola.
+ge-lagrangian|Lagrangian mechanics|ge-energy an-euler-lagrange|Motion as the path that makes the action stationary.
+ge-hamiltonian|Hamiltonian mechanics|ge-lagrangian fd-partial-deriv|Equations of motion in terms of energy, positions and momenta.
+ge-phase-space|Phase space|ge-hamiltonian an-dynamical|The space of positions and momenta in which motion is a flow.
+ge-noether|Noether’s theorem|ge-lagrangian al-symmetry|Each continuous symmetry gives a conserved quantity.
+ge-constraints|Constrained motion|ge-lagrangian ge-submanifolds|Motion restricted to a surface, enforced with Lagrange multipliers.
+ge-kinematic-chains|Kinematic chains|ge-rigid-body vectors|Linked rigid segments joined at pivots, like arms and tails.
+ge-inverse-kin|Inverse kinematics|ge-kinematic-chains ap-optimization-num|Finding joint angles that put the end of a chain at a target.
+ge-fabrik|FABRIK and follow-the-leader solvers|ge-inverse-kin ik|Iteratively dragging each joint toward its neighbour along the chain.
+ge-mass-spring|Mass–spring systems|ge-oscillators la-linear-odes|Networks of masses connected by springs.
+ge-cloth-sim|Cloth simulation|ge-mass-spring ap-ode-numerics|Grids of masses and springs integrated in time, with collisions.
+ge-collision|Collision detection|ge-comp-geom smooth-max|Testing whether shapes overlap and pushing them apart.
+ge-fluids|Fluid mechanics|an-vector-calculus ge-mechanics|Flow described by velocity fields and the Navier–Stokes equations.
+ge-waves-phys|Waves|an-wave-eq ge-oscillators|Travelling disturbances, interference and standing waves.
+ge-optics|Optics and Fermat’s principle|an-variational|Light takes the path of least time, giving reflection and refraction laws.
+ge-path-planning|Path planning|ge-comp-geom co-shortest-path|Finding feasible, short or smooth routes for robots and vehicles.
+ge-trail-geometry|Trail edges and centre lines|ge-path-planning centre-line|Averaging fitted left and right boundaries to get a drivable centre path.
+ge-smooth-paths|Smooth path generation|ge-path-planning ap-splines|Splines and clothoids that give paths without sudden turns.
+ge-clothoid|Clothoids|ge-smooth-paths ge-curvature|Curves whose curvature grows linearly with arc length, used in road design.
+ge-sensor-fusion|Sensor fusion|ge-path-planning pr-bayesian|Combining noisy sensors into one estimate (Kalman filtering).
+ge-terrain|Terrain and elevation models|remote-sensing ge-surfaces|Representing ground height as a surface from satellite data (SRTM).
+ge-geodesy|Map projections|ge-spherical ge-3d-perspective|Flattening the sphere onto a map, which always distorts something.
+ge-raster-grids|Raster grids|ge-geodesy fd-cartesian-plane|Storing map data as a grid of cells at a fixed resolution.
+ge-wheel-shapes|Non-circular wheels|rolling ge-polar-curves-ex|Shapes like squares roll smoothly on matching roads of inverted catenary arcs.
+ge-voronoi-metrics|Voronoi diagrams under other metrics|voronoi ge-lp-balls|Changing the distance changes the cell boundaries from straight to curved.
+ge-nearest-neighbour|Nearest-neighbour search|voronoi ge-comp-geom|Finding the closest point quickly with trees or grids.
+ge-poisson-disk-geo|Blue-noise point sets|pr-poisson-disk ge-nearest-neighbour|Evenly spread random points, used in graphics and in this map’s layout.
+ge-graph-drawing|Graph drawing|co-graphs ge-comp-geom|Placing the vertices of a graph so its structure is easy to see.
+ge-force-layout|Force-directed layout|ge-graph-drawing ap-gradient-descent|Simulating springs on edges and repulsion between vertices, as used for this map.
+ge-layered-drawing|Layered graph drawing|ge-graph-drawing co-longest-path|Drawing a directed acyclic graph in levels, ordering each level to reduce crossings.

@@ -1,0 +1,188 @@
+D 1
+an-eps-delta|ε–δ definition of limit|limits ls-nested-quant fd-abs-value|For every tolerance ε there is a δ that keeps f(x) within ε of L whenever x is within δ of a.
+an-eps-n|ε–N convergence of sequences|fd-limit-seq ls-nested-quant|aₙ → L when for every ε some N makes |aₙ − L| < ε for all n ≥ N.
+an-sup-inf|Supremum and infimum|fd-completeness|The least upper bound and greatest lower bound of a set of reals.
+an-monotone-conv|Monotone convergence theorem|an-eps-n an-sup-inf|A bounded monotone sequence converges, to its supremum or infimum.
+an-subsequences|Subsequences|an-eps-n|Sequences formed by keeping infinitely many terms in order.
+an-bolzano-w|Bolzano–Weierstrass theorem|an-subsequences an-monotone-conv|Every bounded sequence of reals has a convergent subsequence.
+an-cauchy-seq|Cauchy sequences|an-eps-n|Sequences whose terms get arbitrarily close to each other.
+an-cauchy-complete|Cauchy completeness of ℝ|an-cauchy-seq an-bolzano-w|In ℝ, a sequence converges exactly when it is Cauchy.
+an-limsup|Limit superior and inferior|an-sup-inf an-subsequences|The largest and smallest limits of subsequences.
+an-series-conv|Convergence of series|an-eps-n sequences-series|A series converges when its partial sums converge.
+an-comparison|Comparison tests|an-series-conv fd-inequalities|A series smaller than a convergent one converges.
+an-ratio-root|Ratio and root tests|an-comparison geometric-series an-limsup|Comparing a series with a geometric one through aₙ₊₁/aₙ or |aₙ|^{1/n}.
+an-integral-test|Integral test|an-comparison fd-improper|Σ f(n) and ∫ f(x)dx converge together for positive decreasing f.
+an-p-series|p-series|an-integral-test|Σ 1/nᵖ converges exactly when p > 1.
+an-absolute-conv|Absolute and conditional convergence|an-series-conv|Σ|aₙ| converging forces Σ aₙ to converge; the converse fails.
+an-rearrangement|Riemann rearrangement theorem|an-absolute-conv alternating-series|A conditionally convergent series can be rearranged to sum to any value.
+an-cauchy-product|Cauchy product of series|an-absolute-conv|Multiplying two series term by term in diagonals.
+an-dirichlet-test|Dirichlet and Abel tests|an-series-conv abel-partial|Convergence of Σ aₙbₙ when partial sums of aₙ stay bounded and bₙ decreases to 0.
+an-open-closed|Open and closed sets in ℝ|fd-intervals an-eps-delta|Sets containing a neighbourhood of each point, and their complements.
+an-compact-r|Compact sets in ℝ|an-open-closed an-bolzano-w|Closed bounded sets; every sequence in them has a convergent subsequence.
+an-heine-borel|Heine–Borel theorem|an-compact-r|In ℝⁿ, compact means closed and bounded; every open cover has a finite subcover.
+an-continuity-rigorous|Continuity, rigorously|fd-continuity an-eps-delta|ε–δ continuity and its equivalence with preserving limits of sequences.
+an-uniform-cont|Uniform continuity|an-continuity-rigorous|One δ works at every point; continuous functions on compact sets are uniformly continuous.
+an-lipschitz|Lipschitz continuity|an-continuity-rigorous||f(x) − f(y)| ≤ L|x − y|, a quantitative form of continuity.
+an-differentiability|Differentiability, rigorously|derivatives an-eps-delta|The derivative as a limit of difference quotients, and why differentiable implies continuous.
+an-darboux|Darboux’s theorem|an-differentiability fd-ivt|Derivatives have the intermediate value property even when discontinuous.
+an-taylor-remainder|Taylor’s theorem with remainder|taylor-series fd-mvt|The error of a Taylor polynomial in Lagrange or integral form.
+an-riemann-integral|Riemann integral, rigorously|fd-definite-integral an-sup-inf|Upper and lower sums meeting; continuous functions are integrable.
+an-improper-rig|Improper integrals and convergence|an-riemann-integral fd-improper|Conditions under which ∫₁^∞ f converges, absolutely or conditionally.
+an-pointwise-uniform|Pointwise and uniform convergence|an-eps-n functions|fₙ → f at each point, versus uniformly over the whole domain.
+an-uniform-limits|Uniform limits preserve continuity and integrals|an-pointwise-uniform an-riemann-integral|Uniform convergence lets limits pass through continuity and integration.
+an-weierstrass-m|Weierstrass M-test|an-uniform-limits an-comparison|A series of functions bounded by a convergent numeric series converges uniformly.
+an-power-series|Power series|an-ratio-root an-weierstrass-m|Σ aₙ(x − c)ⁿ, converging inside an interval of convergence.
+an-term-by-term|Term-by-term differentiation and integration|an-power-series|Inside the radius of convergence a power series can be differentiated and integrated term by term.
+an-analytic-real|Real analytic functions|an-power-series an-taylor-remainder|Functions equal to their Taylor series near every point.
+an-smooth-nonanalytic|Smooth but not analytic functions|an-analytic-real|e^{−1/x²} has every derivative 0 at 0 yet is not zero.
+an-bump-functions|Bump functions|an-smooth-nonanalytic|Smooth functions that vanish outside a bounded set.
+an-exp-rigorous|Exponential and logarithm, rigorously|an-power-series logexp|eˣ defined by its power series, ln as its inverse.
+an-trig-rigorous|Sine and cosine from power series|an-power-series trig|Defining sin and cos by series and recovering π as twice the first zero of cos.
+an-dct|Differentiation under the integral sign|an-uniform-limits fd-partial-deriv|d/dt ∫ f(x, t) dx = ∫ ∂f/∂t dx under mild conditions.
+an-fubini-riemann|Interchanging integrals|fd-multiple-int an-uniform-limits|Swapping the order of integration (Fubini–Tonelli).
+an-beta|Beta function|gamma-function fd-u-sub|B(a, b) = ∫₀¹ t^{a−1}(1 − t)^{b−1} dt = Γ(a)Γ(b)/Γ(a + b).
+an-gaussian-int|Gaussian integral|gaussian an-fubini-riemann fd-polar-coords|∫ e^{−x²} dx = √π, found by squaring and switching to polar coordinates.
+an-gamma-half|Γ(1/2) = √π|an-gaussian-int gamma-function|The gamma function at one half equals the Gaussian integral.
+an-reflection|Euler’s reflection formula|gamma-function infinite-products|Γ(z)Γ(1 − z) = π/sin(πz).
+an-duplication|Legendre duplication formula|an-beta|Γ(z)Γ(z + 1/2) = 2^{1−2z}√π Γ(2z).
+an-bohr-mollerup|Bohr–Mollerup theorem|gamma-function an-convex|Γ is the only log-convex function with Γ(1) = 1 and Γ(x + 1) = xΓ(x).
+an-convex|Convex functions|fd-second-deriv-test|Functions lying below their chords; f″ ≥ 0 for twice-differentiable ones.
+an-jensen|Jensen’s inequality|an-convex|f(average) ≤ average of f for convex f.
+an-holder-minkowski|Hölder and Minkowski inequalities|an-jensen fd-cauchy-schwarz|Generalisations of Cauchy–Schwarz and the triangle inequality to p-th powers.
+an-metric-spaces|Metric spaces|an-open-closed fd-inequalities|Sets with a distance function obeying the triangle inequality.
+an-topology-basic|Topological spaces|an-metric-spaces ls-set-ops|Open sets as the primitive notion of nearness.
+an-completeness-metric|Complete metric spaces|an-metric-spaces an-cauchy-complete|Spaces where every Cauchy sequence converges.
+an-contraction|Contraction mapping theorem|an-completeness-metric an-lipschitz|A map that shrinks distances has exactly one fixed point, found by iteration.
+an-compactness-metric|Compactness in metric spaces|an-metric-spaces an-heine-borel|Sequential compactness, total boundedness and finite subcovers.
+an-arzela|Arzelà–Ascoli theorem|an-compactness-metric an-uniform-cont|Bounded equicontinuous families of functions have uniformly convergent subsequences.
+an-baire|Baire category theorem|an-completeness-metric|A complete metric space is not a countable union of nowhere-dense sets.
+an-normed|Normed spaces|an-metric-spaces la-norms|Vector spaces with a norm, and the metric it induces.
+an-banach|Banach spaces|an-normed an-completeness-metric|Complete normed spaces, like C[a, b] with the sup norm.
+an-hilbert|Hilbert spaces|an-banach la-inner-product|Complete inner-product spaces, like L².
+an-sup-norm|The sup norm and C[a, b]|an-normed an-uniform-limits|‖f‖∞ = max |f|, the norm of uniform convergence.
+an-bounded-ops|Bounded linear operators|an-normed la-linear-maps|Linear maps with ‖Tx‖ ≤ C‖x‖.
+an-hahn-banach|Hahn–Banach theorem|an-bounded-ops la-dual-space ls-zorn|Linear functionals extend from subspaces without increasing norm.
+an-open-mapping|Open mapping and closed graph theorems|an-baire an-bounded-ops|Surjective bounded operators between Banach spaces are open.
+an-uniform-bounded|Uniform boundedness principle|an-baire an-bounded-ops|Pointwise-bounded families of operators are uniformly bounded; explains divergent Fourier series.
+an-riesz-rep|Riesz representation theorem|an-hilbert an-bounded-ops|Every bounded functional on a Hilbert space is an inner product with a fixed vector.
+an-orthonormal-bases|Orthonormal bases in Hilbert space|an-hilbert la-gram-schmidt|Every vector is the sum of its components along an orthonormal basis (Parseval).
+an-compact-ops|Compact operators|an-bounded-ops an-arzela|Operators sending bounded sets to precompact sets; they behave like matrices.
+an-spectral-ops|Spectral theory of operators|an-compact-ops la-spectral|Eigenvalue decompositions for compact self-adjoint operators.
+an-sigma-algebras|σ-algebras|ls-set-ops ls-countable|Collections of sets closed under complements and countable unions.
+an-measures|Measures|an-sigma-algebras|Countably additive assignments of size to sets.
+an-lebesgue-measure|Lebesgue measure|an-measures fd-intervals|The measure on ℝ giving intervals their length.
+an-null-sets|Sets of measure zero|an-lebesgue-measure ls-countable|Sets coverable by intervals of arbitrarily small total length; countable sets are null.
+an-cantor-set|Cantor set|an-null-sets ls-uncountable|An uncountable set of measure zero.
+an-measurable-fn|Measurable functions|an-measures|Functions whose preimages of intervals are measurable.
+an-lebesgue-int|Lebesgue integral|an-measurable-fn an-sup-inf|Integrating by slicing the range rather than the domain.
+an-mct|Monotone convergence theorem (integrals)|an-lebesgue-int|Integrals of increasing non-negative functions converge to the integral of the limit.
+an-dominated|Dominated convergence theorem|an-mct|If |fₙ| ≤ g with g integrable and fₙ → f, then ∫ fₙ → ∫ f.
+an-fatou|Fatou’s lemma|an-mct|∫ lim inf fₙ ≤ lim inf ∫ fₙ.
+an-fubini|Fubini–Tonelli theorem|an-lebesgue-int an-fubini-riemann|Iterated integrals agree with the double integral under integrability or positivity.
+an-lp|Lᵖ spaces|an-lebesgue-int an-holder-minkowski an-banach|Spaces of functions with ∫|f|ᵖ finite.
+an-l2|L² and square-integrable functions|an-lp an-hilbert|The Hilbert space where Fourier series live.
+an-density-cont|Density of continuous functions in Lᵖ|an-lp an-bump-functions|Every Lᵖ function is approximated by smooth compactly supported ones.
+an-ae|Almost everywhere|an-null-sets an-measurable-fn|Properties holding outside a set of measure zero.
+an-bv|Functions of bounded variation|an-sup-inf fd-monotone|Functions whose total up-and-down movement is finite; differences of increasing functions.
+an-stieltjes|Riemann–Stieltjes integral|an-riemann-integral an-bv|∫ f dg, integrating against a function such as π(x).
+an-stieltjes-primes|Sums over primes as Stieltjes integrals|an-stieltjes prime-counting|Σ_{p≤x} f(p) = ∫ f dπ, so sums over primes can be integrated by parts.
+an-abs-cont|Absolute continuity|an-bv an-lebesgue-int|Functions that are integrals of their derivatives.
+an-lebesgue-diff|Lebesgue differentiation theorem|an-abs-cont an-ae|Averages over shrinking intervals recover the function almost everywhere.
+an-fourier-series|Fourier series|fourier-cosine an-l2|Writing a periodic function as Σ cₙe^{inx} with cₙ from integrals.
+an-fourier-coeffs|Fourier coefficients and decay|an-fourier-series fd-by-parts|Smoother functions have faster-decaying coefficients.
+an-riemann-lebesgue|Riemann–Lebesgue lemma|an-fourier-coeffs an-density-cont|Fourier coefficients of an integrable function tend to zero.
+an-dirichlet-kernel|Dirichlet kernel and pointwise convergence|an-fourier-series|Partial sums as convolution with the Dirichlet kernel; convergence for piecewise smooth functions.
+an-gibbs|Gibbs phenomenon|an-dirichlet-kernel|Fourier partial sums overshoot a jump by about 9% however many terms are taken.
+an-fejer|Fejér’s theorem|an-dirichlet-kernel summation-methods|Cesàro means of Fourier series converge uniformly for continuous functions.
+an-parseval|Parseval’s identity|an-fourier-series an-orthonormal-bases|∫|f|² equals the sum of |cₙ|².
+an-basel-fourier|ζ(2) from Fourier series|an-parseval even-zeta|Parseval applied to f(x) = x gives Σ 1/n² = π²/6.
+an-fourier-transform|Fourier transform|an-fourier-series an-improper-rig complex-numbers|f̂(ξ) = ∫ f(x)e^{−2πixξ}dx, the continuous analogue of Fourier coefficients.
+an-ft-gaussian|Fourier transform of the Gaussian|an-fourier-transform an-gaussian-int|e^{−πx²} is its own Fourier transform.
+an-convolution|Convolution|an-fourier-transform|(f ∗ g)(x) = ∫ f(y)g(x − y)dy; the Fourier transform turns it into a product.
+an-approx-identity|Approximate identities and mollifiers|an-convolution an-bump-functions|Convolving with narrowing bumps smooths a function and converges back to it.
+an-plancherel|Plancherel theorem|an-fourier-transform an-l2|The Fourier transform preserves L² norms.
+an-inversion|Fourier inversion|an-fourier-transform an-approx-identity|f is recovered from f̂ by the inverse transform.
+an-poisson-summation|Poisson summation formula|an-fourier-transform an-fourier-series|Σ f(n) = Σ f̂(k): sums over integers equal sums of the transform.
+an-uncertainty|Uncertainty principle|an-plancherel|A function and its Fourier transform cannot both be sharply concentrated.
+an-paley-wiener|Paley–Wiener theorem|an-fourier-transform holomorphic|Band-limited functions are exactly entire functions of exponential type.
+an-distributions|Distributions|an-fourier-transform an-bump-functions an-dual-space-fn|Generalised functions like the Dirac delta, acting on smooth test functions.
+an-dual-space-fn|Duality for function spaces|an-hahn-banach|Linear functionals on function spaces, such as integration against a measure.
+an-dirac-delta|Dirac delta|an-distributions|The distribution that evaluates a test function at 0.
+an-mellin|Mellin transform|an-fourier-transform gamma-function|∫₀^∞ f(x)x^{s−1}dx; it turns Dirichlet series and the gamma function into each other.
+an-mellin-inversion|Mellin inversion and Perron’s formula|an-mellin residues|Recovering sums of coefficients from a Dirichlet series by a contour integral.
+an-laplace-transform|Laplace transform|laplace-integrals an-improper-rig|∫₀^∞ f(t)e^{−st}dt, turning differential equations into algebra.
+an-cauchy-riemann|Cauchy–Riemann equations|holomorphic fd-partial-deriv|uₓ = v_y and u_y = −vₓ, the condition for complex differentiability.
+an-complex-exp-log|Complex exponential and logarithm|fd-complex-polar an-exp-rigorous|e^z for complex z and the many-valued logarithm.
+an-branch-cuts|Branch cuts|an-complex-exp-log|Cutting the plane so that log z and z^a become single-valued.
+an-contour-int|Contour integrals|holomorphic fd-param-curves|Integrating along a path in the complex plane.
+an-cauchy-thm|Cauchy’s theorem|an-contour-int an-cauchy-riemann|The integral of a holomorphic function around a closed loop is zero.
+an-cauchy-formula|Cauchy’s integral formula|an-cauchy-thm|A holomorphic function’s values inside a loop are determined by its values on the loop.
+an-holo-analytic|Holomorphic functions are analytic|an-cauchy-formula an-power-series|Every holomorphic function has a convergent power series at each point.
+an-liouville|Liouville’s theorem|an-cauchy-formula|A bounded entire function is constant; this proves the fundamental theorem of algebra.
+an-max-modulus|Maximum modulus principle|an-cauchy-formula||f| has no interior maximum for non-constant holomorphic f.
+an-identity-thm|Identity theorem|an-holo-analytic|Holomorphic functions agreeing on a set with a limit point agree everywhere; continuation is unique.
+an-laurent|Laurent series|an-holo-analytic|Expansions with negative powers around a singularity.
+an-singularities|Classification of singularities|an-laurent|Removable singularities, poles and essential singularities.
+an-meromorphic|Meromorphic functions|an-singularities|Functions holomorphic except at isolated poles.
+an-residue-thm|Residue theorem|an-laurent residues|A contour integral equals 2πi times the sum of enclosed residues.
+an-real-integrals-res|Real integrals by residues|an-residue-thm|Evaluating ∫ of rational and trigonometric functions by closing contours.
+an-jordan-lemma|Jordan’s lemma|an-real-integrals-res|Bounding integrals over large arcs of e^{iaz}g(z).
+an-argument-principle|Argument principle|an-residue-thm an-meromorphic|The winding of f around 0 counts zeros minus poles; the basis for counting zeta zeros.
+an-rouche|Rouché’s theorem|an-argument-principle|A small perturbation does not change the number of zeros inside a contour.
+an-mittag-leffler|Mittag-Leffler expansions|an-meromorphic cotangent|Writing a meromorphic function as a sum over its poles.
+an-weierstrass-prod|Weierstrass factorisation|infinite-products an-meromorphic|Entire functions as infinite products over their zeros.
+an-hadamard|Hadamard factorisation and order|an-weierstrass-prod|Entire functions of finite order are products over zeros times e^{polynomial}.
+an-jensen-formula|Jensen’s formula|an-hadamard|Relates the zeros of an entire function to the average of log|f| on circles.
+an-phragmen|Phragmén–Lindelöf principle|an-max-modulus|Maximum principles on unbounded regions under growth conditions.
+an-conformal|Conformal maps|holomorphic|Holomorphic maps preserve angles.
+an-mobius-trans|Möbius transformations|an-conformal|z ↦ (az + b)/(cz + d), the conformal maps of the Riemann sphere.
+an-riemann-mapping|Riemann mapping theorem|an-conformal an-arzela|Every simply connected proper domain is conformally the unit disc.
+an-harmonic|Harmonic functions|an-cauchy-riemann fd-partial-deriv|Solutions of Laplace’s equation, real parts of holomorphic functions.
+an-schwarz|Schwarz lemma|an-max-modulus|A holomorphic self-map of the disc fixing 0 shrinks distances to 0.
+an-analytic-cont-gamma|Continuation of the gamma function|gamma-function analytic-continuation an-meromorphic|Γ extends to a meromorphic function with poles at 0, −1, −2, ….
+an-zeta-continuation|Continuation of ζ(s)|zeta analytic-continuation an-analytic-cont-gamma|ζ extends to all s ≠ 1, for example through the eta function or the functional equation.
+an-functional-eq|Functional equation of ζ|an-zeta-continuation an-poisson-summation nt-theta|ξ(s) = ξ(1 − s), from Poisson summation for the theta function.
+an-digamma-series|Series for the digamma function|digamma an-weierstrass-prod|ψ(z) = −γ + Σ (1/(n + 1) − 1/(n + z)).
+an-polygamma|Polygamma functions|an-digamma-series|Derivatives of ψ, related to Hurwitz zeta values.
+an-hurwitz|Hurwitz zeta function|zeta an-polygamma|ζ(s, a) = Σ 1/(n + a)ˢ, a shifted zeta function.
+an-polylog|Polylogarithms|an-power-series zeta|Liₛ(z) = Σ zⁿ/nˢ; at z = 1 it is ζ(s).
+an-erf|Error function|an-gaussian-int incomplete-gamma|The integral of the Gaussian, a special case of the incomplete gamma function.
+an-bessel|Bessel functions|an-power-series fd-odes-intro|Solutions of Bessel’s equation, arising from circular symmetry.
+an-hypergeometric|Hypergeometric functions|an-power-series gamma-function|Series whose term ratios are rational in n; many special functions are cases of them.
+an-elliptic-int|Elliptic integrals|arc-length an-hypergeometric|Integrals for the arc length of an ellipse, not expressible in elementary terms.
+an-theta-fns|Theta functions|an-poisson-summation infinite-products|Σ e^{πin²τ}, with a transformation law from Poisson summation.
+an-modular-forms|Modular forms|an-theta-fns an-mobius-trans|Holomorphic functions with symmetry under z ↦ (az + b)/(cz + d).
+an-dedekind-eta|Dedekind eta function|an-modular-forms co-partition-gf|q^{1/24} Π (1 − qⁿ), linked to partitions and Ramanujan’s formulas.
+an-ode-existence|Existence and uniqueness for ODEs|an-contraction fd-odes-intro|Picard’s theorem: Lipschitz right-hand sides give unique local solutions.
+an-ode-linear2|Second-order linear ODEs|fd-odes-intro la-linear-odes|y″ + py′ + qy = 0, solved by characteristic roots or series.
+an-sturm|Sturm–Liouville problems|an-ode-linear2 an-orthonormal-bases|Boundary-value problems whose eigenfunctions form orthogonal bases.
+an-pde-intro|Partial differential equations|fd-partial-deriv fd-odes-intro|Equations relating partial derivatives, such as heat, wave and Laplace equations.
+an-heat-eq|Heat equation|an-pde-intro an-fourier-series|uₜ = u_xx, solved by Fourier series; Gaussian kernels spread heat.
+an-wave-eq|Wave equation|an-pde-intro an-fourier-series|u_tt = c²u_xx and d’Alembert’s travelling-wave solution.
+an-laplace-eq|Laplace’s equation|an-pde-intro an-harmonic|Δu = 0, describing equilibrium.
+an-separation-vars|Separation of variables|an-pde-intro an-sturm|Writing a solution as a product of one-variable functions.
+an-green|Green’s functions|an-pde-intro an-dirac-delta|Solutions for a point source, from which general solutions are built by integration.
+an-variational|Calculus of variations|fd-optimization fd-by-parts|Finding curves that minimise an integral, through the Euler–Lagrange equation.
+an-euler-lagrange|Euler–Lagrange equation|an-variational fd-partial-deriv|The differential equation satisfied by a minimiser of ∫ L(x, y, y′)dx.
+an-dynamical|Dynamical systems|iteration fd-odes-intro|How states evolve under repeated maps or flows.
+an-fixed-points-dyn|Fixed points and stability|an-dynamical fd-linear-approx|Equilibria and whether nearby states move toward or away from them.
+an-bifurcation|Bifurcations|an-fixed-points-dyn|Qualitative changes in behaviour as a parameter crosses a threshold.
+an-chaos|Chaos and sensitive dependence|an-bifurcation|Deterministic systems whose trajectories diverge exponentially.
+an-logistic-map|Logistic map|an-chaos logistic|xₙ₊₁ = rxₙ(1 − xₙ), with period doubling into chaos.
+an-fractals|Fractals and dimension|an-cantor-set an-dynamical|Self-similar sets with non-integer dimension.
+an-ergodic|Ergodic theory|an-dynamical an-measures|Time averages equal space averages for ergodic systems.
+an-equidistribution|Equidistribution|an-ergodic an-fourier-series|Sequences spreading evenly, like {nα} for irrational α (Weyl).
+an-implicit-fn|Inverse and implicit function theorems|fd-gradient an-contraction|Local invertibility from a non-singular derivative.
+an-jacobian|Jacobian and change of variables|fd-multiple-int la-determinant|Changing variables in multiple integrals multiplies by |det J|.
+an-vector-calculus|Vector calculus|fd-gradient fd-multiple-int|Divergence, curl, line and surface integrals.
+an-green-stokes|Green, Stokes and divergence theorems|an-vector-calculus|Integrals of derivatives over regions equal integrals over their boundaries.
+an-diff-forms|Differential forms|an-green-stokes la-tensors|A language unifying the integral theorems as ∫_M dω = ∫_∂M ω.
+an-real-analytic-cont|Uniqueness of interpolating functions|an-identity-thm|Many smooth functions pass through the same points; extra conditions like growth or convexity are needed to single one out.
+an-carlson|Carlson’s theorem|an-phragmen an-real-analytic-cont|An entire function of small enough exponential type vanishing at the integers is zero.
+an-growth-orders|Orders of growth|big-o an-limsup|Comparing functions by limits of ratios: o, O, ~ and Θ.
+an-dirichlet-series|Dirichlet series|an-series-conv holomorphic|Σ aₙ/nˢ, convergent in half-planes and holomorphic there.
+an-abscissa|Abscissa of convergence|an-dirichlet-series an-limsup|The boundary line Re s = σ_c of a Dirichlet series’ convergence half-plane.
+an-landau-thm|Landau’s theorem on Dirichlet series|an-abscissa|A Dirichlet series with non-negative coefficients has a singularity on its line of convergence.
+an-tauberian|Tauberian theorems|summation-methods an-growth-orders|Conditions under which a summable series is actually convergent.
+an-wiener-ikehara|Wiener–Ikehara theorem|an-tauberian an-fourier-transform|A Tauberian theorem that gives the prime number theorem from the behaviour of ζ on Re s = 1.
+an-hardy-littlewood-taub|Hardy–Littlewood Tauberian theorem|an-tauberian laplace-integrals|Asymptotics of coefficients from the behaviour of their Laplace transform near 0.

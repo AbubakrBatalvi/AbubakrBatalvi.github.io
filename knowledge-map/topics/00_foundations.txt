@@ -1,0 +1,116 @@
+D 0
+fd-naturals|Natural numbers|ls-peano|The counting numbers 0, 1, 2, … with addition and multiplication defined by recursion.
+fd-nat-arith|Arithmetic laws of ℕ|fd-naturals ls-induction|Commutativity, associativity and distributivity of + and ×, each proved by induction.
+fd-nat-order|Order on ℕ|fd-nat-arith|m ≤ n when n = m + k for some k; it is a well-order.
+fd-integers|Integers|fd-nat-arith ls-equiv-rel|ℤ built as pairs of naturals (a, b) standing for a − b, so subtraction always works.
+fd-int-order|Order and sign in ℤ|fd-integers fd-nat-order|Positive, negative and zero, and how inequalities behave under multiplication by negatives.
+fd-abs-value|Absolute value|fd-int-order||x|, the distance from 0; it satisfies the triangle inequality.
+fd-division-alg|Division with remainder|fd-int-order ls-well-ordering|For b > 0 there are unique q, r with a = qb + r and 0 ≤ r < b.
+fd-rationals|Rational numbers|fd-integers ls-equiv-rel|ℚ built as fractions a/b with b ≠ 0, where a/b = c/d when ad = bc.
+fd-field-axioms|Field axioms|fd-rationals|The rules for +, −, × and ÷ shared by ℚ, ℝ and ℂ.
+fd-order-axioms|Ordered field axioms|fd-field-axioms fd-int-order|Compatibility of < with + and ×: adding preserves order, multiplying by positives preserves it.
+fd-sqrt2-irrational|√2 is irrational|fd-rationals ls-contradiction|No fraction squares to 2, so ℚ has gaps.
+fd-dedekind-cuts|Dedekind cuts|fd-rationals ls-subsets fd-sqrt2-irrational|Building each real number as a downward-closed set of rationals, filling the gaps in ℚ.
+fd-cauchy-reals|Reals from Cauchy sequences|fd-rationals ls-equiv-rel|Building ℝ as classes of rational Cauchy sequences that get arbitrarily close.
+fd-reals|Real numbers|fd-dedekind-cuts fd-order-axioms|The complete ordered field ℝ: the number line without gaps.
+fd-completeness|Completeness axiom|fd-reals ls-sup-inf-order|Every non-empty set of reals bounded above has a least upper bound.
+fd-archimedean|Archimedean property|fd-completeness|For any real x there is a natural number larger than x.
+fd-density|Density of ℚ in ℝ|fd-archimedean|Between any two reals there is a rational, and an irrational.
+fd-intervals|Intervals|fd-reals|Sets like [a, b], (a, b) and [a, ∞) on the real line.
+fd-inequalities|Inequalities|fd-order-axioms fd-abs-value|Manipulating <, ≤ and absolute values; the triangle inequality |x + y| ≤ |x| + |y|.
+fd-amgm|AM–GM inequality|fd-inequalities|The arithmetic mean of non-negative numbers is at least their geometric mean.
+fd-bernoulli-ineq|Bernoulli’s inequality|fd-inequalities ls-induction|(1 + x)ⁿ ≥ 1 + nx for x ≥ −1, a workhorse for limits.
+fd-cauchy-schwarz|Cauchy–Schwarz inequality|fd-inequalities|(Σ aᵢbᵢ)² ≤ (Σ aᵢ²)(Σ bᵢ²).
+fd-exponents|Integer exponents|fd-field-axioms|aⁿ as repeated multiplication, with a⁻ⁿ = 1/aⁿ and the exponent laws.
+fd-roots|Roots and rational exponents|fd-exponents fd-completeness|The n-th root as the unique positive solution of xⁿ = a, and a^{p/q}.
+fd-real-exponents|Real exponents|fd-roots fd-density|Defining aˣ for irrational x as a limit of rational powers.
+fd-scientific|Scientific notation and orders of magnitude|fd-exponents|Writing numbers as a × 10ⁿ and comparing sizes by powers of ten.
+fd-algebra-expr|Algebraic expressions|fd-field-axioms|Combining variables and numbers with operations, and simplifying.
+fd-linear-eq|Linear equations|fd-algebra-expr|Solving ax + b = 0 and systems of such equations.
+fd-quadratic|Quadratic equations|fd-algebra-expr fd-roots|ax² + bx + c = 0, completing the square and the quadratic formula.
+fd-discriminant|Discriminant|fd-quadratic|b² − 4ac decides whether a quadratic has two, one or no real roots.
+fd-factoring|Factoring polynomials|fd-algebra-expr|Writing a polynomial as a product of simpler ones.
+fd-binomial-thm|Binomial theorem|fd-exponents co-binomial-coeff|(a + b)ⁿ = Σ C(n, k) aᵏ bⁿ⁻ᵏ.
+fd-cartesian-plane|The coordinate plane|fd-reals ls-cartesian|Points as pairs (x, y) of real numbers.
+fd-lines|Lines and slope|fd-cartesian-plane fd-linear-eq|y = mx + b, slope as rise over run.
+fd-distance-formula|Distance formula|fd-cartesian-plane fd-roots|The distance between points from Pythagoras: √((x₂ − x₁)² + (y₂ − y₁)²).
+fd-circles|Circles and conics|fd-distance-formula fd-quadratic|Circles, ellipses, parabolas and hyperbolas as solution sets of quadratic equations.
+fd-graph-transform|Transforming graphs|functions|Shifts, stretches and reflections: how f(x − a), a·f(x) and f(−x) move a graph.
+fd-domain-range|Domain and range|functions|The inputs a function accepts and the outputs it produces.
+fd-piecewise|Piecewise functions|functions|Functions defined by different formulas on different intervals, such as |x|.
+fd-monotone|Increasing and decreasing functions|functions fd-order-axioms|Functions that preserve or reverse order.
+fd-floor-ceil|Floor, ceiling and fractional part|functions fd-archimedean|⌊x⌋, ⌈x⌉ and {x} = x − ⌊x⌋, the step functions behind prime counting.
+fd-rational-fns|Rational functions|polynomials|Ratios of polynomials, with poles where the denominator vanishes.
+fd-asymptotes|Asymptotes|fd-rational-fns limits|Lines that a graph approaches far out or near a pole.
+fd-exp-growth|Exponential growth and decay|logexp|Quantities changing at a rate proportional to their size.
+fd-log-laws|Laws of logarithms|logexp|log(ab) = log a + log b, log aⁿ = n log a, and change of base.
+fd-e|The number e|standard-limit|e = lim (1 + 1/n)ⁿ ≈ 2.71828, the base where eˣ is its own derivative.
+fd-unit-circle|Unit circle|trig fd-circles|cos θ and sin θ as coordinates of a point on the circle of radius 1.
+fd-radians|Radians|fd-unit-circle|Measuring angles by arc length on the unit circle; a full turn is 2π.
+fd-trig-identities|Trigonometric identities|trig|sin² + cos² = 1, angle-addition formulas, double angles.
+fd-inverse-trig|Inverse trigonometric functions|trig inverse-functions|arcsin, arccos and arctan on restricted domains.
+fd-sequences|Sequences|functions fd-naturals|Functions from ℕ, written a₁, a₂, a₃, ….
+fd-arith-seq|Arithmetic sequences|fd-sequences|Sequences with a constant difference, and their sums n(a₁ + aₙ)/2.
+fd-sigma|Sigma notation|fd-sequences|Σ for sums, with index shifts and splitting sums.
+fd-sum-formulas|Power-sum formulas|fd-sigma ls-induction|Σk = n(n + 1)/2, Σk² = n(n + 1)(2n + 1)/6 and their relatives.
+fd-telescoping|Telescoping sums|fd-sigma|Sums where consecutive terms cancel, leaving only the ends.
+fd-product-notation|Product notation|fd-sigma|Π for products, as in n! = Π k.
+fd-limit-seq|Limit of a sequence|fd-sequences fd-abs-value|aₙ → L when the terms eventually stay within any tolerance of L.
+fd-limit-laws|Limit laws|limits|Limits of sums, products and quotients are the sums, products and quotients of limits.
+fd-squeeze|Squeeze theorem|limits fd-inequalities|A function trapped between two with the same limit has that limit too.
+fd-one-sided|One-sided limits|limits|Approaching from the left or from the right only.
+fd-limits-infinity|Limits at infinity|limits|Behaviour as x grows without bound.
+fd-continuity|Continuity|limits|f is continuous at a when lim_{x→a} f(x) = f(a).
+fd-ivt|Intermediate value theorem|fd-continuity fd-completeness|A continuous function on [a, b] takes every value between f(a) and f(b).
+fd-evt|Extreme value theorem|fd-continuity fd-completeness|A continuous function on a closed interval attains a maximum and a minimum.
+fd-diff-rules|Differentiation rules|derivatives|Power, product, quotient and sum rules.
+fd-chain-rule|Chain rule|fd-diff-rules|(f ∘ g)′ = f′(g) · g′.
+fd-implicit-diff|Implicit differentiation|fd-chain-rule|Differentiating an equation in x and y without solving for y.
+fd-deriv-exp-log|Derivatives of exp and log|fd-diff-rules logexp|(eˣ)′ = eˣ and (ln x)′ = 1/x.
+fd-deriv-trig|Derivatives of trigonometric functions|fd-diff-rules trig|(sin x)′ = cos x and (cos x)′ = −sin x.
+fd-higher-deriv|Higher derivatives|derivatives|f″, f‴ and f⁽ⁿ⁾: rates of change of rates of change.
+fd-rolle|Rolle’s theorem|fd-evt derivatives|If f(a) = f(b), some point between has f′ = 0.
+fd-mvt|Mean value theorem|fd-rolle|Somewhere the slope equals the average slope (f(b) − f(a))/(b − a).
+fd-monotone-deriv|Derivative and monotonicity|fd-mvt fd-monotone|f′ > 0 on an interval means f is increasing there.
+fd-extrema|Local extrema and critical points|fd-monotone-deriv|Maxima and minima occur where f′ = 0 or f′ fails to exist.
+fd-second-deriv-test|Concavity and the second-derivative test|fd-extrema fd-higher-deriv|f″ > 0 means concave up, and identifies minima at critical points.
+fd-optimization|Optimisation problems|fd-extrema|Finding the best value of a quantity by setting its derivative to zero.
+fd-related-rates|Related rates|fd-chain-rule|Linking the rates of change of connected quantities.
+fd-linear-approx|Linear approximation|derivatives|f(x) ≈ f(a) + f′(a)(x − a) near a.
+fd-lhopital|L’Hôpital’s rule|fd-mvt fd-limit-laws|0/0 and ∞/∞ limits found by differentiating numerator and denominator.
+fd-antiderivatives|Antiderivatives|derivatives|Functions whose derivative is a given function, unique up to a constant.
+fd-ftc|Fundamental theorem of calculus|integrals fd-antiderivatives fd-mvt|Integration and differentiation undo each other.
+fd-definite-integral|Definite integral as a limit|riemann-sums fd-limit-seq|The integral as the limit of Riemann sums as the rectangles shrink.
+fd-integral-props|Properties of integrals|integrals|Linearity, additivity over intervals and comparison of integrals.
+fd-u-sub|Substitution|fd-ftc fd-chain-rule|Undoing the chain rule to integrate.
+fd-by-parts|Integration by parts|fd-ftc fd-diff-rules|∫u dv = uv − ∫v du, undoing the product rule.
+fd-partial-fractions|Partial fractions|fd-rational-fns fd-u-sub|Splitting a rational function into simple pieces that integrate to logs and arctangents.
+fd-trig-sub|Trigonometric substitution|fd-u-sub fd-trig-identities|Using x = sin θ and similar to integrate square roots of quadratics.
+fd-improper|Improper integrals|integrals fd-limits-infinity|Integrals over infinite ranges or through singularities, defined as limits.
+fd-area-between|Area between curves|integrals|∫ (f − g) over the interval where f ≥ g.
+fd-volumes|Volumes of revolution|integrals|Discs, washers and shells.
+fd-average-value|Average value of a function|integrals|(1/(b − a)) ∫ₐᵇ f.
+fd-odes-intro|Differential equations|derivatives fd-antiderivatives|Equations relating a function to its derivatives.
+fd-separable|Separable equations|fd-odes-intro fd-u-sub|dy/dx = g(x)h(y), solved by integrating each side.
+fd-linear-ode1|First-order linear equations|fd-odes-intro fd-deriv-exp-log|y′ + p(x)y = q(x), solved with an integrating factor.
+fd-param-curves|Parametric curves|functions vectors|Curves traced by (x(t), y(t)).
+fd-polar-coords|Polar coordinates|trig fd-cartesian-plane|Points as (r, θ) with x = r cos θ, y = r sin θ.
+fd-multivar|Functions of several variables|functions fd-cartesian-plane|f(x, y) and their graphs as surfaces.
+fd-partial-deriv|Partial derivatives|fd-multivar derivatives|Differentiating with respect to one variable while holding the others fixed.
+fd-gradient|Gradient|fd-partial-deriv vectors|The vector of partial derivatives, pointing uphill.
+fd-multiple-int|Double and triple integrals|fd-multivar integrals|Integrating over regions in the plane and in space.
+fd-lagrange-mult|Lagrange multipliers|fd-gradient fd-optimization|Optimising subject to a constraint by matching gradients.
+fd-complex-arith|Complex arithmetic|complex-numbers|Adding, multiplying and dividing a + bi.
+fd-complex-polar|Polar form and Euler’s formula|complex-numbers fd-polar-coords fd-deriv-exp-log|e^{iθ} = cos θ + i sin θ.
+fd-de-moivre|De Moivre’s formula and roots of unity|fd-complex-polar|(cos θ + i sin θ)ⁿ = cos nθ + i sin nθ, and the n-th roots of 1.
+fd-mathematical-modelling|Mathematical modelling|functions|Turning a real situation into equations and checking the results against data.
+fd-dimensional|Units and dimensional analysis|fd-algebra-expr|Checking formulas by their units.
+fd-percent|Ratios, rates and percentages|fd-rationals|Comparing quantities proportionally.
+fd-vectors-components|Vector components|vectors fd-cartesian-plane|Writing vectors as (a, b) and adding componentwise.
+fd-dot-product|Dot product|fd-vectors-components fd-unit-circle|u · v = |u||v| cos θ, measuring alignment.
+fd-cross-product|Cross product|fd-dot-product|A vector perpendicular to two vectors in space, with length equal to the parallelogram’s area.
+fd-functions-composition|Composition and inverses of real functions|functions ls-composition|Building functions from others and undoing them.
+fd-even-odd-ext|Even and odd parts of a function|odd-even|Any function is the sum of an even part and an odd part.
+fd-periodic|Periodic functions|trig|f(x + T) = f(x); sines and cosines are the basic examples.
+fd-logistic-growth|Logistic growth|logistic fd-separable|Growth that slows as it approaches a ceiling, solving y′ = ry(1 − y/K).
+fd-newton-cooling|Exponential relaxation|fd-linear-ode1 fd-exp-growth|Quantities approaching equilibrium at a rate proportional to the gap.

@@ -1,0 +1,140 @@
+D 4
+ap-floating-point|Floating-point numbers|fd-scientific|Numbers stored as a mantissa times a power of two, with limited precision.
+ap-rounding|Rounding error|ap-floating-point|Each operation rounds its result, introducing a relative error of about 10⁻¹⁶ in double precision.
+ap-machine-eps|Machine epsilon|ap-rounding|The gap between 1 and the next floating-point number.
+ap-cancellation|Catastrophic cancellation|ap-rounding|Subtracting nearly equal numbers loses most significant digits.
+ap-conditioning|Conditioning of problems|ap-rounding fd-linear-approx|How much a problem’s answer changes when its input changes slightly.
+ap-stability|Numerical stability|ap-conditioning|Whether an algorithm’s rounding errors stay comparable to the problem’s conditioning.
+ap-backward-error|Backward error analysis|ap-stability|An algorithm is good if its answer is the exact answer to a nearby problem.
+ap-error-propagation|Error propagation|ap-rounding fd-partial-deriv|How errors in inputs carry through a formula.
+ap-interval-arith|Interval arithmetic|ap-rounding enclosures|Computing with intervals that are guaranteed to contain the true value.
+ap-arbitrary-precision|Arbitrary-precision arithmetic|ap-floating-point|Computing with as many digits as needed, as in mpmath.
+ap-compensated-sum|Compensated summation|ap-rounding fd-sigma|Kahan summation tracks the rounding lost in each addition.
+ap-horner|Horner’s method|polynomials ap-rounding|Evaluating a polynomial with n multiplications by nesting.
+ap-root-finding|Root finding|fd-ivt|Numerical methods for solving f(x) = 0.
+ap-bisection|Bisection method|ap-root-finding fd-ivt|Halving a bracketing interval each step; slow but certain.
+ap-fixed-point-iter|Fixed-point iteration|ap-root-finding iteration an-contraction|Solving x = g(x) by repeating x ← g(x).
+ap-newton-conv|Quadratic convergence of Newton’s method|newton-method an-taylor-remainder|Near a simple root the number of correct digits roughly doubles each step.
+ap-secant|Secant method|newton-method|Newton’s method with the derivative replaced by a difference quotient.
+ap-regula-falsi|Regula falsi and Brent’s method|ap-bisection ap-secant|Combining bracketing with fast interpolation steps.
+ap-halley|Halley’s method|ap-newton-conv|A cubically convergent method using the second derivative.
+ap-multivar-newton|Newton’s method in several variables|newton-method la-linear-systems fd-gradient|Solving systems with the Jacobian matrix.
+ap-homotopy|Homotopy continuation|ap-multivar-newton|Deforming an easy system into a hard one and tracking solutions along the way.
+ap-poly-roots|Polynomial root finding|ap-root-finding la-eigen|Roots as eigenvalues of the companion matrix.
+ap-conv-order|Order of convergence|big-o sequences-series|Linear, quadratic and higher rates at which iterates approach a limit.
+ap-interp-problem|The interpolation problem|functions polynomials|Finding a function through given data points.
+ap-vandermonde-interp|Interpolation by solving a Vandermonde system|ap-interp-problem la-vandermonde|Finding polynomial coefficients directly; badly conditioned for many points.
+ap-newton-divided|Newton divided differences|ap-interp-problem finite-differences|Building an interpolating polynomial incrementally.
+ap-interp-error|Interpolation error formula|lagrange an-taylor-remainder|f(x) − p(x) = f^{(n+1)}(ξ)/(n + 1)! · Π (x − xᵢ).
+ap-lebesgue-const|Lebesgue constant|lagrange la-matrix-norms|How much an interpolation scheme can amplify errors in the data.
+ap-chebyshev-polys|Chebyshev polynomials|trig polynomials|Tₙ(cos θ) = cos nθ, the polynomials that oscillate most evenly.
+ap-chebyshev-nodes|Chebyshev nodes|ap-chebyshev-polys runge|Interpolation points cos((2k + 1)π/2n) that keep the Lebesgue constant small.
+ap-cheb-series|Chebyshev series|ap-chebyshev-polys an-fourier-series|Expanding a function in Chebyshev polynomials; a cosine series in disguise.
+ap-hermite-interp|Hermite interpolation|lagrange derivatives|Matching values and derivatives at the nodes.
+ap-splines|Splines|piecewise-linear an-taylor-remainder|Piecewise polynomials joined smoothly at knots.
+ap-cubic-splines|Cubic splines|ap-splines la-toeplitz|Piecewise cubics with continuous second derivatives, solved from a tridiagonal system.
+ap-bsplines|B-splines|ap-splines|A local basis of spline functions.
+ap-bezier|Bézier curves|ap-bsplines co-binomial-coeff|Curves defined by control points through Bernstein polynomials.
+ap-bernstein|Bernstein polynomials|co-binomial-coeff polynomials|Σ f(k/n)C(n, k)xᵏ(1 − x)ⁿ⁻ᵏ, converging uniformly to f.
+ap-weierstrass-approx|Weierstrass approximation theorem|ap-bernstein an-uniform-limits|Every continuous function on [a, b] is a uniform limit of polynomials.
+ap-stone-weierstrass|Stone–Weierstrass theorem|ap-weierstrass-approx an-compactness-metric|Algebras of functions that separate points are dense in C(K).
+ap-best-approx|Best uniform approximation|ap-weierstrass-approx an-sup-norm|The polynomial of degree n closest to f in the sup norm.
+ap-equioscillation|Chebyshev equioscillation theorem|ap-best-approx ap-chebyshev-polys|The best approximation’s error reaches its maximum with alternating signs n + 2 times.
+ap-remez|Remez algorithm|ap-equioscillation|Computing best uniform approximations by levelling the error.
+ap-jackson|Jackson’s theorems|ap-best-approx an-lipschitz|Smoother functions have smaller best-approximation errors.
+ap-bernstein-ellipse|Analytic functions and Bernstein ellipses|ap-cheb-series an-holo-analytic|Chebyshev coefficients decay geometrically at a rate set by where the function stops being analytic.
+ap-least-squares-approx|Least-squares approximation of functions|la-projections la-orthogonal-polys|The best L² approximation is the orthogonal projection onto polynomials.
+ap-legendre-polys|Legendre polynomials|la-orthogonal-polys|Polynomials orthogonal on [−1, 1] with weight 1.
+ap-trig-interp|Trigonometric interpolation|fourier-cosine ap-interp-problem|Interpolating periodic data with sines and cosines.
+ap-dft|Discrete Fourier transform|ap-trig-interp fd-de-moivre|Transforming n samples into n frequency coefficients.
+ap-fft|Fast Fourier transform|ap-dft co-fft-alg|Computing the DFT in O(n log n) operations.
+ap-aliasing|Aliasing|sampling ap-dft|High frequencies masquerading as low ones when sampling is too sparse.
+ap-spectral-methods|Spectral methods|ap-cheb-series ap-fft an-pde-intro|Solving differential equations with global polynomial or Fourier bases.
+ap-rational-interp|Rational interpolation|rational-approx ap-interp-problem|Interpolating with ratios of polynomials; can avoid Runge oscillation but risks poles.
+ap-berrut|Berrut’s interpolant|barycentric ap-rational-interp|The barycentric rational interpolant with weights (−1)ᵏ; pole-free on the real line.
+ap-fh-weights|Floater–Hormann weights|floater-hormann co-binomial-coeff|The barycentric weights for blending degree d, alternating in sign.
+ap-fh-convergence|Convergence of Floater–Hormann interpolation|floater-hormann ap-interp-error|Rate O(h^{d+1}) for smooth functions on equispaced points.
+ap-fh-lebesgue|Lebesgue constants of Floater–Hormann|ap-fh-weights ap-lebesgue-const|They grow only logarithmically on equispaced nodes.
+ap-aaa|AAA rational approximation|ap-rational-interp barycentric|An adaptive algorithm that picks support points greedily and fits barycentric weights by least squares.
+ap-kernel-interp|Kernel (radial basis) interpolation|ap-interp-problem la-pos-def|Interpolating with sums of shifted kernels φ(|x − xᵢ|).
+ap-rkhs|Reproducing kernel Hilbert spaces|ap-kernel-interp an-hilbert|Function spaces where evaluation is an inner product with a kernel.
+ap-gaussian-process-interp|Gaussian-process interpolation|ap-kernel-interp pr-gaussian-process|Kernel interpolation viewed as the mean of a Gaussian process.
+ap-shepard|Shepard’s method|ap-interp-problem|Inverse-distance-weighted averaging of data values.
+ap-moving-ls|Moving least squares|ap-shepard least-squares|Local weighted least-squares fits that vary smoothly with position.
+ap-windowed-blend|Windowed blending of local fits|smoothstep ap-moving-ls|Combining local interpolants with overlapping smooth windows.
+ap-sinc-error|Error of sinc interpolation|sinc an-paley-wiener|Exact for band-limited functions; errors come from truncation and aliasing.
+ap-whittaker|Whittaker–Shannon sampling theorem|sinc an-paley-wiener sampling|A band-limited function is determined by samples at the Nyquist rate.
+ap-cardinal-residual|Single-mode residuals|cardinal-series ap-sinc-error|When two interpolants agree at every integer, their difference can carry a sin(πx) factor.
+ap-numerical-diff|Numerical differentiation|derivatives an-taylor-remainder|Approximating derivatives by differences, balancing truncation and rounding errors.
+ap-diff-stencils|Finite-difference stencils|ap-numerical-diff finite-differences|Weighted combinations of nearby values approximating derivatives.
+ap-complex-step|Complex-step differentiation|ap-numerical-diff complex-numbers|f′(x) ≈ Im f(x + ih)/h, free of cancellation.
+ap-autodiff|Automatic differentiation|fd-chain-rule ap-numerical-diff|Computing exact derivatives by applying the chain rule to each operation of a program.
+ap-quadrature|Numerical integration|integrals riemann-sums|Approximating integrals by weighted sums of function values.
+ap-trapezoid|Trapezoidal rule|ap-quadrature|Approximating the area by trapezoids; error O(h²).
+ap-simpson|Simpson’s rule|ap-trapezoid ap-interp-error|Fitting parabolas; error O(h⁴).
+ap-newton-cotes|Newton–Cotes rules|ap-simpson lagrange|Integrating interpolating polynomials on equispaced points.
+ap-romberg|Romberg integration|ap-trapezoid richardson euler-maclaurin|Richardson extrapolation of trapezoidal results.
+ap-gauss-quad|Gaussian quadrature|ap-quadrature la-orthogonal-polys|Nodes at zeros of orthogonal polynomials give exactness for degree 2n − 1.
+ap-clenshaw-curtis|Clenshaw–Curtis quadrature|ap-cheb-series ap-quadrature|Integrating a Chebyshev interpolant.
+ap-adaptive-quad|Adaptive quadrature|ap-simpson|Refining the mesh where the integrand is hard.
+ap-double-exp|Double-exponential quadrature|ap-trapezoid sa-trapezoid-exp|tanh–sinh substitution makes the trapezoidal rule converge very fast, even with endpoint singularities.
+ap-monte-carlo|Monte Carlo integration|ap-quadrature pr-lln|Averaging random samples; error O(1/√N) in any dimension.
+ap-quasi-mc|Quasi-Monte Carlo|ap-monte-carlo an-equidistribution|Using evenly spread point sets instead of random ones.
+ap-oscillatory-quad|Integrating oscillatory functions|ap-quadrature sa-stationary-phase|Methods like Filon and Levin for integrands such as sin(ωx)f(x).
+ap-ode-numerics|Numerical ODE solvers|fd-odes-intro ap-quadrature|Approximating solutions of y′ = f(t, y) step by step.
+ap-euler-method|Euler’s method|ap-ode-numerics fd-linear-approx|yₙ₊₁ = yₙ + h f(tₙ, yₙ); first order.
+ap-runge-kutta|Runge–Kutta methods|ap-euler-method an-taylor-remainder|Multi-stage methods such as RK4 with error O(h⁴).
+ap-multistep|Multistep methods|ap-euler-method lagrange|Adams and BDF methods that reuse past values.
+ap-stiff|Stiff equations|ap-runge-kutta ap-stability|Problems with widely separated time scales that need implicit methods.
+ap-adaptive-step|Adaptive step size|ap-runge-kutta|Estimating local error to choose the step.
+ap-symplectic|Symplectic integrators|ap-runge-kutta ge-hamiltonian|Methods that preserve the geometry of Hamiltonian systems over long times.
+ap-bvp|Boundary-value problems|ap-ode-numerics an-sturm|Shooting and finite-difference methods for conditions at both ends.
+ap-fd-pde|Finite differences for PDEs|ap-diff-stencils an-pde-intro|Grids and stencils for heat, wave and Laplace equations.
+ap-cfl|CFL condition|ap-fd-pde ap-stability|Time steps must be small enough for information not to outrun the grid.
+ap-fem|Finite element method|an-pde-intro ap-splines an-hilbert|Solving PDEs with piecewise polynomial basis functions on a mesh.
+ap-iterative-linear|Iterative linear solvers|la-linear-systems iteration|Jacobi, Gauss–Seidel and Krylov methods for large systems.
+ap-conjugate-grad|Conjugate gradient method|ap-iterative-linear la-pos-def|An optimal Krylov method for symmetric positive-definite systems.
+ap-eigen-numerics|Numerical eigenvalue algorithms|la-eigen la-qr|The QR algorithm and its variants.
+ap-optimization-num|Numerical optimisation|fd-optimization fd-gradient|Finding minima of functions by iterative methods.
+ap-gradient-descent|Gradient descent|ap-optimization-num|Stepping against the gradient.
+ap-newton-opt|Newton’s method for optimisation|ap-optimization-num ap-multivar-newton|Using the Hessian to take curvature-aware steps.
+ap-quasi-newton|Quasi-Newton methods (BFGS)|ap-newton-opt|Building up a Hessian approximation from gradient changes.
+ap-line-search|Line search and trust regions|ap-gradient-descent|Choosing step lengths that guarantee progress.
+ap-convex-opt|Convex optimisation|ap-optimization-num an-convex|Problems where every local minimum is global.
+ap-linear-prog|Linear programming|ap-convex-opt la-linear-systems|Optimising a linear objective over a polytope, by simplex or interior-point methods.
+ap-nonlinear-ls|Nonlinear least squares|least-squares ap-newton-opt|Gauss–Newton and Levenberg–Marquardt for fitting nonlinear models.
+ap-curve-fitting|Curve fitting|least-squares ap-nonlinear-ls|Choosing parameters so a formula matches data.
+ap-regularization|Regularisation|least-squares la-condition|Adding a penalty to stabilise ill-posed fits (ridge, Tikhonov).
+ap-overfitting|Overfitting|ap-curve-fitting|A model with too many parameters matches noise instead of signal.
+ap-model-selection|Model selection|ap-overfitting pr-cross-validation|Choosing model complexity by held-out error or information criteria.
+ap-residual-analysis|Residual analysis|ap-curve-fitting|Studying the leftover error to see what a model misses.
+ap-sigmoid-fits|Fitting with sigmoid blends|logistic residual-fitting|Joining regimes with logistic switches whose centre and width are fitted.
+ap-sum-of-sines|Fitting with sums of sinusoids|fourier-cosine residual-fitting|Approximating a function by a few sine or cosine terms with fitted coefficients.
+ap-gaussian-sums|Approximating with sums of Gaussians|gaussian ap-curve-fitting|Representing a function as a weighted sum of Gaussian bumps.
+ap-exp-sums-fit|Exponential sum approximation|ap-curve-fitting fd-exp-growth|Approximating functions by Σ aₖe^{−bₖx} (Prony’s method).
+ap-continued-frac-approx|Continued-fraction approximations of functions|continued-fractions rational-approx|Lambert’s and Gauss’s continued fractions for tan, arctan and others.
+ap-minimax-rational|Minimax rational approximation|ap-best-approx rational-approx|Best uniform approximation by rational functions, as used in library functions.
+ap-special-fn-eval|Evaluating special functions|ap-minimax-rational sa-poincare|Combining series, asymptotic expansions and continued fractions by region.
+ap-gamma-eval|Computing the gamma function|ap-special-fn-eval stirling|Lanczos and Stirling-based methods.
+ap-li-eval|Computing Li(x)|ap-special-fn-eval li-function nt-gram-series|Ramanujan’s series and asymptotic expansions for the logarithmic integral.
+ap-zeta-eval|Computing ζ(s)|ap-special-fn-eval euler-maclaurin|Euler–Maclaurin, alternating-series acceleration and Riemann–Siegel.
+ap-lambert-eval|Computing Lambert W|lambert-w ap-halley|Halley iterations from good starting guesses.
+ap-recurrence-stability|Stability of recurrences|stable-recurrences ap-stability|Forward recurrences can amplify errors; backward recurrence (Miller’s algorithm) can fix it.
+ap-miller-alg|Miller’s backward recurrence|ap-recurrence-stability an-bessel|Computing minimal solutions of recurrences by running them backwards.
+ap-extrapolation-limits|Extrapolation to the limit|richardson sa-convergence-accel|Estimating lim h→0 from computations at several h.
+ap-rate-estimation|Estimating convergence rates|ap-conv-order diagnostics|Fitting the observed error against n to estimate an exponent.
+ap-loglog-plots|Log–log plots|logexp ap-rate-estimation|Plotting log error against log n so power laws become straight lines.
+ap-reproducibility|Reproducible computation|diagnostics|Recording code, precision and parameters so results can be checked.
+ap-verified-computing|Computer-assisted proofs|ap-interval-arith enclosures|Using rigorous enclosures so a computation counts as part of a proof.
+ap-high-precision-tests|High-precision testing|ap-arbitrary-precision diagnostics|Checking identities and rates with many digits to rule out coincidences.
+ap-integer-relation|Integer relation detection (PSLQ)|ap-high-precision-tests|Finding integer combinations of constants that vanish, to guess closed forms.
+ap-curve-design|Designing curves by hand|residual-fitting functions|Building a target shape from basic functions by adjusting parameters interactively.
+ap-desmos|Graphing calculators and sliders|ap-curve-design|Exploring a family of curves by moving parameters, the method behind the graph lab.
+ap-shader-plotting|GPU plotting|ap-desmos co-algorithms|Evaluating formulas per pixel on a graphics card to draw them in real time.
+ap-sampling-curves|Adaptive curve sampling|ap-shader-plotting ap-adaptive-quad|Placing more sample points where a curve bends or jumps.
+ap-smoothing-splines|Smoothing splines|ap-cubic-splines ap-regularization|Splines that trade closeness to data against roughness.
+ap-wavelets|Wavelets|an-fourier-transform ap-dft|Localised oscillating basis functions that capture features at many scales.
+ap-compressed-sensing|Compressed sensing|ap-regularization la-svd|Recovering sparse signals from few measurements.
+ap-low-rank|Low-rank approximation|la-svd|Truncating the SVD gives the best rank-k approximation (Eckart–Young).
+ap-neural-approx|Neural networks as approximators|ap-gradient-descent logistic|Networks of simple units can approximate continuous functions (universal approximation).
+ap-manifold-learning|Manifold learning|la-pca ge-manifolds|Finding low-dimensional surfaces on which data lie.

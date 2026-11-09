@@ -1,0 +1,75 @@
+D 9
+co-counting|Counting principles|ls-finite fd-nat-arith|The sum and product rules: counting choices made one after another or one instead of another.
+co-permutations|Permutations|co-counting factorial|Ordered arrangements; n! ways to order n objects and n!/(n − k)! to choose k in order.
+co-combinations|Combinations|co-permutations|Unordered selections; C(n, k) = n!/(k!(n − k)!).
+co-binomial-coeff|Binomial coefficients|co-combinations|C(n, k), the entries of Pascal’s triangle.
+co-pascal|Pascal’s triangle and identities|co-binomial-coeff|C(n, k) = C(n − 1, k − 1) + C(n − 1, k), and other identities from counting two ways.
+co-multinomial|Multinomial coefficients|co-binomial-coeff|Counting arrangements of objects with repeated types.
+co-stars-bars|Stars and bars|co-combinations|Counting ways to split n identical items into k groups: C(n + k − 1, k − 1).
+co-pigeonhole|Pigeonhole principle|ls-pigeonhole-logic co-counting|Placing n + 1 objects in n boxes forces a shared box.
+co-incl-excl|Inclusion–exclusion|co-counting ls-set-ops||A ∪ B| = |A| + |B| − |A ∩ B|, and its many-set version.
+co-derangements|Derangements|co-incl-excl|Permutations with no fixed point; about n!/e of them.
+co-double-counting|Double counting|co-counting|Counting the same set two ways to prove an identity.
+co-bijective-proof|Bijective proofs|co-counting ls-injective|Showing two sets have equal size by pairing their elements.
+co-recurrences|Recurrence relations|fd-sequences iteration|Sequences defined from earlier terms, like Fibonacci.
+co-linear-recur|Linear recurrences|co-recurrences fd-quadratic|Solved with characteristic roots: aₙ = c₁r₁ⁿ + c₂r₂ⁿ.
+co-fibonacci|Fibonacci numbers|co-linear-recur|1, 1, 2, 3, 5, 8, …; Binet’s formula uses the golden ratio.
+co-catalan|Catalan numbers|co-binomial-coeff co-recurrences|C(2n, n)/(n + 1), counting bracketings, paths and trees.
+co-stirling-numbers|Stirling numbers|co-recurrences co-combinations|Counting partitions of sets and permutations by cycles.
+co-bell|Bell numbers|co-stirling-numbers|The number of partitions of an n-element set.
+co-partitions-int|Integer partitions|co-counting|Ways to write n as a sum of positive integers, ignoring order.
+co-gen-functions|Generating functions|co-recurrences polynomials|Encoding a sequence as the coefficients of a power series.
+co-egf|Exponential generating functions|co-gen-functions factorial|Σ aₙxⁿ/n!, suited to labelled structures.
+co-partition-gf|Partition generating function|co-gen-functions co-partitions-int infinite-products|Σ p(n)qⁿ = Π 1/(1 − qᵏ).
+co-hardy-ramanujan|Hardy–Ramanujan partition asymptotics|co-partition-gf sa-saddle-point|p(n) ~ e^{π√(2n/3)}/(4n√3).
+co-graphs|Graphs|ls-relations|Vertices joined by edges.
+co-degree|Degrees and the handshake lemma|co-graphs co-double-counting|The sum of degrees is twice the number of edges.
+co-paths-cycles|Paths, cycles and connectivity|co-graphs|Walking along edges; connected graphs have a path between any two vertices.
+co-trees|Trees|co-paths-cycles|Connected graphs without cycles; a tree on n vertices has n − 1 edges.
+co-spanning-trees|Spanning trees|co-trees|Trees containing every vertex of a graph.
+co-cayley-formula|Cayley’s formula|co-spanning-trees co-bijective-proof|There are nⁿ⁻² labelled trees on n vertices.
+co-euler-paths|Euler paths|co-degree co-paths-cycles|A walk using every edge once exists exactly when at most two vertices have odd degree.
+co-hamilton|Hamiltonian cycles|co-paths-cycles|Cycles visiting every vertex once; no simple test is known.
+co-bipartite|Bipartite graphs|co-graphs|Graphs whose vertices split into two sides with edges only across.
+co-matching|Matchings and Hall’s theorem|co-bipartite|A perfect matching exists when every set of vertices has enough neighbours.
+co-coloring|Graph colouring|co-graphs|Colouring vertices so neighbours differ; the chromatic number.
+co-planar|Planar graphs and Euler’s formula|co-graphs|V − E + F = 2 for connected planar graphs.
+co-four-colour|Four colour theorem|co-planar co-coloring|Every planar map can be coloured with four colours.
+co-directed|Directed graphs|co-graphs|Graphs with arrows; prerequisite maps are directed graphs without cycles.
+co-dag|Directed acyclic graphs and topological order|co-directed|Graphs with no directed cycles can be listed so every arrow points forward.
+co-longest-path|Longest paths in DAGs|co-dag|Computed in one pass in topological order; this is how levels on this map are found.
+co-shortest-path|Shortest paths|co-paths-cycles|Breadth-first search and Dijkstra’s algorithm.
+co-bfs-dfs|Breadth- and depth-first search|co-graphs ls-computability|Systematic ways to visit every vertex.
+co-network-flow|Network flows|co-directed|Max-flow equals min-cut.
+co-adjacency|Adjacency matrices|co-graphs la-matrices|Encoding a graph as a matrix; powers count walks.
+co-spectral-graph|Spectral graph theory|co-adjacency la-spectral|Eigenvalues of graph matrices reveal connectivity and clustering.
+co-random-graphs|Random graphs|co-graphs probability|Graphs where each edge appears independently with probability p.
+co-ramsey|Ramsey theory|co-pigeonhole co-coloring|Large enough structures always contain ordered substructures.
+co-extremal|Extremal combinatorics|co-graphs co-double-counting|How large a structure can be while avoiding a pattern.
+co-probabilistic-method|Probabilistic method|co-random-graphs|Proving something exists by showing a random choice works with positive probability.
+co-designs|Block designs|co-double-counting|Arrangements where every pair appears together equally often.
+co-latin-squares|Latin squares|co-designs|n × n grids where each symbol appears once in every row and column.
+co-polya|Pólya counting|al-burnside co-gen-functions|Counting colourings up to symmetry.
+co-lattice-paths|Lattice paths|co-binomial-coeff|Counting paths on a grid with unit steps.
+co-ballot|Ballot problem and reflection|co-lattice-paths|Counting paths that stay above a line by reflecting the bad ones.
+co-asymptotic-counting|Asymptotic enumeration|co-gen-functions big-o|Estimating how fast counts grow.
+co-discrete-calc|Calculus of finite differences|finite-differences co-recurrences|Δ and Σ playing the roles of derivative and integral.
+co-falling-factorial|Falling factorials|co-discrete-calc factorial|xⁿ̲ = x(x − 1)…(x − n + 1), with Δxⁿ̲ = n xⁿ⁻¹̲.
+co-mobius-poset|Möbius inversion on posets|ls-orders co-incl-excl|A general inversion formula containing inclusion–exclusion and the number-theoretic Möbius function.
+co-bernoulli-numbers|Bernoulli numbers|co-egf fd-sum-formulas|The numbers Bₙ in power-sum formulas and in x/(eˣ − 1) = Σ Bₙxⁿ/n!.
+co-euler-numbers|Euler and zigzag numbers|co-egf|Coefficients of sec x + tan x, counting alternating permutations.
+co-harmonic-numbers|Harmonic numbers|fd-sigma|Hₙ = 1 + 1/2 + … + 1/n ≈ ln n + γ.
+co-algorithms|Algorithms and running time|ls-complexity big-o|Step-by-step procedures and how their cost grows with input size.
+co-sorting|Sorting|co-algorithms|Ordering a list, in about n log n comparisons at best.
+co-divide-conquer|Divide and conquer|co-algorithms co-recurrences|Splitting a problem in halves; the master theorem gives the cost.
+co-dynamic-prog|Dynamic programming|co-algorithms co-recurrences|Solving overlapping subproblems once and storing the answers.
+co-greedy|Greedy algorithms|co-algorithms|Making the locally best choice at each step.
+co-binary-search|Binary search|co-divide-conquer fd-order-axioms|Halving a sorted range to find a value in log n steps.
+co-hashing|Hashing|co-algorithms probability|Spreading keys over buckets with a function that looks random.
+co-fft-alg|Fast Fourier transform (algorithm)|co-divide-conquer fd-de-moivre|Computing a discrete Fourier transform in n log n operations.
+co-sieve-alg|Sieve algorithms|co-algorithms primes|Crossing off multiples to list primes up to N in about N log log N steps.
+co-cellular-automata|Cellular automata|iteration co-graphs|Grids of cells updating by a local rule, like the Game of Life.
+co-boolean-circuits|Boolean circuits|ls-boolean-algebra co-dag|Networks of logic gates computing functions of bits.
+co-information|Information and entropy (discrete)|co-counting logexp|Bits needed to describe an outcome; log₂ of the number of possibilities.
+co-coding|Error-correcting codes|co-information al-finite-fields|Adding redundancy so errors can be detected and fixed.
+co-cryptography|Public-key cryptography|nt-modular-exp co-algorithms|Encryption built on problems like factoring that are easy one way and hard the other.

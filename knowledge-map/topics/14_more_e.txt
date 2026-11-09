@@ -1,0 +1,90 @@
+D 6
+ge-gravity|Newton’s law of gravitation|ge-mechanics fd-exponents|Attraction proportional to the masses and inversely to the square of the distance.
+ge-friction|Friction|ge-mechanics|Forces resisting sliding, roughly proportional to the normal force.
+ge-circular-motion|Circular motion|ge-kinematics fd-unit-circle|Centripetal acceleration v²/r toward the centre.
+ge-torque|Torque and levers|ge-statics fd-cross-product|Turning effect of a force about a pivot.
+ge-angular-momentum|Angular momentum|ge-rigid-body ge-torque|Conserved when no external torque acts.
+ge-springs-hooke|Hooke’s law|ge-mechanics|Spring force proportional to stretch, F = −kx.
+ge-energy-pendulum|Energy in the pendulum|ge-pendulum ge-energy|Exchanging kinetic and potential energy as it swings.
+ge-coupled-osc|Coupled oscillators and normal modes|ge-oscillators la-eigen|Systems of springs vibrate as sums of independent modes.
+ge-chaos-pendulum|Double pendulum|ge-lagrangian an-chaos|A simple mechanical system with chaotic motion.
+ge-nbody|N-body problem|ge-gravity ap-ode-numerics|Simulating many gravitating bodies.
+ge-relativity-note|Special relativity (overview)|ge-mechanics la-matrices|Space and time mixing under Lorentz transformations.
+ge-heat-flow|Heat flow|an-heat-eq ge-energy|Diffusion of temperature through a material.
+ge-electrostatics|Electrostatics and potentials|an-laplace-eq ge-gravity|Electric potentials satisfy Laplace’s or Poisson’s equation.
+ge-light-curves|Caustics and envelopes of rays|ge-envelopes ge-optics|Bright curves where reflected or refracted rays bunch up.
+ge-snell|Snell’s law|ge-optics fd-trig-identities|n₁ sin θ₁ = n₂ sin θ₂ for refraction.
+ge-sound|Sound and harmonics|ge-waves-phys an-fourier-series|Musical tones as sums of harmonics.
+ge-beats|Beats and interference|ge-sound fd-sum-to-product|Two close frequencies combine into a slowly varying envelope.
+ge-tiling-proofs|Dissection proofs|ge-area ge-pythagoras|Proving area facts by cutting and rearranging pieces.
+ge-golden-geometry|The golden ratio in geometry|nt-golden-ratio ge-polygons|Diagonals of the regular pentagon and golden rectangles.
+ge-spiral-growth|Logarithmic spirals in nature|ge-spirals fd-exp-growth|Shells and galaxies with self-similar spirals.
+D 5
+pr-dice|Dice and fair games|pr-equally-likely|The basic laboratory of probability.
+pr-expected-games|Expected value of games|pr-expectation pr-dice|Deciding whether a game is worth playing.
+pr-variance-games|Risk and variance in games|pr-variance-def pr-expected-games|Two games with the same mean can differ in risk.
+pr-kelly|Kelly criterion|pr-expected-games logexp|Betting a fraction that maximises long-run growth.
+pr-random-sum-sign|Random signs and cancellation|pr-random-walk-1d pr-variance-sums|Σ ±1 is typically of size √n, not n.
+pr-rademacher|Rademacher variables|pr-random-sum-sign|Independent ±1 signs, the simplest model of random cancellation.
+pr-khintchine|Khintchine’s inequality|pr-rademacher an-lp|Moments of Σ aᵢεᵢ are comparable to (Σ aᵢ²)^{1/2}.
+pr-concentration|Concentration of measure|pr-hoeffding|Functions of many independent variables are nearly constant.
+pr-statistical-power|Statistical power|pr-hypothesis|The chance a test detects a real effect.
+pr-effect-size|Effect sizes|pr-statistical-power pr-standardizing|How large a difference is, not just whether it exists.
+D 3
+nt-modular-clock|Clock arithmetic|nt-congruences|Arithmetic that wraps around, like hours on a clock.
+nt-calendar|Calendar calculations|nt-modular-clock|Working out days of the week with congruences.
+nt-checksums|Check digits|nt-modular-clock|ISBN and card numbers detect typing errors with congruences.
+nt-repunits|Repunits and decimal periods|nt-orders-mod fd-repeating-dec|The period of 1/p in decimal is the order of 10 mod p.
+nt-amicable|Amicable numbers|nt-sigma|Pairs where each is the sum of the other’s proper divisors.
+nt-abundant|Abundant and deficient numbers|nt-sigma|σ(n) above or below 2n.
+nt-egyptian|Egyptian fractions|fd-fractions co-greedy|Writing fractions as sums of distinct unit fractions.
+nt-sum-reciprocals|Sums of reciprocals|an-p-series nt-prime-reciprocals|Which sums of 1/aₙ converge, for squares, primes and twin primes.
+nt-basel|The Basel problem|even-zeta nt-zeta-2-proofs|Euler’s evaluation Σ 1/n² = π²/6.
+nt-euler-product-proof|Euler’s product proof of infinitely many primes|nt-euler-product an-p-series|If there were finitely many primes, ζ(1) would be a finite product.
+D 9
+co-handshake-apps|Counting with graphs|co-degree|Applications of degree counting to tournaments and networks.
+co-tournaments|Tournaments|co-directed|Complete directed graphs, as in round-robin competitions.
+co-chessboard|Chessboard problems|co-counting co-coloring|Rooks, queens and knight’s tours.
+co-tiling-count|Counting tilings|co-recurrences co-fibonacci|Domino tilings of strips give Fibonacci numbers.
+co-necklaces|Counting necklaces|co-polya|Arrangements of beads up to rotation.
+co-sperner|Sperner’s lemma|co-coloring ge-brouwer|A colouring lemma that implies Brouwer’s fixed-point theorem.
+co-hypergraphs|Hypergraphs|co-graphs|Edges joining any number of vertices.
+co-matroids|Matroids|la-independence co-greedy|Abstract independence, exactly where greedy algorithms work.
+co-scheduling|Scheduling|co-critical-path co-greedy|Ordering tasks with dependencies and deadlines.
+co-search-trees|Search trees|co-trees co-binary-search|Balanced trees for fast lookup.
+D 7
+ls-paradoxes|Paradoxes|ls-russell|Zeno, the liar and Banach–Tarski, and what each teaches.
+ls-zeno|Zeno’s paradoxes|ls-paradoxes geometric-series|Infinitely many steps can take finite time because the series converges.
+ls-banach-tarski|Banach–Tarski paradox|ls-choice an-lebesgue-measure|With choice, a ball can be cut into pieces and reassembled into two balls; the pieces are not measurable.
+ls-infinity-kinds|Kinds of infinity|ls-cardinals ls-ordinals|Size versus order: cardinals and ordinals.
+ls-definability|Definable numbers|ls-countable ls-first-order|Only countably many reals can be described in a fixed language.
+D 8
+al-groups-examples|Examples of groups|al-groups|Integers under addition, rotations of a square, invertible matrices.
+al-rubik|Rubik’s cube group|al-perm-groups|The cube’s moves form a permutation group of size about 4.3 × 10¹⁹.
+al-clock-groups|ℤ/n as a group|al-cyclic nt-modular-clock|Clock arithmetic as the model cyclic group.
+al-field-examples|Examples of fields|al-fields|ℚ, ℝ, ℂ, finite fields and fields of rational functions.
+al-matrix-rings|Matrix rings|la-matrix-mult al-rings|n × n matrices form a non-commutative ring.
+D 0
+fd-proof-algebra|Algebraic proofs|fd-algebra-expr ls-proof-direct|Proving identities by manipulating expressions.
+fd-inequality-proofs|Proving inequalities|fd-inequalities ls-proof-direct|Using squares, AM–GM and convexity to prove bounds.
+fd-sequences-recursive|Recursively defined sequences|fd-sequences ls-recursion-thm|Sequences given by a starting value and a rule for the next term.
+fd-convergence-recursive|Limits of recursive sequences|fd-sequences-recursive an-monotone-conv|Showing a recursive sequence is monotone and bounded, then solving L = f(L).
+fd-sqrt-iteration|Babylonian square roots|fd-convergence-recursive newton-method|xₙ₊₁ = (xₙ + a/xₙ)/2 converges quickly to √a.
+D 1
+an-lim-exp-proof|Proof that (1 + x/n)ⁿ → eˣ|standard-limit an-log-series|Taking logarithms and using ln(1 + t) = t + O(t²).
+an-stirling-proof|A proof of Stirling’s formula|sa-stirling-laplace an-wallis-link|Laplace’s method or the Wallis product fixes the constant √(2π).
+an-wallis-link|Wallis product and Stirling’s constant|fd-wallis stirling|The Wallis product determines the √(2π) in Stirling’s formula.
+an-volume-ball|Volume of the n-dimensional ball|an-gamma-half fd-multiple-int|πⁿ/²rⁿ/Γ(n/2 + 1), which tends to 0 as n grows.
+an-gaussian-ndim|Gaussian integrals in n dimensions|an-gaussian-int la-pos-def|∫ e^{−xᵀAx} = π^{n/2}/√det A.
+D 2
+sa-asymp-coin-flips|Asymptotics of binomial coefficients|co-binomial-coeff stirling|C(2n, n) ~ 4ⁿ/√(πn).
+sa-asymp-catalan|Asymptotics of Catalan numbers|co-catalan sa-asymp-coin-flips|Cₙ ~ 4ⁿ/(n^{3/2}√π).
+sa-asymp-fibonacci|Asymptotics of linear recurrences|co-linear-recur sa-asymp-equiv|The largest characteristic root dominates; Fₙ ~ φⁿ/√5.
+sa-asymp-partitions-link|Saddle points for partitions|co-hardy-ramanujan sa-saddle-point|The partition asymptotic from a saddle-point estimate of the generating function.
+sa-asymp-derangements|Derangements and 1/e|co-derangements sa-asymp-equiv|The proportion of derangements tends to 1/e very quickly.
+D 4
+ap-sqrt-algorithms|Square-root algorithms|fd-sqrt-iteration ap-newton-conv|Newton’s method for √a doubles the correct digits each step.
+ap-cordic|CORDIC|la-rotations ap-floating-point|Computing trigonometric functions with shifts and adds by rotating vectors.
+ap-exp-log-eval|Evaluating exp and log|ap-special-fn-eval an-exp-rigorous|Range reduction plus short polynomial or rational approximations.
+ap-trig-eval|Evaluating sine and cosine|ap-exp-log-eval fd-periodic|Reducing the argument modulo π/2 and using a short approximation.
+ap-pi-computation|Computing π|fd-pi-series-intro ap-arbitrary-precision|Machin formulas, the AGM and Chudnovsky series.

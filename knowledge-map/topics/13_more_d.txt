@@ -1,0 +1,137 @@
+D 3
+nt-gauss-composition|Gauss composition|nt-quadratic-forms nt-class-group|Combining binary quadratic forms into a group.
+nt-genus-theory|Genus theory|nt-gauss-composition nt-qr|Which numbers a form can represent, sorted by local conditions.
+nt-continued-frac-e|Continued fraction of e|nt-cf-convergents nt-e-irrational|e = [2; 1, 2, 1, 1, 4, 1, 1, 6, …].
+nt-measure-irr|Irrationality measure|nt-dioph-approx nt-roth|How well a number can be approximated by rationals, measured by an exponent.
+nt-normal-numbers|Normal numbers|nt-base-b an-ergodic|Numbers whose digits appear with equal frequency in every block length.
+nt-uniform-dist-mod1|Uniform distribution mod 1|an-equidistribution nt-dioph-approx|Sequences whose fractional parts fill [0, 1) evenly.
+nt-weyl-criterion|Weyl’s criterion|nt-uniform-dist-mod1 exp-sums|Equidistribution holds exactly when the exponential sums are o(N).
+nt-discrepancy|Discrepancy|nt-uniform-dist-mod1|A quantitative measure of how unevenly points are spread.
+nt-van-der-corput-seq|Van der Corput sequences|nt-discrepancy nt-base-b|Reflecting base-b digits gives low-discrepancy points for quasi-Monte Carlo.
+nt-additive-nt|Additive number theory|nt-goldbach nt-waring|Writing integers as sums from special sets.
+nt-schnirelmann|Schnirelmann density|nt-additive-nt|A density notion that shows every integer is a sum of a bounded number of primes.
+nt-sumsets|Sumsets|nt-additive-nt co-extremal|Sets A + B and how large they must be.
+nt-green-tao|Green–Tao theorem|nt-sumsets nt-selberg-sieve|The primes contain arbitrarily long arithmetic progressions.
+nt-szemeredi|Szemerédi’s theorem|co-ramsey nt-sumsets|Dense sets of integers contain long arithmetic progressions.
+nt-partitions-nt|Partitions in number theory|co-partitions-int an-dedekind-eta|Congruences and asymptotics of p(n), via modular forms.
+nt-ramanujan-congruences|Ramanujan’s partition congruences|nt-partitions-nt|p(5n + 4) ≡ 0 (mod 5) and its relatives.
+nt-rademacher|Rademacher’s exact formula|nt-partitions-nt co-hardy-ramanujan|A convergent series for p(n).
+nt-lattices|Lattices and geometry of numbers|la-basis nt-dioph-approx|Discrete subgroups of ℝⁿ and their fundamental domains.
+nt-minkowski|Minkowski’s theorem|nt-lattices ge-convex-sets|A symmetric convex body of volume above 2ⁿ contains a non-zero lattice point.
+nt-lll|Lattice reduction (LLL)|nt-lattices co-algorithms|Finding short lattice vectors, used in integer-relation searches.
+nt-heights|Heights of rational points|nt-mordell|Measures of the arithmetic size of points.
+nt-tate|Elliptic curves over finite fields|nt-elliptic-curves al-finite-fields|Counting points mod p; Hasse’s bound |N − p − 1| ≤ 2√p.
+nt-ecm|Elliptic curve factoring|nt-tate nt-factoring-alg|Lenstra’s method uses random elliptic curves to find factors.
+nt-l-function-ec|L-functions of elliptic curves|nt-tate nt-euler-product|Euler products built from point counts mod p.
+nt-selberg-class|Selberg class|nt-l-functions an-functional-eq|An axiomatic class of L-functions with Euler products and functional equations.
+nt-automorphic|Automorphic forms|an-modular-forms al-representation|Generalisations of modular forms to other groups.
+nt-trace-formula|Trace formulas|nt-automorphic nt-explicit-psi|Identities relating spectral data to geometric or arithmetic data, like explicit formulas.
+nt-montgomery|Montgomery’s pair correlation|nt-zero-spacing pr-pair-correlation|Pair correlation of zeta zeros follows 1 − (sin πx/πx)².
+nt-keating-snaith|Moments of ζ and random matrices|nt-montgomery pr-random-matrices|Predictions for averages of |ζ(½ + it)|^{2k} from random matrix theory.
+nt-moments-zeta|Moments of the zeta function|an-zeta-growth nt-approx-fn-link|Averages of |ζ(½ + it)|² and |ζ(½ + it)|⁴ over t.
+nt-approx-fn-link|Short sums for ζ on the critical line|an-zeta-approx-fn|ζ(½ + it) approximated by sums of length about √t.
+nt-de-bruijn-newman|De Bruijn–Newman constant|nt-riemann-xi rh|A parameter in a heat-flow deformation of ξ; RH is equivalent to Λ ≤ 0, and Λ ≥ 0 is proved.
+nt-li-criterion|Li’s criterion|rh nt-riemann-xi|RH holds exactly when a certain sequence of constants is non-negative.
+nt-robin|Robin’s inequality|rh nt-sigma|RH is equivalent to σ(n) < e^γ n ln ln n for n > 5040.
+nt-nyman-beurling|Nyman–Beurling criterion|rh an-l2|RH as a statement about approximating a function in L².
+nt-weil-conj|Weil conjectures|nt-tate rh|The Riemann Hypothesis for curves over finite fields, proved by Weil and Deligne.
+nt-function-fields|Function field analogues|nt-weil-conj al-polys-finite-fields|Polynomials over finite fields behave like integers, with a proved RH.
+nt-prime-polys|Prime polynomials|nt-function-fields|Counting irreducible polynomials mod p: about qⁿ/n of degree n.
+nt-collatz-records|Collatz stopping times|collatz nt-collatz-heur|How long orbits take to fall, and record holders.
+nt-collatz-tao|Tao’s almost-all result|nt-collatz-records pr-random-models-nt|Almost all Collatz orbits attain almost bounded values.
+nt-divisor-function-avg|Average number of divisors|divisors nt-divisor-problem|An integer up to x has about ln x divisors on average.
+nt-tau-graph|Visualising divisor counts|divisors nt-highly-composite|Plotting d(n) shows spikes at highly composite numbers.
+nt-pi-graph|Visualising π(x) and its approximations|prime-counting li-function riemann-r|Plotting π(x) against x/ln x, Li(x) and R(x).
+nt-staircase|π(x) as a staircase|prime-counting fd-step-functions|π jumps by one at each prime; smooth approximations follow its trend.
+D 4
+ap-interp-vs-approx|Interpolation versus approximation|ap-interp-problem ap-least-squares-approx|Passing through data exactly versus fitting it closely.
+ap-node-families|Node families|ap-interp-problem|Equispaced, Chebyshev, Legendre and other point sets.
+ap-lebesgue-equi|Lebesgue constants on equispaced nodes|ap-lebesgue-const ap-node-families|They grow like 2ⁿ/(n ln n) for polynomial interpolation.
+ap-mock-cheb|Mock-Chebyshev subsets|ap-chebyshev-nodes ap-equispaced-problem|Choosing equispaced points close to Chebyshev points.
+ap-least-squares-poly|Polynomial least squares on equispaced points|ap-least-squares-approx ap-equispaced-problem|Using degree about √n keeps fits stable.
+ap-pade-interp|Multipoint Padé approximation|sa-pade ap-rational-interp|Rational interpolation matching values at several points.
+ap-froissart|Froissart doublets|ap-rational-interp ap-rounding|Spurious pole–zero pairs that appear in noisy rational fits.
+ap-rational-poles|Controlling poles of rational interpolants|ap-rational-interp ap-fh-poles|Choosing weights so no poles fall on the interval.
+ap-trefethen-ideas|Approximation theory and practice|ap-cheb-series ap-rational-interp|The modern view: Chebyshev technology and rational functions for computing with functions.
+ap-chebfun|Computing with functions|ap-trefethen-ideas|Representing functions by Chebyshev interpolants to machine precision and operating on them.
+ap-rootfinding-cheb|Root finding with Chebyshev expansions|ap-chebfun ap-poly-roots|Roots as eigenvalues of a colleague matrix.
+ap-quadrature-error|Quadrature error analysis|ap-quadrature an-taylor-remainder|Error terms like −(b − a)h²f″(ξ)/12 for the trapezoidal rule.
+ap-euler-mac-quad|Euler–Maclaurin and quadrature|euler-maclaurin ap-quadrature-error|The trapezoidal error expands in even powers of h, enabling Romberg.
+ap-singular-integrands|Singular integrands|ap-quadrature an-improper-rig|Handling endpoint singularities by substitution or special rules.
+ap-sum-acceleration-num|Accelerating sums numerically|sa-convergence-accel ap-quadrature|Summing slow series with transformations instead of brute force.
+ap-alternating-accel|Accelerating alternating sums|sa-euler-transform ap-sum-acceleration-num|Cohen–Villegas–Zagier and Euler methods for alternating series.
+ap-zeta-numerics|Numerics of ζ on the critical line|ap-zeta-eval nt-riemann-siegel|Evaluating ζ(½ + it) for large t.
+ap-perspective-render|Rendering a curve in perspective|ge-perspective-floor ap-shader-plotting|Mapping a 2D graph onto a tilted plane in a 3D view.
+ap-gpu-sampling|Per-pixel curve sampling on the GPU|ap-shader-plotting ap-sampling-curves|Evaluating functions on every pixel to draw thin, accurate curves.
+ap-thumbnail|Rendering previews|ap-shader-plotting|Producing small static images of interactive graphs.
+ap-sliders-params|Parameters and sliders|ap-desmos|Exposing constants as controls so their effect is visible.
+ap-animation|Animating parameters|ap-sliders-params|Moving a parameter over time to show how a family of curves changes.
+ap-numerical-kernels|Kernel choices|ap-kernel-interp kde|Gaussian, Epanechnikov, compact polynomial kernels and their trade-offs.
+ap-bandwidth-num|Choosing a kernel width numerically|ap-numerical-kernels pr-cross-validation|Picking the width by cross-validation or rules of thumb.
+ap-smooth-interp-windows|Blending local interpolants with windows|ap-windowed-blend piecewise-linear|Overlapping windows mix neighbouring pieces into one smooth curve.
+D 5
+pr-lln-proof|Proof of the weak law of large numbers|pr-lln pr-chebyshev-ineq|Chebyshev’s inequality with Var(mean) = σ²/n.
+pr-clt-examples|Central limit theorem in practice|pr-clt-proof pr-simulation|Sums of dice, coin flips and measurement errors look normal.
+pr-normal-approx-binom|Normal approximation to the binomial|pr-de-moivre-laplace pr-standardizing|Continuity corrections and when the approximation is good.
+pr-poisson-approx-rare|Poisson approximation for rare events|pr-poisson-limit pr-indicator|Counts of many unlikely, nearly independent events are about Poisson.
+pr-chen-stein|Chen–Stein method|pr-poisson-approx-rare|Bounding the error of Poisson approximations with dependent events.
+pr-stein-method|Stein’s method|pr-chen-stein pr-clt-proof|A general technique for bounding distances to normal and Poisson laws.
+pr-tail-probs|Tail probabilities|pr-cdf pr-chernoff|P(X > x) for large x, and how fast it decays.
+pr-neg-binom-tails|Tails of the negative binomial|pr-neg-binom-dist pr-tail-probs an-incomplete-beta|Expressed through incomplete beta functions.
+pr-gamma-poisson|Gamma–Poisson duality|pr-gamma-dist pr-poisson-process incomplete-gamma|P(Poisson(λ) ≤ k) equals an incomplete gamma ratio.
+pr-borel-dist|Borel distribution|pr-branching pr-poisson-dist|The total size of a Poisson branching process.
+pr-likelihood-ratio-bounds|Likelihood-ratio bounds between distributions|pr-kl likelihood-ratio|Bounding one probability law by another through their density ratio.
+pr-local-clt-coeffs|Local CLT for coefficient sequences|pr-local-limit sa-neg-binom-coeff|Approximating individual coefficients by a Gaussian shape in one regime.
+pr-random-walk-bridge|Random walk bridges|pr-random-walk-1d pr-conditional|Random walks conditioned to end at a given point.
+pr-scaling-random-walk|Scaling of random walks|pr-donsker pr-hurst|Rescaling time by n and space by √n gives Brownian motion.
+pr-mean-reversion|Mean reversion|pr-stationary-proc pr-negative-correlation|Processes pulled back toward a mean (Ornstein–Uhlenbeck).
+pr-ou|Ornstein–Uhlenbeck process|pr-mean-reversion pr-stochastic-calc|Brownian motion with a restoring force.
+pr-ergodic-averages|Ergodic averages|an-ergodic pr-slln|Time averages along a trajectory converge to space averages.
+pr-random-matrix-zeros|Random matrices and zeta zeros|pr-random-matrices nt-montgomery|Why eigenvalue statistics predict zero statistics.
+D 6
+ge-blending-shapes|Blending shapes smoothly|ge-signed-distance smooth-max|Smooth minimum and maximum of distance fields merge shapes without seams.
+ge-smooth-min|Smooth minimum functions|smooth-max logexp|−k⁻¹ ln(e^{−ka} + e^{−kb}) and polynomial variants.
+ge-softmax|Softmax|ge-smooth-min pr-exp-families|Turning scores into probabilities with exponentials.
+ge-lse|Log-sum-exp|ge-softmax|A smooth maximum of several numbers, max + O(ln n / k).
+ge-rotations-3d|Rotations in 3D|la-rotations al-quaternions|Euler angles, axis–angle form and quaternions.
+ge-orientation-interp|Interpolating orientations|ge-rotations-3d ge-slerp|Smoothly blending between rotations.
+ge-constraint-manifolds-ml|Constraint surfaces in learning|ge-submanifolds ap-neural-approx|Keeping parameters or outputs on a surface during training.
+ge-retraction|Retractions|ge-projection-manifold ge-exp-map|Cheap maps back onto a manifold used in optimisation.
+ge-riemannian-opt|Optimisation on manifolds|ge-retraction ap-gradient-descent|Gradient steps that stay on a constraint surface.
+ge-manifold-kernel|Kernel interpolation on manifolds|ge-riemannian kernel-regression|Weighting by geodesic rather than straight-line distance.
+D 8
+la-interpolation-matrix|Interpolation as a linear system|la-vandermonde ap-interp-problem|Interpolation conditions form a linear system whose matrix is a Vandermonde or kernel matrix.
+la-ill-conditioning-interp|Ill-conditioning in interpolation|la-interpolation-matrix la-condition|Vandermonde matrices on equispaced points are exponentially ill-conditioned.
+la-difference-operator|Difference operators as matrices|la-matrices finite-differences|Δ as a bidiagonal matrix; powers give higher differences.
+la-tridiagonal|Tridiagonal systems|la-lu la-sparse|Solved in linear time; they arise from splines and second differences.
+la-iterative-refinement|Iterative refinement|la-lu ap-rounding|Improving a computed solution by solving for the residual.
+la-krylov|Krylov subspaces|la-span la-power-method|Spaces spanned by b, Ab, A²b, …, behind conjugate gradients and GMRES.
+la-lanczos|Lanczos and Arnoldi methods|la-krylov la-gram-schmidt|Building orthogonal Krylov bases to approximate eigenvalues.
+la-randomized|Randomised linear algebra|la-svd pr-random-matrices|Using random projections to compute low-rank factorisations quickly.
+D 9
+co-map-search|Searching a large map|co-algorithms co-graphs|Finding a node among thousands by name with an index.
+co-reachability|Reachability|co-dag co-bfs-dfs|Which nodes can be reached from a given one, used to find everything a topic depends on.
+co-shortest-chains|Shortest chains in a prerequisite graph|co-reachability co-shortest-path|Fewest steps from a basic topic to an advanced one.
+co-smallest-jumps|Chains with the smallest jumps|co-shortest-chains co-longest-path|Paths that drop as few levels as possible at each step, as in this map’s critical chain.
+D 7
+ls-logic-of-limits|Logic of limits|ls-nested-quant an-eps-delta|Negating “for every ε there is δ” to show a limit fails.
+ls-proof-strategies|Proof strategies|ls-proof-direct ls-contradiction ls-induction|Choosing among direct proof, contradiction, induction and construction.
+ls-reading-proofs|Reading and checking proofs|ls-proof-strategies|Checking each step, its hypotheses and the quantifiers.
+D 2
+sa-bernoulli-asymp|Asymptotics of Bernoulli numbers|co-bernoulli-numbers an-zeta-even-fourier||B₂ₙ| ~ 4√(πn)(n/(πe))²ⁿ, from ζ(2n) → 1.
+sa-zeta-sum-divergence|Why Σ B₂ₖ x²ᵏ diverges|sa-bernoulli-asymp sa-gevrey|Bernoulli numbers grow factorially, so their generating series has radius zero.
+sa-asymp-lambert-w-num|Expansions of W for computation|sa-lambert-w-asymp ap-lambert-eval|Asymptotic starting values for Newton or Halley iterations.
+sa-asymp-pn-bounds|Asymptotics behind prime bounds|sa-nth-prime-asymp nt-pn-bounds|Where the terms in explicit bounds for pₙ come from.
+sa-li-inverse-asymp|Asymptotics of Li⁻¹|nt-li-inverse sa-asymp-inverse|Li⁻¹(n) = n ln n + n ln ln n − n + …, matching pₙ.
+D 1
+an-sinc-interp-entire|Sinc interpolation of entire functions|an-band-limited sinc|For functions of exponential type at most π, sinc series through integer values converge.
+an-cardinal-uniqueness|Uniqueness of cardinal interpolation|an-sinc-interp-entire an-carlson|Two functions of small type agreeing at the integers differ by a multiple of sin πx at most.
+an-gamma-from-integers|The gamma function from integer values|an-gamma-fe an-cardinal-uniqueness|Why n! alone does not determine Γ, and what extra conditions do.
+D 0
+fd-reading-graphs|Reading graphs|functions fd-cartesian-plane|Extracting values, trends and features from a plotted curve.
+fd-estimation|Estimation and approximation|fd-scientific fd-inequalities|Getting the right order of magnitude with simple bounds.
+fd-models-curves|Choosing a curve family|fd-functions-from-data fd-exp-growth|Linear, power, exponential or logistic: which shape fits the data.
+D 4
+ap-error-budget|Error budgets|ap-error-propagation ap-quadrature-error|Splitting a total error into truncation, rounding and modelling parts.
+ap-tolerance|Tolerances and stopping rules|ap-conv-order ap-error-budget|Deciding when an iteration is accurate enough to stop.
+ap-benchmarking|Benchmarking numerical methods|ap-reproducibility ap-tolerance|Comparing methods fairly on accuracy and cost.

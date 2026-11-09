@@ -1,0 +1,99 @@
+D 2
+sa-asymp-notation|Asymptotic notation|big-o an-growth-orders|f ~ g, f = O(g), f = o(g): comparing behaviour as a variable grows.
+sa-asymp-equiv|Asymptotic equivalence|sa-asymp-notation|f ~ g when f/g → 1; how Stirling’s and the prime number theorem are stated.
+sa-asymp-scales|Asymptotic scales|sa-asymp-notation|Sequences of comparison functions like xⁿ, xⁿ log x, e^{−x}, used to organise expansions.
+sa-poincare|Poincaré asymptotic expansions|sa-asymp-scales asymptotic-series|f ~ Σ aₖφₖ when each truncation error is smaller than the last term kept.
+sa-uniqueness-asymp|Uniqueness of asymptotic expansions|sa-poincare|The coefficients of an expansion in a given scale are unique, but different functions can share one.
+sa-exp-small|Exponentially small terms|sa-uniqueness-asymp|Terms like e^{−x} invisible to every power-series expansion in 1/x.
+sa-integration-parts-asymp|Asymptotics by integration by parts|fd-by-parts sa-poincare|Repeated integration by parts produces an asymptotic series and its remainder.
+sa-watson|Watson’s lemma|sa-integration-parts-asymp laplace-integrals|Expanding ∫₀^∞ e^{−xt}f(t)dt term by term in powers of 1/x.
+sa-laplace-method|Laplace’s method|sa-watson gaussian|∫ e^{xφ(t)}dt is dominated by the maximum of φ, giving a Gaussian approximation.
+sa-stirling-laplace|Stirling’s formula from Laplace’s method|sa-laplace-method stirling|Applying Laplace’s method to Γ(x + 1) = ∫ tˣe^{−t}dt.
+sa-stationary-phase|Stationary phase|sa-laplace-method an-fourier-transform|Oscillatory integrals are dominated by points where the phase is stationary.
+sa-saddle-point|Saddle-point method|sa-laplace-method an-contour-int|Deforming a contour through a saddle of the exponent to estimate integrals.
+sa-steepest-descent|Method of steepest descent|sa-saddle-point|Following paths along which the phase is constant and the size falls fastest.
+sa-li-asymp|Asymptotic expansion of Li(x)|li-function sa-integration-parts-asymp|Li(x) ~ (x/ln x) Σ k!/(ln x)ᵏ, a divergent asymptotic series.
+sa-gamma-asymp|Asymptotics of the gamma function|stirling sa-poincare co-bernoulli-numbers|ln Γ(z) ~ (z − ½)ln z − z + ½ ln 2π + Σ B₂ₖ/(2k(2k − 1)z^{2k−1}).
+sa-incomplete-gamma-asymp|Asymptotics of the incomplete gamma function|incomplete-gamma sa-watson|Expansions of Γ(a, x) for large x and in the transition region a ≈ x.
+sa-uniform-asymp|Uniform asymptotic expansions|sa-incomplete-gamma-asymp|Expansions valid across a transition, where simple expansions break down.
+sa-erfc-transition|Error-function transitions|an-erf sa-uniform-asymp|Uniform expansions that use erfc to bridge two regimes.
+sa-stokes|Stokes phenomenon|sa-exp-small sa-steepest-descent|Exponentially small terms switch on as a parameter crosses certain lines.
+sa-hyperasymptotics|Hyperasymptotics|optimal-truncation sa-stokes|Re-expanding the remainder after optimal truncation for exponentially better accuracy.
+sa-superasymptotic|Superasymptotic accuracy|optimal-truncation sa-exp-small|Optimal truncation leaves an error of size about e^{−c/ε}.
+sa-gevrey|Gevrey series|asymptotic-series factorial|Series whose coefficients grow like (k!)^s; the natural class for Borel summation.
+sa-borel-transform|Borel transform|borel sa-gevrey|Σ aₖtᵏ/k!, which often has a finite radius of convergence even when Σ aₖzᵏ does not.
+sa-borel-laplace|Borel–Laplace resummation|sa-borel-transform laplace-integrals|Recovering a function from its divergent series by a Laplace integral of its Borel transform.
+sa-borel-singularities|Singularities in the Borel plane|sa-borel-transform an-singularities|Poles or branch points of the Borel transform control the series’ divergence.
+sa-resurgence|Resurgence|lateral-borel sa-borel-singularities|Information about exponentially small terms is encoded in the large-order behaviour of the series.
+sa-transseries|Transseries|sa-resurgence sa-exp-small|Formal sums mixing powers, exponentials and logarithms.
+sa-large-order|Large-order behaviour|sa-borel-singularities|How the k-th coefficient of a divergent series grows, read off from the nearest Borel singularity.
+sa-dingle|Dingle’s terminants|sa-large-order sa-hyperasymptotics|Universal functions describing the remainder of factorially divergent series.
+sa-pade|Padé approximants|rational-approx sa-poincare|Rational functions matching a power series to high order; often extend past the radius of convergence.
+sa-pade-borel|Borel–Padé summation|sa-pade sa-borel-laplace|Using Padé approximants to continue a Borel transform before the Laplace integral.
+sa-shanks|Shanks transformation|sa-pade alternating-series|A sequence transformation that removes geometric error components.
+sa-aitken|Aitken’s Δ² process|finite-differences sa-shanks|Accelerating a sequence with geometric error by eliminating it.
+sa-levin|Levin-type transformations|sa-shanks|Sequence transformations that model the remainder; effective on alternating and divergent series.
+sa-euler-transform|Euler transform of series|alternating-series finite-differences|Rewriting an alternating series with forward differences so it converges faster.
+sa-van-wijngaarden|Van Wijngaarden transformation|sa-euler-transform|Applying Euler’s transform to partial sums for alternating series.
+sa-convergence-accel|Convergence acceleration|sa-aitken sa-euler-transform richardson|Methods that estimate a limit from a slowly converging sequence.
+sa-cesaro|Cesàro summation|summation-methods fd-sigma|Averaging partial sums; 1 − 1 + 1 − … gets the value ½.
+sa-abel-sum|Abel summation of series|summation-methods an-power-series|lim_{x→1⁻} Σ aₙxⁿ; it extends Cesàro summation.
+sa-euler-sum|Euler summation|sa-euler-transform summation-methods|A summation method based on the Euler transform.
+sa-zeta-reg|Zeta regularisation|an-zeta-continuation summation-methods|Assigning values to divergent sums such as 1 + 2 + 3 + … through ζ(−1) = −1/12.
+sa-ramanujan-sum|Ramanujan summation|euler-maclaurin sa-zeta-reg|Assigning a constant to divergent series through the Euler–Maclaurin formula.
+sa-regularity|Regular summation methods|summation-methods sa-cesaro|Methods that give convergent series their usual value.
+sa-silverman-toeplitz|Silverman–Toeplitz theorem|sa-regularity|Conditions on a matrix method that make it regular.
+sa-hardy-divergent|Divergent series (theory)|sa-regularity sa-borel-laplace|The systematic study of methods that assign values to divergent series.
+sa-dirichlet-eta|Dirichlet eta function|alternating-series zeta|η(s) = Σ (−1)ⁿ⁻¹/nˢ = (1 − 2^{1−s})ζ(s), convergent for Re s > 0.
+sa-alt-zeta-values|Alternating sums and ζ at negative integers|sa-dirichlet-eta sa-abel-sum|Abel-summing η at negative integers gives ζ(−n).
+sa-euler-mac-remainder|Euler–Maclaurin remainder|euler-maclaurin an-taylor-remainder co-bernoulli-numbers|The error after finitely many correction terms, bounded with periodic Bernoulli functions.
+sa-bernoulli-polys|Bernoulli polynomials|co-bernoulli-numbers polynomials|Bₙ(x), the polynomials behind Euler–Maclaurin and power sums.
+sa-euler-polys|Euler polynomials|sa-bernoulli-polys alternating-series|The alternating-sum analogues of Bernoulli polynomials, used in Euler–Boole summation.
+sa-abel-plana|Abel–Plana formula|euler-maclaurin an-residue-thm|An exact summation formula with a contour integral in place of the Euler–Maclaurin remainder.
+sa-sum-integral|Sum versus integral comparison|an-integral-test euler-maclaurin|Bounding Σ f(n) between integrals of f.
+sa-harmonic-asymp|Asymptotics of harmonic numbers|co-harmonic-numbers sa-euler-mac-remainder|Hₙ = ln n + γ + 1/(2n) − 1/(12n²) + ….
+sa-euler-gamma|Euler–Mascheroni constant|sa-harmonic-asymp|γ = lim (Hₙ − ln n) ≈ 0.5772; whether it is irrational is unknown.
+sa-log-factorial|Asymptotics of ln n!|sa-sum-integral stirling|ln n! = n ln n − n + ½ ln(2πn) + O(1/n).
+sa-multiple-scales|Method of multiple scales|sa-poincare fd-odes-intro|Separating fast and slow variables to approximate solutions over long times.
+sa-matched|Matched asymptotic expansions|sa-poincare|Joining inner and outer expansions across a boundary layer.
+sa-wkb|WKB approximation|sa-poincare an-ode-linear2|Approximating solutions of y″ = Q(x)y/ε² with exponentials of integrals of √Q.
+sa-boundary-layers|Boundary layers|sa-matched|Thin regions where a solution changes rapidly.
+sa-perturbation|Perturbation theory|taylor-series sa-poincare|Expanding solutions in a small parameter.
+sa-singular-pert|Singular perturbation|sa-perturbation sa-boundary-layers|Problems where setting the small parameter to zero changes the nature of the equation.
+sa-scaling-limits|Scaling limits|sa-asymp-equiv|Limits taken with variables rescaled together, revealing limiting shapes.
+sa-crossover|Crossover between regimes|sa-scaling-limits sa-uniform-asymp|The transition between two asymptotic laws as a ratio of parameters passes through a critical value.
+sa-iterated-limits|Order of limits|an-eps-n ls-nested-quant|lim_m lim_n need not equal lim_n lim_m; diagonal limits can differ from both.
+sa-diagonal-limits|Diagonal and triangular limits|sa-iterated-limits|Taking two indices to infinity together along a path, such as a = N.
+sa-moore-osgood|Moore–Osgood theorem|sa-iterated-limits an-pointwise-uniform|Uniform convergence in one index makes iterated limits agree.
+sa-tannery|Tannery’s theorem|sa-moore-osgood an-weierstrass-m|Passing a limit through a series whose terms are dominated by a summable sequence.
+sa-dominated-series|Dominated convergence for series|sa-tannery an-dominated|The series form of dominated convergence.
+sa-log-asymp|Logarithmic corrections|sa-asymp-scales iterated-log|Terms like log log x that appear in prime counting and random walks.
+sa-mertens|Mertens-type asymptotics|sa-sum-integral nt-mertens-thms|Σ_{p≤x} 1/p = ln ln x + M + o(1).
+sa-explicit-error|Explicit error bounds|sa-poincare enclosures|Error terms with stated constants, not just O(·).
+sa-remainder-sign|Signs of remainders|sa-explicit-error alternating-series|Knowing whether a truncation over- or under-estimates gives one-sided bounds.
+sa-asymp-inverse|Inverting asymptotic expansions|sa-poincare inverse-functions|From an expansion of y(x) to one for x(y), as in pₙ ~ n ln n.
+sa-nth-prime-asymp|Asymptotics of the n-th prime|sa-asymp-inverse pnt|pₙ = n(ln n + ln ln n − 1 + o(1)), from inverting the prime number theorem.
+sa-lambert-w-asymp|Asymptotics of Lambert W|lambert-w sa-asymp-inverse|W(x) = ln x − ln ln x + o(1) as x grows.
+sa-mellin-asymp|Mellin transform asymptotics|an-mellin sa-poincare|Reading asymptotic expansions off the poles of a Mellin transform.
+sa-harmonic-sums|Harmonic sums and Mellin analysis|sa-mellin-asymp an-dirichlet-series|Asymptotics of Σ λₖ f(μₖx) through Mellin transforms.
+sa-darboux|Darboux’s method|an-singularities co-gen-functions|Coefficient asymptotics from the singularities of a generating function.
+sa-singularity-analysis|Singularity analysis|sa-darboux sa-saddle-point|Transferring the behaviour of a function at its singularity to the growth of its coefficients.
+sa-tauberian-asymp|Tauberian asymptotics|an-tauberian sa-asymp-equiv|Asymptotics of partial sums from the behaviour of a transform.
+sa-euler-sums|Euler sums and multiple zeta values|zeta co-harmonic-numbers|Sums like Σ Hₙ/nˢ and their relations to zeta values.
+sa-q-series|q-series|geometric-series infinite-products|Series and products in a variable q, like Σ qⁿ/(1 − qⁿ).
+sa-q-asymp|Asymptotics as q → 1|sa-q-series sa-mellin-asymp|Behaviour of q-series near the unit circle, through Mellin transforms or modularity.
+sa-lambert-asymp|Asymptotics of Lambert series|lambert-series sa-q-asymp|Expansions of Σ aₙqⁿ/(1 − qⁿ) as q → 1.
+sa-divergent-zeta-sums|Divergent sums of zeta values|even-zeta sa-gevrey|Sums Σ ζ(2k)xᵏ-type that diverge factorially and need resummation.
+sa-continuation-sums|Continuing sums in their index|sum-continuation an-real-analytic-cont|Extending k ↦ Σ_{n≤k} f(n) to non-integer k; the choice of extension needs a justified rule.
+sa-newton-divergence|Divergence of Newton series|newton-series sampling sa-large-order|Rapidly growing differences make the Newton series diverge away from the integers.
+sa-interp-convergence|Convergence of interpolation sequences|floater-hormann sa-asymp-notation|Rates at which interpolants through more and more points approach a limit.
+sa-error-laws|Limiting error laws|sa-scaling-limits double-scaling|The shape an error term takes in a scaling limit, such as a Borel or Gaussian law.
+sa-numerical-asymp|Numerical checks of asymptotics|sa-explicit-error diagnostics|Comparing an expansion with high-precision values to test predicted rates.
+sa-continued-fraction-asymp|Continued fractions for asymptotic series|continued-fractions sa-pade|Stieltjes continued fractions often converge where the series diverges.
+sa-stieltjes-series|Stieltjes series|sa-continued-fraction-asymp laplace-integrals|Series of moments of a positive measure, for which Padé approximants converge.
+sa-carleman|Carleman’s condition|sa-stieltjes-series|A growth condition on coefficients that makes the moment problem determinate.
+sa-quasi-analytic|Quasi-analytic classes|sa-carleman an-smooth-nonanalytic|Classes of smooth functions determined by their derivatives at one point.
+sa-nevanlinna-sokal|Watson–Nevanlinna–Sokal theorem|sa-borel-laplace sa-quasi-analytic|Conditions under which Borel summation recovers the unique function with a given asymptotic series.
+sa-trapezoid-exp|Exponential accuracy of the trapezoidal rule|euler-maclaurin an-fourier-coeffs|For smooth periodic functions the trapezoidal rule converges exponentially fast.
+sa-gauss-sums-asymp|Asymptotics of oscillatory sums|sa-stationary-phase exp-sums|Estimating Σ e^{2πif(n)} with stationary phase (van der Corput).
+sa-random-sum-asymp|Fluctuation size of sums|sa-asymp-notation random-walk|Sums of n random signs are typically of size √n.

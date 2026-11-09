@@ -1,0 +1,127 @@
+D 5
+pr-sample-space|Sample spaces and events|ls-set-ops|The set of possible outcomes, and events as subsets of it.
+pr-axioms|Kolmogorov’s axioms|pr-sample-space an-sigma-algebras|Probability as a measure of total mass 1 on a σ-algebra of events.
+pr-equally-likely|Equally likely outcomes|pr-sample-space co-counting|Probability as favourable over total when outcomes are symmetric.
+pr-complement-union|Complements and unions|pr-axioms co-incl-excl|P(not A) = 1 − P(A) and P(A ∪ B) = P(A) + P(B) − P(A ∩ B).
+pr-conditional|Conditional probability|probability pr-complement-union|P(A | B) = P(A ∩ B)/P(B).
+pr-independence|Independence|pr-conditional|Events with P(A ∩ B) = P(A)P(B).
+pr-total-prob|Law of total probability|pr-conditional ls-partitions|P(A) = Σ P(A | Bᵢ)P(Bᵢ) over a partition.
+pr-bayes|Bayes’ theorem|pr-total-prob|P(B | A) = P(A | B)P(B)/P(A), updating beliefs with evidence.
+pr-random-var|Random variables|probability functions|Numerical quantities whose value depends on chance.
+pr-distribution|Distributions|pr-random-var|How the probability of a random variable is spread over its values.
+pr-pmf|Probability mass functions|pr-distribution|P(X = k) for discrete variables.
+pr-pdf|Probability density functions|pr-distribution integrals|Densities f with P(a < X < b) = ∫ f.
+pr-cdf|Cumulative distribution functions|pr-distribution fd-monotone|F(x) = P(X ≤ x), non-decreasing from 0 to 1.
+pr-expectation|Expected value|pr-pmf pr-pdf|The probability-weighted average E[X].
+pr-linearity-exp|Linearity of expectation|pr-expectation|E[X + Y] = E[X] + E[Y], even without independence.
+pr-indicator|Indicator variables|pr-linearity-exp|Counting by adding 0–1 variables and taking expectations.
+pr-variance-def|Variance and standard deviation|pr-expectation variance|Var X = E[(X − EX)²], the mean squared spread.
+pr-covariance|Covariance and correlation|pr-variance-def|How two variables vary together, scaled to correlation between −1 and 1.
+pr-moments|Moments|pr-expectation|E[Xᵏ], describing a distribution’s shape.
+pr-mgf|Moment generating functions|pr-moments logexp|E[e^{tX}], whose derivatives at 0 give the moments.
+pr-char-fn|Characteristic functions|pr-mgf an-fourier-transform|E[e^{itX}], the Fourier transform of the distribution.
+pr-bernoulli|Bernoulli and binomial distributions|pr-pmf co-binomial-coeff|Counting successes in n independent yes/no trials.
+pr-geometric|Geometric distribution|pr-bernoulli geometric-series|Waiting for the first success.
+pr-neg-binom-dist|Negative binomial distribution|pr-geometric neg-binomial|Waiting for the r-th success.
+pr-poisson-dist|Poisson distribution|pr-pmf logexp poisson|P(k) = λᵏe^{−λ}/k!, counts of rare events.
+pr-poisson-limit|Poisson limit of the binomial|pr-poisson-dist pr-bernoulli standard-limit|Binomial(n, λ/n) → Poisson(λ).
+pr-hypergeometric|Hypergeometric distribution|pr-bernoulli|Sampling without replacement.
+pr-uniform|Uniform distribution|pr-pdf|Equal density over an interval.
+pr-exponential|Exponential distribution|pr-pdf fd-exp-growth|Memoryless waiting times with density λe^{−λx}.
+pr-gamma-dist|Gamma distribution|pr-exponential gamma-function|Sums of exponential waiting times.
+pr-normal|Normal distribution|gaussian pr-pdf an-gaussian-int|The bell curve with density e^{−(x−μ)²/2σ²}/(σ√2π).
+pr-lognormal|Log-normal distribution|pr-normal logexp|Variables whose logarithm is normal.
+pr-beta-dist|Beta distribution|an-beta pr-pdf|Densities on [0, 1] proportional to x^{a−1}(1 − x)^{b−1}.
+pr-chi-square|Chi-square distribution|pr-normal pr-gamma-dist|Sums of squared standard normals.
+pr-t-dist|Student’s t distribution|pr-chi-square|The distribution of a standardised mean when the variance is estimated.
+pr-cauchy-dist|Cauchy distribution|pr-pdf|A heavy-tailed distribution with no mean.
+pr-heavy-tails|Heavy tails and power laws|pr-cauchy-dist|Distributions where extreme values are not rare.
+pr-joint|Joint distributions|pr-distribution fd-multivar|Distributions of several variables together, and their marginals.
+pr-conditional-dist|Conditional distributions and expectation|pr-joint pr-conditional|E[X | Y] as the best guess of X given Y.
+pr-sum-indep|Sums of independent variables|pr-independence an-convolution|The density of a sum is the convolution of densities.
+pr-transform|Transformations of random variables|pr-pdf an-jacobian|The density of g(X) by change of variables.
+pr-multivariate-normal|Multivariate normal|pr-normal la-pos-def pr-covariance|Normal distributions in several dimensions, determined by a mean and a covariance matrix.
+pr-markov-ineq|Markov’s inequality|pr-expectation|P(X ≥ a) ≤ E[X]/a for X ≥ 0.
+pr-chebyshev-ineq|Chebyshev’s inequality|pr-markov-ineq pr-variance-def|P(|X − μ| ≥ kσ) ≤ 1/k².
+pr-chernoff|Chernoff bounds|pr-markov-ineq pr-mgf|Exponentially small tail bounds from the moment generating function.
+pr-hoeffding|Hoeffding’s inequality|pr-chernoff|Concentration for sums of bounded independent variables.
+pr-lln|Law of large numbers|pr-chebyshev-ineq pr-sum-indep|Averages of independent samples converge to the mean.
+pr-slln|Strong law of large numbers|pr-lln an-ae|Averages converge almost surely, not just in probability.
+pr-clt-proof|Central limit theorem (proof)|clt pr-char-fn|Characteristic functions of normalised sums converge to e^{−t²/2}.
+pr-berry-esseen|Berry–Esseen theorem|pr-clt-proof|The error in the normal approximation is O(1/√n).
+pr-local-limit|Local limit theorems|pr-clt-proof|Approximating individual probabilities, not just intervals, by the normal density.
+pr-de-moivre-laplace|De Moivre–Laplace theorem|pr-bernoulli stirling pr-normal|The binomial distribution approaches the normal.
+pr-stable-laws|Stable distributions|pr-clt-proof pr-heavy-tails|Limits of sums of heavy-tailed variables.
+pr-large-dev|Large deviations|pr-chernoff sa-laplace-method|Probabilities of rare events decay like e^{−nI(x)}.
+pr-convergence-modes|Modes of convergence|pr-lln an-measurable-fn|Almost sure, in probability, in Lᵖ and in distribution.
+pr-generating-prob|Probability generating functions|co-gen-functions pr-pmf|E[s^X], encoding a discrete distribution.
+pr-branching|Branching processes|pr-generating-prob iteration|Populations where each individual has a random number of offspring.
+pr-random-walk-1d|Simple random walk|random-walk pr-bernoulli|Steps of ±1 with equal probability.
+pr-reflection|Reflection principle|pr-random-walk-1d co-ballot|Counting paths that hit a level by reflecting them.
+pr-recurrence-walk|Recurrence of random walks|pr-random-walk-1d|Simple random walk returns to its start with probability 1 in one and two dimensions, not in three.
+pr-gambler|Gambler’s ruin|pr-random-walk-1d co-linear-recur|The chance of reaching one boundary before the other.
+pr-arcsine|Arcsine law|pr-reflection|The fraction of time a random walk spends positive follows the arcsine distribution.
+pr-lil|Law of the iterated logarithm|pr-random-walk-1d pr-slln iterated-log|Random walk fluctuations reach about √(2n ln ln n) infinitely often.
+pr-brownian|Brownian motion|pr-random-walk-1d pr-clt-proof|The scaling limit of random walks: continuous paths with independent Gaussian increments.
+pr-donsker|Donsker’s invariance principle|pr-brownian an-arzela|Rescaled random walks converge to Brownian motion.
+pr-brownian-props|Properties of Brownian paths|pr-brownian|Continuous everywhere, differentiable nowhere, with quadratic variation t.
+pr-diffusion-pde|Diffusion and the heat equation|pr-brownian an-heat-eq|The density of Brownian motion solves the heat equation.
+pr-markov-chains|Markov chains|pr-conditional la-markov-mat|Processes where the next state depends only on the current one.
+pr-stationary-dist|Stationary distributions|pr-markov-chains la-perron|Distributions unchanged by a step of the chain.
+pr-mixing|Convergence and mixing|pr-stationary-dist|How fast a chain forgets its starting point.
+pr-mcmc|Markov chain Monte Carlo|pr-mixing ap-monte-carlo|Sampling from complicated distributions by running a chain with the right stationary law.
+pr-poisson-process|Poisson process|pr-poisson-dist pr-exponential|Random arrival times with independent exponential gaps.
+pr-martingales|Martingales|pr-conditional-dist|Processes whose expected next value equals the current one: fair games.
+pr-optional-stopping|Optional stopping theorem|pr-martingales|Under conditions, stopping a fair game at a random time keeps it fair.
+pr-martingale-conv|Martingale convergence|pr-martingales an-dominated|Bounded martingales converge almost surely.
+pr-stochastic-calc|Stochastic calculus|pr-brownian-props pr-martingales|Integrals and differential equations driven by Brownian motion (Itô).
+pr-stationary-proc|Stationary processes|pr-covariance|Processes whose statistics do not change over time.
+pr-autocorrelation|Autocorrelation|pr-stationary-proc|Correlation of a sequence with shifted copies of itself.
+pr-spectral-density|Spectral density|pr-autocorrelation an-fourier-transform|The Fourier transform of the autocovariance (Wiener–Khinchin).
+pr-gaussian-process|Gaussian processes|pr-multivariate-normal pr-stationary-proc|Random functions whose values at any finite set of points are jointly normal.
+pr-random-matrices|Random matrices|pr-multivariate-normal la-spectral|Matrices with random entries; their eigenvalues repel and follow universal laws.
+pr-semicircle|Wigner semicircle law|pr-random-matrices|The eigenvalue density of large symmetric random matrices is a semicircle.
+pr-pair-correlation|Pair correlation|pr-random-matrices pr-autocorrelation|The density of pairs of points at a given distance, used to compare zeros and eigenvalues.
+pr-point-processes|Point processes|pr-poisson-process|Random sets of points, like arrivals, primes in random models or Poisson-disk samples.
+pr-poisson-disk|Poisson-disk sampling|pr-point-processes co-algorithms|Random points no two closer than a fixed distance (Bridson’s algorithm), as used to lay out this map.
+pr-statistics|Statistics|probability pr-expectation|Inferring properties of a population from data.
+pr-descriptive|Descriptive statistics|pr-statistics|Means, medians, quantiles and spread of a data set.
+pr-histograms|Histograms|pr-descriptive|Counting data in bins to see the shape of a distribution.
+pr-estimators|Estimators|pr-statistics pr-expectation|Rules that turn data into guesses of parameters.
+pr-bias-variance|Bias and variance of estimators|pr-estimators pr-variance-def|The trade-off between systematic error and noise.
+pr-mle|Maximum likelihood|pr-estimators fd-optimization|Choosing parameters that make the observed data most probable.
+pr-fisher|Fisher information|pr-mle pr-variance-def|How much a sample tells us about a parameter; bounds estimator variance (Cramér–Rao).
+pr-confidence|Confidence intervals|pr-estimators clt|Ranges built so that they contain the true value with a stated frequency.
+pr-hypothesis|Hypothesis testing|pr-confidence|Deciding whether data are consistent with a null hypothesis.
+pr-pvalues|p-values|pr-hypothesis|The probability, under the null, of a result at least as extreme as observed.
+pr-multiple-testing|Multiple testing|pr-pvalues|Testing many hypotheses inflates false positives unless corrected.
+pr-chi-square-test|Chi-square tests|pr-hypothesis pr-chi-square|Comparing observed and expected counts.
+pr-regression|Linear regression|least-squares pr-estimators|Fitting y = a + bx + noise by least squares.
+pr-r-squared|Goodness of fit|pr-regression|R² and residual plots measure how much variation a model explains.
+pr-multiple-regression|Multiple regression|pr-regression la-least-squares-la|Regression on several predictors.
+pr-glm|Logistic and generalised linear models|pr-regression logistic pr-mle|Regression for yes/no outcomes and counts.
+pr-nonparametric|Nonparametric statistics|pr-statistics|Methods that do not assume a fixed family of distributions.
+pr-kde-bandwidth|Bandwidth selection|kde pr-bias-variance|Choosing the kernel width trades smoothness against detail.
+pr-kernel-smoothers|Kernel smoothers|kernel-regression pr-nonparametric|Local averages weighted by a kernel.
+pr-local-poly|Local polynomial regression|pr-kernel-smoothers ap-moving-ls|Fitting a low-degree polynomial near each point; reduces boundary bias.
+pr-bootstrap|Bootstrap|pr-estimators ap-monte-carlo|Estimating uncertainty by resampling the data.
+pr-cross-validation|Cross-validation|pr-estimators ap-overfitting|Judging a model by its error on held-out data.
+pr-bayesian|Bayesian inference|pr-bayes pr-estimators|Updating a prior distribution on parameters to a posterior with data.
+pr-entropy|Entropy (information)|co-information pr-expectation|−Σ p log p, the average surprise of a distribution.
+pr-kl|Kullback–Leibler divergence|pr-entropy an-jensen|A measure of how one distribution differs from another.
+pr-time-series|Time series|pr-stationary-proc pr-regression|Data indexed by time, with trends, seasonality and autocorrelation.
+pr-sports-stats|Statistics in sport|pr-regression pr-descriptive|Modelling player and team performance from match data.
+pr-skewed-data|Skewed data|pr-descriptive log-scaling|Data with a long tail on one side; transformations make them easier to model.
+pr-geostats|Spatial statistics|pr-gaussian-process remote-sensing|Modelling data that vary over a map, such as rainfall.
+pr-raster-indices|Remote-sensing indices|remote-sensing pr-descriptive|Combinations of satellite bands, like NDVI = (NIR − Red)/(NIR + Red), that track vegetation.
+pr-risk-scoring|Risk scoring and weighting|risk-overlay pr-regression|Combining factors with weights into a single risk score.
+pr-validation-events|Validating against past events|pr-risk-scoring pr-hypothesis|Checking a model by how many recorded events fall in flagged areas.
+pr-early-warning|Early-warning systems|pr-validation-events pr-time-series|Forecasting dangerous conditions with enough lead time to act.
+pr-random-models-nt|Probabilistic models in number theory|random-primes pr-independence|Treating arithmetic events as random to predict densities, then testing the predictions.
+pr-cramer-model|Cramér’s random model|pr-random-models-nt pr-bernoulli|Each n is “prime” independently with probability 1/ln n.
+pr-gap-distribution|Exponential law for gaps|pr-cramer-model pr-exponential|In the random model, normalised gaps are exponentially distributed.
+pr-diffusive-sums|Diffusive partial sums|random-walk pr-random-models-nt|Partial sums growing like the square root of their length, like a random walk.
+pr-negative-correlation|Negatively correlated steps|pr-covariance random-walk|Anticorrelated steps make sums grow more slowly than a random walk.
+pr-mixing-sequences|Mixing and dependence|pr-negative-correlation pr-clt-proof|Central limit theorems for sequences whose dependence decays.
+pr-kernels-prob|Kernels as probability densities|kde gaussian|Using normalised bumps as weights for smoothing.
+pr-smoothed-counts|Smoothing counting functions|gaussian-smoothing pr-kernels-prob|Convolving a step function with a kernel to study its trend.

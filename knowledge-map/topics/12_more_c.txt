@@ -1,0 +1,127 @@
+D 6
+ge-angles|Angles and their measure|ge-euclid-axioms fd-radians|Degrees and radians, and how angles add.
+ge-triangle-ineq|Triangle inequality (geometric)|ge-congruence|Any side of a triangle is shorter than the sum of the other two.
+ge-triangle-centres|Triangle centres|ge-circle-thms|Centroid, circumcentre, incentre and orthocentre.
+ge-euler-line|Euler line|ge-triangle-centres ge-analytic|The centroid, circumcentre and orthocentre lie on one line.
+ge-ceva|Ceva and Menelaus|ge-similarity|Conditions for lines through a triangle’s vertices to meet, or points on its sides to be collinear.
+ge-heron|Heron’s formula|ge-pythagoras ge-area|The area of a triangle from its three sides.
+ge-ptolemy|Ptolemy’s theorem|ge-circle-thms ge-similarity|For a cyclic quadrilateral, the product of diagonals equals the sum of products of opposite sides.
+ge-areas-circles|Area of a circle|ge-pi fd-definite-integral|πr², by slicing into thin rings or sectors.
+ge-volumes-solids|Volumes of solids|ge-areas-circles fd-volumes|Cones, spheres and cylinders; Archimedes’ sphere-in-cylinder result.
+ge-cavalieri|Cavalieri’s principle|ge-volumes-solids|Solids with equal cross-sections at every height have equal volume.
+ge-coordinates-3d|Coordinates in space|fd-cartesian-plane la-vectors-rn|Points (x, y, z) and distance in three dimensions.
+ge-lines-planes|Lines and planes in space|ge-coordinates-3d fd-dot-product|Parametric lines and planes given by a normal vector.
+ge-spheres-coords|Spherical coordinates|ge-coordinates-3d fd-polar-coords|Locating points by radius, polar angle and azimuth.
+ge-cylindrical|Cylindrical coordinates|ge-coordinates-3d fd-polar-coords|Polar coordinates plus height.
+ge-reflections|Reflections and the law of reflection|ge-transformations|Angle of incidence equals angle of reflection.
+ge-dilations|Dilations and similarity transformations|ge-similarity la-affine|Scaling from a centre.
+ge-shear|Shears and area preservation|la-affine la-det-props|Maps that slide layers; determinant 1 means area is kept.
+ge-complex-geometry|Geometry with complex numbers|fd-complex-polar ge-transformations|Rotations and scalings as multiplication by complex numbers.
+ge-tessellations|Tessellations|ge-polygons ge-wallpaper|Covering the plane with tiles without gaps.
+ge-penrose|Aperiodic tilings|ge-tessellations|Tilings like Penrose’s that never repeat.
+ge-curves-of-constant-width|Curves of constant width|ge-convex-sets|Shapes like the Reuleaux triangle with the same width in every direction.
+ge-superellipse|Superellipses|ge-lp-balls fd-circles||x/a|ⁿ + |y/b|ⁿ = 1, between a diamond and a rectangle.
+ge-catenary-derivation|Deriving the catenary|ge-hanging-cable an-euler-lagrange hyperbolic|Balancing tension and weight, or minimising potential energy, gives a cosh curve.
+ge-catenary-fit|Fitting a catenary to supports|ge-catenary-derivation solving-systems|Solving for the three constants from two endpoints and a length.
+ge-arches|Arches and inverted catenaries|ge-catenary-derivation|An inverted hanging chain gives an arch in pure compression.
+ge-road-wheel|Roads for polygon wheels|ge-wheel-shapes ge-catenary-derivation|A square wheel rolls level on a road of inverted catenary arcs.
+ge-roulettes-general|General roulettes|ge-cycloid ge-rolling-contact|Curves traced by a point attached to a shape rolling on another.
+ge-gears|Gear profiles|ge-roulettes-general|Involute teeth keep a constant speed ratio.
+ge-tautochrone|Tautochrone|ge-cycloid ge-oscillators|On a cycloid, the time to slide to the bottom does not depend on the start.
+ge-chain-dynamics|Chains and tails|ge-kinematic-chains ge-fabrik|Simulating trailing chains by constraining link lengths.
+ge-verlet|Verlet integration|ap-symplectic ge-mass-spring|A simple, stable time-stepping method for particles and constraints.
+ge-position-constraints|Position-based dynamics|ge-verlet ge-constraints|Moving particles directly to satisfy distance constraints each step.
+ge-soft-collision|Soft collisions with smooth maxima|ge-collision smooth-max|Pushing cloth above obstacles with a smoothed maximum of heights.
+ge-geodesic-sphere|Geodesic distances on the sphere|ge-spherical ge-geodesics|Great-circle distances, as used for maps and navigation.
+ge-haversine|Haversine formula|ge-geodesic-sphere fd-trig-identities|A numerically stable way to compute great-circle distance.
+ge-zonal-stats|Zonal statistics on maps|ge-raster-grids pr-descriptive|Summarising raster values within regions.
+ge-buffer-zones|Buffers and distance maps|ge-raster-grids ge-metrics|Regions within a given distance of features, such as water points.
+ge-overlay|Map overlay|ge-raster-grids|Combining raster layers cell by cell.
+ge-resolution|Spatial resolution|ge-raster-grids sampling|The ground size of a pixel and what detail it can show.
+ge-dem-slope|Slope from elevation|ge-terrain fd-gradient|Computing slope and aspect from a digital elevation model.
+ge-watersheds|Watersheds and flow|ge-dem-slope|Following steepest descent to find where water drains.
+ge-nearest-water|Distance to water|ge-buffer-zones ge-watersheds|Distance-to-water layers used to model herd movement.
+ge-perspective-floor|Perspective grids|ge-3d-perspective fd-lines|Drawing a grid on a floor plane receding to a vanishing point, as in the zeta graph.
+ge-camera|Camera models|ge-homogeneous la-matrix-mult|View and projection matrices that map a 3D scene to the screen.
+ge-parametric-surfaces-draw|Drawing parametric surfaces|ge-surfaces ge-camera|Meshing (u, v) ↦ (x, y, z) and rendering it.
+ge-signed-distance|Signed distance functions|ge-metrics ge-shaders|Functions giving distance to a shape, negative inside, used to render curves and blend shapes.
+ge-implicit-render|Rendering implicit curves|ge-plane-curves-implicit ge-signed-distance|Drawing F(x, y) = 0 per pixel by estimating distance to the zero set.
+ge-antialiasing|Antialiasing|ge-implicit-render ap-aliasing|Smoothing edges by averaging coverage within each pixel.
+ge-curve-offset|Offset curves|ge-tangent-normal|Curves at a fixed distance from a given one, as when drawing thick lines.
+ge-stroke-width|Stroke width and visual weight|ge-curve-offset|How line thickness is drawn along a curve, including tapering.
+ge-handwriting-curves|Handwriting as curves|ge-curves-param ap-bezier|Pen strokes represented by smooth parametric curves.
+ge-glyph-outlines|Font glyph outlines|ap-bezier ge-plane-curves-implicit|Letters stored as quadratic or cubic Bézier contours.
+ge-curve-morph|Morphing between curves|ge-arc-length-param ge-handwriting-curves|Matching points by arc length to animate one curve into another.
+ge-centerlines|Centre lines of shapes|ge-glyph-outlines ge-curve-offset|The skeleton of a filled shape, roughly where a pen would travel.
+D 8
+al-modular-group|Modular group|al-groups an-mobius-trans|SL(2, ℤ), acting on the upper half-plane by z ↦ (az + b)/(cz + d).
+al-sl2|2 × 2 matrices of determinant 1|la-determinant al-groups|The group SL(2) and its action on the plane.
+al-free-groups|Free groups|al-groups|Groups with no relations among their generators.
+al-presentations|Group presentations|al-free-groups al-quotient-group|Describing a group by generators and relations.
+al-semigroups|Semigroups and monoids|al-assoc-comm|Associative operations without, or with, an identity.
+al-field-char|Characteristic of a field|al-fields al-cyclic|The smallest n with n·1 = 0, or zero if none.
+al-frobenius|Frobenius map|al-finite-fields al-field-char|x ↦ xᵖ, a field automorphism in characteristic p.
+al-gaussian-elim-fields|Linear algebra over any field|la-gauss-elim al-fields|Elimination works over ℚ, ℝ, ℂ and finite fields alike.
+al-polys-finite-fields|Polynomials over finite fields|al-poly-rings al-finite-fields|Factoring and irreducibility mod p.
+al-resultant|Resultants|al-poly-rings la-determinant|A determinant that vanishes exactly when two polynomials share a root.
+al-discriminant-poly|Discriminant of a polynomial|al-resultant fd-discriminant|Detects repeated roots; generalises b² − 4ac.
+al-partial-fractions-alg|Partial fractions, algebraically|al-euclidean-domain fd-partial-fractions|Bézout’s identity for polynomials gives partial-fraction decompositions.
+al-lagrange-interp-alg|Lagrange interpolation over a field|al-poly-roots-count lagrange|Through n + 1 points there is exactly one polynomial of degree ≤ n, over any field.
+al-crt-poly|Chinese remainder theorem for polynomials|al-euclidean-domain nt-crt|Interpolation as solving congruences modulo (x − xᵢ).
+al-roots-unity-group|Groups of roots of unity|fd-de-moivre al-cyclic|The n-th roots of unity form a cyclic group.
+al-group-characters-ab|Characters of abelian groups|al-roots-unity-group al-homomorphisms|Homomorphisms to the unit circle; the basis of discrete Fourier analysis.
+al-fourier-finite|Fourier analysis on finite groups|al-group-characters-ab ap-dft|The DFT is Fourier analysis on ℤ/n.
+al-ring-of-functions|Rings of functions|al-rings functions|Functions with pointwise + and ×.
+al-formal-power|Formal power series|al-poly-rings co-gen-functions|Power series manipulated algebraically without worrying about convergence.
+al-exterior|Exterior algebra|la-tensors la-determinant|Wedge products, whose top power is the determinant.
+al-matrix-groups|Matrix groups|la-identity-inverse al-groups|GL(n), SL(n), O(n) and U(n).
+al-unitary|Unitary matrices|al-matrix-groups la-orthogonal-mat complex-numbers|Complex matrices with U*U = I.
+al-hermitian|Hermitian matrices|al-unitary la-symmetric-mat|Complex matrices equal to their conjugate transpose, with real eigenvalues.
+D 9
+co-combinatorial-identities|Combinatorial identities|co-pascal co-double-counting|Vandermonde’s identity and others proved by counting.
+co-binomial-inversion|Binomial inversion|co-pascal finite-differences|Inverting sums against binomial coefficients; the basis of Newton’s forward-difference formula.
+co-newton-forward|Newton’s forward-difference formula|co-binomial-inversion co-falling-factorial|f(x) = Σ C(x, k) Δᵏf(0) for polynomials, and formally for other functions.
+co-alternating-binomial|Alternating binomial sums|co-binomial-inversion|Σ (−1)ᵏ C(n, k) f(k) = (−1)ⁿ Δⁿ f(0).
+co-difference-table|Difference tables|co-newton-forward|Columns of repeated differences; polynomials end in a constant column.
+co-sequences-oeis|Integer sequences|fd-sequences co-recurrences|Families of integer sequences and how they are catalogued.
+co-primes-sequence|The prime sequence as data|co-sequences-oeis primes|Treating p₁, p₂, … as a sequence to be differenced, smoothed and interpolated.
+co-stern-brocot|Stern–Brocot tree|nt-cf-convergents co-trees|Every positive rational appears once, ordered like continued fractions.
+co-farey|Farey sequences|co-stern-brocot nt-coprime|Fractions in [0, 1] with denominators up to n, in order.
+co-golden-search|Golden-section search|nt-golden-ratio co-binary-search|Finding a minimum by shrinking an interval in the golden ratio.
+co-graph-layout-alg|Graph layout algorithms|ge-force-layout co-algorithms|Practical algorithms for drawing large graphs quickly.
+co-barnes-hut|Barnes–Hut approximation|co-graph-layout-alg co-divide-conquer|Grouping distant points to compute many-body forces in n log n.
+co-crossing-min|Crossing minimisation|ge-layered-drawing co-greedy|Reordering vertices within levels to reduce edge crossings.
+co-community|Community detection|co-spectral-graph co-graphs|Finding groups of vertices more connected to each other than to the rest.
+co-critical-path|Critical path method|co-longest-path|The longest chain of dependent tasks in a project.
+co-prereq-graphs|Prerequisite graphs|co-dag co-critical-path|Maps of which ideas must come before which, like this knowledge map.
+co-transitive-reduction|Transitive reduction|co-dag|Removing links implied by others, keeping the same reachability.
+D 7
+ls-logic-circuits|Logic and computation|ls-boolean-algebra ls-computability|Boolean logic as the basis of computers.
+ls-decidability|Decidability|ls-halting|Which questions have algorithms that always answer.
+ls-collatz-undecidable|Generalised Collatz problems are undecidable|ls-decidability collatz|Conway showed some Collatz-like iterations encode arbitrary computation.
+ls-formal-proof|Formal proofs|ls-first-order ls-proof-direct|Proofs as finite sequences of formulas following explicit rules.
+ls-mathematical-writing|Writing mathematics|ls-definitions ls-formal-proof|Stating definitions, theorems and proofs clearly, and separating what is proved from what is tested.
+ls-conjectures|Conjectures and evidence|ls-mathematical-writing|Statements believed but unproved, and the difference between evidence and proof.
+ls-heuristics|Heuristic arguments|ls-conjectures pr-random-models-nt|Plausible reasoning that predicts answers before proofs exist.
+ls-numerical-evidence|Numerical evidence|ls-conjectures ap-high-precision-tests|Computation can support a conjecture or find a counterexample, but cannot prove an infinite statement.
+D 0
+fd-exp-vs-power|Exponentials beat powers|fd-lhopital logexp|xⁿ/eˣ → 0 and ln x / x^ε → 0 for every n and ε > 0.
+fd-growth-hierarchy|Growth hierarchy|fd-exp-vs-power factorial|ln ln x ≪ ln x ≪ xᵉ ≪ eˣ ≪ x! ≪ xˣ.
+fd-continuous-compounding|e from compound interest|fd-compound-interest fd-e|Compounding ever more often gives growth e^{rt}.
+fd-pi-series-intro|Series for π|an-arctan-series|Leibniz, Machin and other series that converge to π.
+fd-symmetry-graphs|Symmetry in graphs|odd-even fd-graph-transform|Symmetry about the y-axis or the origin, and what it says about a function.
+fd-functions-from-data|Functions from data|functions pr-descriptive|Choosing a formula to match a table of values.
+fd-scaling-laws|Scaling laws|fd-exponents fd-log-scales|Relationships like y ∝ xᵏ, straight on log–log axes.
+D 1
+an-sine-integral|Sine and cosine integrals|an-dirichlet-int exp-integral|Si(x) = ∫₀ˣ sin t/t dt and its companion, which describe the Gibbs overshoot.
+an-fresnel|Fresnel integrals|an-gaussian-int an-contour-int|∫ cos t² and ∫ sin t², evaluated by contour integration.
+an-sum-interp-gamma|Sums interpolated by the gamma function|gamma-function sum-continuation|The partial sums of ln n become ln Γ(x + 1) at non-integer x.
+an-harmonic-interp|Harmonic numbers at non-integers|co-harmonic-numbers an-digamma-series|H_x = ψ(x + 1) + γ continues the harmonic numbers.
+an-alt-sum-interp|Continuing alternating sums|sum-continuation alternating-series|Extending Σ (−1)ⁿ f(n) to non-integer endpoints, with the Euler–Boole formula.
+an-e-alternating|Alternating sums near e|an-alt-sum-interp an-exp-rigorous|Continuing Σ (−1)ⁿ/n! and related sums to non-integer arguments.
+D 2
+sa-euler-boole-formula|Euler–Boole summation formula|euler-boole sa-euler-polys|Σ (−1)ⁿ f(n) written with Euler polynomials and derivatives of f at the ends.
+sa-boole-first-term|First Euler–Boole correction|sa-euler-boole-formula|The half-step averaging term, which is exactly the d = 1 Floater–Hormann blend.
+D 3
+nt-half-sum|Half-sum identities for primes|abel-partial nt-alt-sums-primes|Exact identities from summation by parts that split prime sums into halves.
+nt-rh-in-interp|What RH controls in interpolation|rh nt-prime-interp-rate|RH bounds some parts of the convergence rate but leaves the gap-sum part open.

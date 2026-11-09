@@ -1,0 +1,133 @@
+D 0
+fd-order-ops|Order of operations|fd-algebra-expr|The conventions that decide how an expression like 2 + 3 × 4² is evaluated.
+fd-fractions|Fraction arithmetic|fd-rationals|Adding, multiplying and simplifying fractions.
+fd-decimals|Decimal expansions|fd-rationals fd-limit-seq|Every real number has a decimal expansion; rationals are exactly the eventually repeating ones.
+fd-repeating-dec|Repeating decimals as fractions|fd-decimals geometric-series|0.333… = 1/3, via a geometric series.
+fd-number-line|The number line|fd-reals|Real numbers as points on a line, ordered left to right.
+fd-proportion|Direct and inverse proportion|fd-percent functions|y = kx and y = k/x.
+fd-systems-2x2|Two equations in two unknowns|fd-linear-eq|Solving by substitution or elimination, and the geometric picture of two lines.
+fd-inequalities-solve|Solving inequalities|fd-inequalities fd-linear-eq|Linear and quadratic inequalities, with sign charts.
+fd-abs-eq|Absolute value equations|fd-abs-value fd-linear-eq|Splitting |x − a| = b into two cases.
+fd-poly-long-div|Polynomial long division|fd-factoring|Dividing one polynomial by another by hand.
+fd-completing-square|Completing the square|fd-quadratic|Rewriting ax² + bx + c as a(x − h)² + k to find the vertex.
+fd-parabola-vertex|Vertex and axis of a parabola|fd-completing-square|The turning point of a quadratic graph.
+fd-cubic|Cubic equations|fd-factoring fd-quadratic|Degree-three equations, solvable by Cardano’s formula.
+fd-exp-equations|Exponential equations|logexp fd-log-laws|Solving aˣ = b with logarithms.
+fd-compound-interest|Compound interest|fd-exp-growth standard-limit|Growth by a fixed rate each period, and continuous compounding eʳᵗ.
+fd-log-scales|Logarithmic scales|fd-log-laws|Decibels, pH and the Richter scale.
+fd-inverse-fn-graph|Graphs of inverse functions|inverse-functions fd-graph-transform|Reflecting a graph in the line y = x.
+fd-step-functions|Step functions|fd-piecewise fd-floor-ceil|Functions that jump between constant values.
+fd-sign-fn|The sign function|fd-step-functions fd-abs-value|sgn(x) = x/|x|, with sgn(0) = 0.
+fd-heaviside|Heaviside step function|fd-step-functions|0 for x < 0 and 1 for x > 0, the model of a switch.
+fd-sine-waves|Amplitude, period and phase|trig fd-graph-transform|A sin(ωx + φ): height, frequency and shift.
+fd-sum-to-product|Sum-to-product formulas|fd-trig-identities|sin a + sin b = 2 sin((a + b)/2) cos((a − b)/2).
+fd-power-reduction|Power-reduction formulas|fd-trig-identities|cos²x = (1 + cos 2x)/2, used to integrate powers of sine and cosine.
+fd-trig-equations|Trigonometric equations|fd-trig-identities fd-inverse-trig|Finding all angles satisfying an equation like sin x = ½.
+fd-sinc-fn|The function sin x / x|trig limits|Tends to 1 at x = 0; the sinc function behind ideal interpolation.
+fd-limit-sinx|lim sin x / x = 1|fd-squeeze fd-unit-circle|The basic trigonometric limit, by squeezing areas.
+fd-continuity-types|Types of discontinuity|fd-continuity fd-one-sided|Removable discontinuities, jumps and infinite discontinuities.
+fd-deriv-def|Derivative from first principles|derivatives fd-limit-laws|Computing f′ directly as the limit of (f(x + h) − f(x))/h.
+fd-tangent-lines|Tangent lines|derivatives fd-lines|The line through (a, f(a)) with slope f′(a).
+fd-curve-sketching|Curve sketching|fd-second-deriv-test fd-asymptotes|Combining zeros, extrema, concavity and asymptotes into a picture.
+fd-newton-intro|Newton’s method (introduction)|fd-tangent-lines|Following tangent lines to approach a root.
+fd-log-diff|Logarithmic differentiation|fd-deriv-exp-log fd-chain-rule|Differentiating ln f to handle products and powers like xˣ.
+fd-inverse-deriv|Derivatives of inverse functions|fd-chain-rule inverse-functions|(f⁻¹)′(y) = 1/f′(f⁻¹(y)).
+fd-hyperbolic-deriv|Derivatives of hyperbolic functions|hyperbolic fd-deriv-exp-log|(cosh x)′ = sinh x and (sinh x)′ = cosh x.
+fd-riemann-sum-types|Left, right and midpoint sums|riemann-sums|Choosing sample points; the midpoint rule is usually most accurate.
+fd-accumulation|Accumulation functions|fd-ftc|F(x) = ∫ₐˣ f(t)dt, whose derivative is f.
+fd-integral-table|Standard antiderivatives|fd-antiderivatives fd-deriv-exp-log fd-deriv-trig|∫ xⁿ, ∫ 1/x, ∫ eˣ, ∫ sin x and so on.
+fd-reduction-formulas|Reduction formulas|fd-by-parts|Recursions like ∫ sinⁿx dx in terms of ∫ sinⁿ⁻²x dx.
+fd-wallis|Wallis product|fd-reduction-formulas infinite-products|π/2 = Π 4n²/(4n² − 1).
+fd-improper-comparison|Comparison test for integrals|fd-improper fd-inequalities|An integral smaller than a convergent one converges.
+fd-arc-length-calc|Arc length by integration|arc-length fd-u-sub|Computing lengths of curves like y = x^{3/2}.
+fd-surface-area|Surface area of revolution|fd-arc-length-calc fd-volumes|2π ∫ y √(1 + y′²) dx.
+fd-center-mass|Centres of mass|fd-area-between fd-average-value|Balance points computed with integrals.
+fd-work-integral|Work as an integral|integrals ge-energy|Work done by a varying force, ∫ F dx.
+fd-slope-fields|Slope fields|fd-odes-intro|Drawing short segments of slope f(x, y) to see solutions of y′ = f(x, y).
+fd-euler-method-intro|Euler’s method (introduction)|fd-slope-fields fd-linear-approx|Stepping along tangent lines to approximate solutions.
+fd-power-series-intro|Power series (introduction)|sequences-series polynomials|Infinite polynomials Σ aₙxⁿ.
+fd-maclaurin-common|Common Maclaurin series|taylor-series fd-deriv-exp-log fd-deriv-trig|eˣ, sin x, cos x, ln(1 + x) and 1/(1 − x) as power series.
+fd-polar-area|Area in polar coordinates|fd-polar-coords integrals|½ ∫ r² dθ.
+fd-param-calculus|Calculus of parametric curves|fd-param-curves derivatives|dy/dx = (dy/dt)/(dx/dt) and parametric arc length.
+fd-chain-multi|Multivariable chain rule|fd-partial-deriv fd-chain-rule|Derivatives through several intermediate variables.
+fd-directional|Directional derivatives|fd-gradient|Rate of change in a chosen direction, ∇f · u.
+fd-tangent-planes|Tangent planes|fd-partial-deriv|The plane best approximating a surface at a point.
+fd-hessian|Hessian and second-derivative test in 2D|fd-partial-deriv fd-second-deriv-test|Classifying critical points with the matrix of second derivatives.
+fd-polar-double|Double integrals in polar coordinates|fd-multiple-int fd-polar-coords|dA = r dr dθ.
+fd-line-integrals|Line integrals|fd-multiple-int fd-param-curves|Integrating along curves, such as work along a path.
+D 1
+an-intervals-nested|Nested interval theorem|fd-completeness an-monotone-conv|A shrinking chain of closed intervals has a common point.
+an-sequential-cont|Sequential continuity|an-continuity-rigorous an-eps-n|f is continuous exactly when it maps convergent sequences to convergent sequences.
+an-ivt-proof|Proof of the intermediate value theorem|fd-ivt an-sup-inf|Taking the supremum of the set where f is below the target.
+an-evt-proof|Proof of the extreme value theorem|fd-evt an-bolzano-w|Bolzano–Weierstrass gives a convergent subsequence at the maximum.
+an-cont-inverse|Continuity of inverse functions|an-continuity-rigorous fd-monotone|A continuous strictly monotone function has a continuous inverse.
+an-one-sided-deriv|One-sided derivatives|an-differentiability fd-one-sided|Derivatives from the left and from the right.
+an-weierstrass-fn|Weierstrass function|an-weierstrass-m an-differentiability|A continuous function differentiable nowhere, Σ aⁿ cos(bⁿπx).
+an-cauchy-mvt|Cauchy’s mean value theorem|fd-mvt|(f(b) − f(a))g′(c) = (g(b) − g(a))f′(c); the basis of L’Hôpital’s rule.
+an-taylor-integral|Integral form of the Taylor remainder|an-taylor-remainder fd-by-parts|Rₙ = ∫ f^{(n+1)}(t)(x − t)ⁿ/n! dt.
+an-binomial-series|Binomial series|an-power-series fd-binomial-thm|(1 + x)^α = Σ C(α, k)xᵏ for |x| < 1 and any α.
+an-log-series|Series for the logarithm|an-term-by-term geometric-series|ln(1 + x) = x − x²/2 + x³/3 − … for −1 < x ≤ 1.
+an-arctan-series|Series for arctan and π/4|an-term-by-term fd-inverse-trig|arctan x = x − x³/3 + x⁵/5 − …; at x = 1 it gives Leibniz’s series for π/4.
+an-abel-thm|Abel’s theorem on power series|an-power-series abel-partial|A power series convergent at an endpoint is continuous there from inside.
+an-radius-formula|Cauchy–Hadamard formula|an-power-series an-limsup|1/R = lim sup |aₙ|^{1/n}.
+an-integrability|Which functions are integrable|an-riemann-integral an-null-sets|A bounded function is Riemann integrable exactly when its discontinuities have measure zero.
+an-ftc-rigorous|Fundamental theorem of calculus, rigorously|fd-ftc an-riemann-integral|Both parts of the FTC with exact hypotheses.
+an-cpv|Cauchy principal value integrals|an-improper-rig principal-value|Symmetric limits that give singular integrals a value.
+an-frullani|Frullani integrals|an-improper-rig an-dct|∫₀^∞ (f(ax) − f(bx))/x dx = (f(0) − f(∞)) ln(b/a).
+an-dirichlet-int|Dirichlet integral|an-improper-rig an-dct|∫₀^∞ sin x/x dx = π/2.
+an-equicontinuity|Equicontinuity|an-uniform-cont|A single δ working for a whole family of functions.
+an-dini|Dini’s theorem|an-pointwise-uniform an-compactness-metric|A monotone sequence of continuous functions converging pointwise to a continuous limit on a compact set converges uniformly.
+an-contraction-iter|Iterating contractions|an-contraction iteration|Errors shrink geometrically: after n steps the error is at most Lⁿ times the first step.
+an-banach-examples|Examples of Banach spaces|an-banach|ℓᵖ, Lᵖ and C(K) with their norms.
+an-ellp|Sequence spaces ℓᵖ|an-banach an-holder-minkowski|Sequences with Σ|xₙ|ᵖ finite.
+an-weak-conv|Weak convergence|an-dual-space-fn an-hilbert|Convergence of every inner product or functional, weaker than norm convergence.
+an-sobolev|Sobolev spaces|an-lp an-distributions|Functions whose derivatives up to some order are in Lᵖ.
+an-fourier-cesaro|Cesàro means of Fourier series|an-fejer sa-cesaro|Averaging partial sums removes the Gibbs overshoot.
+an-fourier-smoothness|Fourier series of smooth functions|an-fourier-coeffs an-weierstrass-m|Coefficients decaying like 1/n² give absolutely and uniformly convergent series.
+an-sawtooth|Sawtooth and square waves|an-fourier-series|Classic Fourier series with coefficients 1/n, and their jumps.
+an-bernoulli-fourier|Fourier series of Bernoulli polynomials|sa-bernoulli-polys an-sawtooth|Periodic Bernoulli functions have coefficients 1/nᵏ, linking them to ζ(k).
+an-zeta-even-fourier|ζ(2n) from Fourier series|an-bernoulli-fourier even-zeta|Evaluating these Fourier series at 0 gives ζ(2n) as rational multiples of π²ⁿ.
+an-sinc-ft|Fourier transform of a box|an-fourier-transform fd-sinc-fn|The transform of an indicator of an interval is a sinc function.
+an-band-limited|Band-limited functions|an-sinc-ft an-paley-wiener|Functions whose Fourier transform vanishes outside a bounded set.
+an-heat-kernel|Heat kernel|an-heat-eq an-ft-gaussian|Gaussian solutions that spread a point source over time.
+an-gaussian-conv|Convolution with a Gaussian|an-convolution an-heat-kernel|Smoothing a function by Gaussian averaging, as in the heat equation.
+an-mellin-gamma|Mellin transform of e⁻ˣ|an-mellin gamma-function|The gamma function is the Mellin transform of e^{−x}.
+an-mellin-zeta|Mellin representation of ζ|an-mellin-gamma zeta|ζ(s)Γ(s) = ∫₀^∞ x^{s−1}/(eˣ − 1) dx.
+an-zeta-bernoulli|ζ at negative integers|an-mellin-zeta co-bernoulli-numbers an-zeta-continuation|ζ(−n) = −B_{n+1}/(n + 1), from the contour version of the Mellin integral.
+an-hankel-contour|Hankel contours|an-contour-int an-branch-cuts|Loops around a branch cut used to continue integral representations.
+an-hankel-gamma|Hankel’s formula for 1/Γ|an-hankel-contour an-analytic-cont-gamma|1/Γ(s) as a contour integral, showing it is entire.
+an-cot-partial|Partial fractions of π cot πz|an-mittag-leffler cotangent|π cot πz = 1/z + Σ 2z/(z² − n²).
+an-sine-product|Product formula for sine|an-weierstrass-prod infinite-products|sin πz = πz Π (1 − z²/n²).
+an-gamma-weierstrass|Weierstrass product for Γ|an-weierstrass-prod gamma-function|1/Γ(z) = z e^{γz} Π (1 + z/n)e^{−z/n}.
+an-residue-sums|Summing series by residues|an-residue-thm an-cot-partial|Σ f(n) as a sum of residues of π cot(πz) f(z).
+an-contour-zeta-values|Zeta values by contour integration|an-residue-sums even-zeta|Evaluating Σ 1/n^{2k} with the residue theorem.
+an-lambert-continuation|Analytic continuation of Lambert-type sums|an-zeta-continuation lambert-series|Continuing sums like Σ n^k/(e^{2πn} − 1) in their parameters.
+an-entire-growth|Growth of entire functions|an-hadamard an-max-modulus|Order and type measure how fast an entire function can grow.
+an-exponential-type|Functions of exponential type|an-entire-growth|Entire functions with |f(z)| ≤ Ae^{B|z|}.
+an-sin-pi-z|The role of sin πz|an-sine-product an-exponential-type|sin πz vanishes at every integer and has exponential type π; it measures non-uniqueness of interpolation at the integers.
+an-gamma-log-convex|Log-convexity of Γ|gamma-function an-convex an-holder-minkowski|ln Γ is convex, by Hölder’s inequality.
+an-digamma-roots|Zeros and extrema of ψ|digamma an-digamma-series|ψ has one positive zero, at the minimum of Γ near x ≈ 1.4616.
+an-incomplete-beta|Incomplete beta function|an-beta|The beta integral cut off at x, the distribution function of binomial and beta laws.
+an-exp-integral-cont|Continuation of the exponential integral|exp-integral an-branch-cuts|Ei and E₁ in the complex plane with a branch cut.
+an-li-complex|Li(x) and the complex logarithmic integral|li-function an-exp-integral-cont|Li(x^ρ) for complex ρ, as needed in Riemann’s explicit formula.
+an-lambert-w-branches|Branches of Lambert W|lambert-w an-branch-cuts|W has infinitely many branches; W₀ and W₋₁ are real on parts of the line.
+an-orthogonal-poly-special|Classical orthogonal polynomials|la-orthogonal-polys an-ode-linear2|Legendre, Hermite, Laguerre and Chebyshev polynomials as solutions of second-order ODEs.
+an-hermite-polys|Hermite polynomials|an-orthogonal-poly-special gaussian|Polynomials orthogonal with weight e^{−x²}, from derivatives of the Gaussian.
+an-laguerre|Laguerre polynomials|an-orthogonal-poly-special laplace-integrals|Polynomials orthogonal with weight e^{−x} on (0, ∞).
+an-airy|Airy functions|an-ode-linear2 sa-saddle-point|Solutions of y″ = xy, describing transitions from oscillation to decay.
+an-zeta-growth|Growth of ζ in the critical strip|an-zeta-continuation an-phragmen|Convexity bounds for |ζ(σ + it)| as t grows.
+an-zeta-approx-fn|Approximate functional equation|an-functional-eq nt-riemann-siegel|Writing ζ(s) as two short sums linked by the functional equation.
+an-dirichlet-eta-cont|Continuation through the eta function|sa-dirichlet-eta an-zeta-continuation|ζ(s) = η(s)/(1 − 2^{1−s}) continues ζ to Re s > 0.
+an-fixed-pt-thms|Fixed-point theorems|an-contraction ge-brouwer|Results guaranteeing solutions of x = f(x): Banach, Brouwer, Schauder.
+an-picard-iter|Picard iteration|an-ode-existence an-contraction-iter|Solving y′ = f(t, y) by iterating y ↦ y₀ + ∫ f(s, y(s))ds.
+an-gronwall|Grönwall’s inequality|an-ode-existence fd-linear-ode1|A bound showing small changes in data give small changes in solutions.
+an-phase-plane|Phase-plane analysis|an-fixed-points-dyn la-eigen|Classifying equilibria of 2D systems as nodes, saddles, spirals and centres.
+an-limit-cycles|Limit cycles|an-phase-plane|Isolated periodic orbits, like the van der Pol oscillator.
+an-lyapunov|Lyapunov functions|an-fixed-points-dyn|Energy-like functions that decrease along trajectories, proving stability.
+an-period-doubling|Period doubling and Feigenbaum’s constant|an-logistic-map|Successive period doublings accumulate at a universal rate δ ≈ 4.669.
+an-mandelbrot|Mandelbrot and Julia sets|an-fractals fd-complex-arith|Sets of complex parameters where iterating z ↦ z² + c stays bounded.
+an-collatz-dyn|Collatz map as a dynamical system|collatz an-dynamical|Studying the 3n + 1 map through orbits, cycles and extensions to real or complex inputs.
+an-functional-equations|Functional equations|functions|Equations for unknown functions, like f(x + 1) = xf(x) or f(x + y) = f(x)f(y).
+an-cauchy-fe|Cauchy’s functional equation|an-functional-equations fd-continuity|Continuous solutions of f(x + y) = f(x) + f(y) are linear.
+an-gamma-fe|Γ(x + 1) = xΓ(x) and its solutions|an-functional-equations an-bohr-mollerup|The recurrence alone does not fix Γ; log-convexity does.
+an-interp-uniqueness-conditions|Conditions that single out an interpolant|an-gamma-fe an-carlson|Convexity, growth bounds or an extremal property can make interpolation of a sequence unique.

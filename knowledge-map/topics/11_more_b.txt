@@ -1,0 +1,183 @@
+D 3
+nt-even-odd|Even and odd integers|nt-divisibility|Integers divisible or not divisible by 2, and how parity behaves under + and ×.
+nt-parity-args|Parity arguments|nt-even-odd|Proving impossibility by tracking even and odd.
+nt-digit-sums|Digit sums and divisibility tests|nt-congruences fd-decimals|Tests for 3, 9 and 11 from congruences of powers of 10.
+nt-base-b|Number bases|fd-division-alg fd-exponents|Writing integers in base b by repeated division.
+nt-binary|Binary representation|nt-base-b|Base 2, the language of computers.
+nt-triangular-numbers|Figurate numbers|fd-sum-formulas|Triangular, square and pentagonal numbers.
+nt-primorial|Primorials|primes fd-product-notation|p# = product of the primes up to p.
+nt-prime-patterns-small|Small prime patterns|primes nt-congruences|All primes above 3 are ≡ ±1 (mod 6).
+nt-prime-density|Density of primes|prime-counting fd-log-laws|Near x about one number in ln x is prime.
+nt-pi-table|Values of π(x)|prime-counting nt-sieve-erat|π(10) = 4, π(100) = 25, π(10⁶) = 78 498.
+nt-pnt-history|Gauss and Legendre’s conjectures|nt-pi-table li-function|Gauss guessed π(x) ≈ Li(x) from prime tables; Legendre proposed x/(ln x − 1.08366).
+nt-legendre-constant|Legendre’s constant|nt-pnt-history sa-li-asymp|The best constant in x/(ln x − B) is B = 1, as the asymptotic expansion of Li shows.
+nt-li-vs-xlogx|Why Li(x) beats x/ln x|sa-li-asymp nt-pi-table|x/ln x is only the first term of Li’s expansion, so it errs by a factor 1 + 1/ln x + ….
+nt-li-minus-li-e|Li(x) − Li(x/e)|li-function nt-prime-density|An approximation to the number of primes in (x/e, x], the subject of the triangular-limits paper.
+nt-li-series-ramanujan|Ramanujan’s series for Li(x)|li-function an-power-series|Li(x) = γ + ln ln x + √x Σ … , a rapidly convergent series.
+nt-li-recursive|Recursive approximations to Li(x)|li-function geometric-series|Splitting 1/ln t into geometric series over subranges.
+nt-r-function-error|How good R(x) is|riemann-r nt-explicit-psi|R(x) − π(x) is governed by the zeta zeros and is usually much smaller than Li(x) − π(x).
+nt-pi-upper-bounds|Upper bounds for π(x)|pi-bounds nt-rosser-schoenfeld|Inequalities like π(x) < 1.25506 x/ln x for x > 1.
+nt-pi-lower-bounds|Lower bounds for π(x)|pi-bounds nt-rosser-schoenfeld|Inequalities like π(x) > x/ln x for x ≥ 17.
+nt-continued-fraction-pi|Continued fractions and prime bounds|continued-fractions pi-bounds|Using continued-fraction-shaped formulas as candidate bounds for π(x).
+nt-critical-line-heur|The critical line and prime-counting errors|rh nt-r-function-error|Errors in prime approximations scale like √x when zeros are on the line.
+nt-zeros-primes-duality|Duality of zeros and primes|nt-explicit-psi riemann-von-mangoldt|Prime sums rebuild zero counts, and zero sums rebuild prime counts.
+nt-s-function|The argument function S(T)|riemann-von-mangoldt nt-z-function|S(T) = π⁻¹ arg ζ(½ + iT), the oscillating part of N(T).
+nt-s-prime-sum|S(T) from prime sums|nt-s-function nt-explicit-psi|Truncated sums over primes approximate S(T) (Selberg).
+nt-zero-spacing|Spacing of zeta zeros|nt-zeros-computation nt-gue|Zeros near height T are about 2π/ln(T/2π) apart on average.
+nt-prime-gaps-avg|Average prime gap|prime-gaps nt-prime-density|The average gap near x is about ln x.
+nt-gap-records|Record gaps and prime deserts|nt-max-gaps|Stretches like n! + 2, …, n! + n with no primes.
+nt-gap-sums|Sums of prime gaps|prime-gaps fd-telescoping|Σ gⱼ telescopes to pₙ₊₁ − p₁; alternating sums do not.
+nt-gap-alternating-growth|Growth of alternating gap sums|alt-gap-sum nt-gap-correlations pr-diffusive-sums|Measured data show G(k) growing roughly like a random walk; proofs are conditional.
+nt-gap-exp-sum|Gap sums as exponential sums|alt-gap-sum exp-sums prime-counting|Alternating sums of gaps can be rewritten as sums of e^{iπ π(n)}.
+nt-hl-parity|Hardy–Littlewood and parity of π(n)|hardy-littlewood nt-gap-exp-sum|Under Hardy–Littlewood, the parity of π(n) behaves like a Poisson-driven sign.
+nt-fractional-index|Primes at fractional index|nt-prime-interp an-interp-uniqueness-conditions|What p_{2.5} should mean depends on which interpolation rule is justified.
+nt-newton-primes|Newton series through the primes|newton-series nt-prime-interp|Its forward differences grow like 2ⁿ, so it diverges off the integers.
+nt-fh-primes|Floater–Hormann through the primes|floater-hormann nt-prime-interp|With d = 1 the interpolant converges as more primes are used.
+nt-prime-interp-rate|Rate of convergence through the primes|nt-fh-primes nt-gap-alternating-growth|Split into a proved analytic part and an arithmetic part set by gap sums.
+nt-sum-primes|Sums of primes|nt-partial-summation pnt|Σ_{p≤x} p ~ x²/(2 ln x).
+nt-prime-zeta|Prime zeta function|nt-euler-product an-dirichlet-series|P(s) = Σ p⁻ˢ = Σ μ(k) ln ζ(ks)/k.
+nt-log-zeta|ln ζ(s) and prime powers|nt-euler-product an-complex-exp-log|ln ζ(s) = Σ_p Σ_k p^{−ks}/k.
+nt-riemann-pi|Riemann’s prime-power count|nt-log-zeta prime-counting|J(x) = Σ π(x^{1/n})/n, whose Möbius inversion gives R(x).
+nt-riemann-r-zeros|Riemann’s exact formula for π(x)|nt-riemann-pi nt-explicit-psi riemann-r|π(x) = R(x) − Σ_ρ R(x^ρ) + small terms.
+nt-zeta-2-proofs|Proofs that ζ(2) = π²/6|even-zeta an-sine-product|Euler’s product argument, Fourier series and double integrals.
+nt-zeta-odd-values|ζ(3), ζ(5), … and their mystery|nt-zeta-values|No closed form like π^k times a rational is known for odd zeta values.
+nt-ramanujan-formula-statement|Statement of Ramanujan’s formula|ramanujan-zeta nt-zeta-odd-values|For αβ = π², a relation between ζ(2m + 1), Bernoulli numbers and two Lambert series.
+nt-ramanujan-index|Ramanujan’s formula as a function of its index|nt-ramanujan-formula-statement sa-continuation-sums|Letting m vary continuously makes the finite Bernoulli sum diverge.
+nt-borel-ramanujan|Borel resummation of Ramanujan’s divergent sum|nt-ramanujan-index sa-borel-laplace|Borel-summing the divergent sum and comparing lateral sums.
+nt-lambert-jump|The Lambert series as a Stokes jump|nt-borel-ramanujan sa-stokes|The difference between lateral Borel sums equals the Lambert series.
+nt-zeta-free-cot|Zeta-free cotangent representations|nt-borel-ramanujan an-cot-partial|Rewriting the continued formula with cotangent sums instead of zeta values.
+nt-barnes-kernel|A Barnes residue kernel|nt-borel-ramanujan barnes|An open question about a kernel whose residues reproduce the formula.
+nt-eisenstein-weight|Eisenstein series of odd weight|nt-eisenstein-series nt-ramanujan-identities|Quasi-modular objects behind Ramanujan’s formula.
+nt-dirichlet-beta|Dirichlet beta function|nt-l-functions sa-dirichlet-eta|β(s) = 1 − 3⁻ˢ + 5⁻ˢ − …, an L-function; β(2) is Catalan’s constant.
+nt-catalan-const|Catalan’s constant|nt-dirichlet-beta|G = β(2) ≈ 0.9160; its irrationality is unknown.
+nt-mertens-const|Meissel–Mertens constant|nt-mertens-thms sa-euler-gamma|M ≈ 0.2615 in Σ 1/p = ln ln x + M + o(1).
+nt-twin-const|Twin prime constant|nt-singular-series nt-twin-primes|C₂ = Π_{p>2} (1 − 1/(p − 1)²) ≈ 0.6602.
+nt-prime-k-tuples|Prime k-tuples conjecture|hardy-littlewood nt-admissible|Every admissible pattern should occur infinitely often with a predicted density.
+nt-polignac|Polignac’s conjecture|nt-prime-k-tuples|Every even gap should occur infinitely often.
+nt-legendre-conj|Legendre’s conjecture|prime-gaps|There should always be a prime between n² and (n + 1)².
+nt-oppermann|Andrica’s and related conjectures|nt-legendre-conj nt-max-gaps|√p_{n+1} − √pₙ < 1, a strengthening of Legendre’s conjecture.
+nt-ingham|Primes in short intervals|nt-zero-density nt-pnt-error|There is a prime in [x, x + x^θ] for θ above about 0.525.
+nt-sophie-germain|Sophie Germain primes|nt-prime-k-tuples|Primes p with 2p + 1 also prime.
+nt-fermat-primes|Fermat primes|nt-mersenne|Primes 2^{2ⁿ} + 1; only five are known.
+nt-pseudoprimes|Pseudoprimes|nt-carmichael|Composites that pass some primality test.
+nt-lucas-lehmer|Lucas–Lehmer test|nt-mersenne nt-primality-tests|A fast exact test for Mersenne primes.
+nt-cyclotomic|Cyclotomic polynomials|fd-de-moivre al-irreducible-poly|Minimal polynomials of roots of unity.
+nt-cyclotomic-fields|Cyclotomic fields|nt-cyclotomic nt-number-fields|ℚ(e^{2πi/n}), central in Kummer’s work on Fermat’s Last Theorem.
+nt-quadratic-fields|Quadratic fields|nt-number-fields fd-quadratic|ℚ(√d) and their rings of integers.
+nt-units-dirichlet|Dirichlet’s unit theorem|nt-number-fields nt-pell|The units of a ring of integers form a finitely generated group.
+nt-class-number-formula|Class number formula|nt-dedekind-zeta nt-class-group|The residue of the Dedekind zeta function at s = 1 encodes the class number.
+nt-adeles|Adèles and idèles|nt-padic nt-number-fields|Combining all completions of a number field into one object.
+nt-langlands|Langlands programme|nt-modularity al-representation|Conjectured correspondences between Galois representations and automorphic forms.
+D 2
+sa-li-asymp-coeffs|Coefficients k! in Li’s expansion|sa-li-asymp sa-gevrey|The coefficients k! make the series Gevrey-1, so it diverges but is Borel summable.
+sa-li-optimal|Optimal truncation for Li(x)|sa-li-asymp optimal-truncation|Truncate near k ≈ ln x for the smallest error.
+sa-li-borel|Borel sum of Li’s asymptotic series|sa-li-asymp-coeffs sa-borel-laplace|The Borel transform has a pole, giving lateral sums that differ by an exponentially small amount.
+sa-li-triangular|Triangular sums for Li(x) − Li(x/e)|nt-li-minus-li-e triangular-limits|Finite sums whose coefficient pattern converges only when the parameter grows with the number of terms.
+sa-neg-binom-coeff|Negative-binomial coefficient patterns|sa-li-triangular neg-binomial|The triangular coefficients are negative-binomial tail probabilities.
+sa-poisson-coeff|Poisson approximation of coefficients|sa-neg-binom-coeff poisson|In one scaling regime the coefficients look like Poisson tails.
+sa-borel-error-law|Borel model for the error|sa-li-triangular sa-error-laws borel|In one regime the error follows a Laplace–Borel integral law.
+sa-gauss-error-law|Shifted-Gaussian model for the error|sa-li-triangular sa-error-laws clt|In another regime the error follows a shifted Gaussian law.
+sa-regime-crossover|Crossover between the Borel and Gaussian regimes|sa-borel-error-law sa-gauss-error-law sa-crossover|The transition between the two error laws as the scaling ratio changes.
+sa-uniform-remainder|Uniform remainder bounds|sa-li-triangular likelihood-ratio|Bounds on the remainder that hold across all regimes at once.
+sa-enclosure-li|Enclosures for Li(x)|sa-li-asymp enclosures sa-remainder-sign|Two-sided bounds from alternating or signed remainders.
+sa-exact-tail|Exact tails via the incomplete gamma function|incomplete-gamma sa-li-triangular|Writing the tail of a sum exactly as an incomplete gamma integral.
+sa-ei-series|The classical series for Ei|exp-integral an-log-series|Ei(x) = γ + ln x + Σ xᵏ/(k · k!).
+sa-multiscale-li|Multiscale expansion of Li|multiscale sa-li-asymp|Joining local expansions over ranges of x into one formula with a signed error.
+sa-numerical-li|Numerical diagnostics for Li approximations|sa-numerical-asymp sa-li-triangular|High-precision checks of predicted rates and regimes.
+sa-asymp-sum-primes|Asymptotics of sums over primes|sa-sum-integral nt-partial-summation|Turning Σ_{p≤x} f(p) into ∫ f(t)/ln t dt plus an error.
+sa-convergence-vs-asymp|Convergent versus asymptotic accuracy|asymptotic-series an-power-series|A convergent series can be useless numerically while a divergent one gives excellent early approximations.
+sa-divergent-history|History of divergent series|sa-hardy-divergent|Euler’s free use of divergent series, Cauchy’s rejection and their rehabilitation.
+sa-euler-1-2-3|Euler on 1 + 2 + 3 + …|sa-zeta-reg sa-divergent-history|The value −1/12 as ζ(−1), not as an ordinary sum.
+sa-grandi|Grandi’s series|sa-cesaro|1 − 1 + 1 − … has Cesàro and Abel value ½.
+sa-alternating-factorial|Euler’s divergent series Σ (−1)ⁿ n!|sa-borel-laplace sa-gevrey|Borel summation gives ∫₀^∞ e^{−t}/(1 + t) dt ≈ 0.5963.
+sa-stieltjes-integral|The Stieltjes function|sa-alternating-factorial sa-stieltjes-series|∫₀^∞ e^{−t}/(1 + xt) dt, whose asymptotic series is Σ (−1)ⁿ n! xⁿ.
+sa-asymp-integrals-exp|Asymptotics of exponential integrals|sa-watson exp-integral|E₁(x) ~ (e^{−x}/x) Σ (−1)ᵏk!/xᵏ.
+sa-mellin-barnes-asymp|Mellin–Barnes asymptotics|barnes sa-mellin-asymp|Shifting contours past poles to produce asymptotic expansions.
+sa-exponential-asymp|Exponential asymptotics|sa-exp-small sa-resurgence|The study of exponentially small terms beyond all orders.
+sa-asymp-recurrences|Asymptotics of recurrences|co-recurrences sa-poincare|Growth rates of sequences defined by recurrences (Birkhoff–Trjitzinsky).
+sa-asymp-differences|Asymptotics of finite differences|finite-differences sa-poincare|How Δⁿf(x) behaves for large n, linked to the singularities of f.
+sa-norlund-rice|Nörlund–Rice integrals|sa-asymp-differences an-residue-thm|Writing alternating binomial sums as contour integrals.
+sa-difference-growth|Growth of difference tables|sa-asymp-differences sa-newton-divergence|Differences of rough sequences grow like 2ⁿ, the Nyquist signature.
+sa-interp-error-rates|Error rates of interpolation sequences|sa-interp-convergence ap-interp-error|How fast interpolants through n points converge, by smoothness of the data.
+sa-single-mode|Single-mode asymptotics|cardinal-series sa-interp-error-rates|An approach to the limit carried by one sin(πx) mode with a slowly varying amplitude.
+sa-log-rate|Rates like log M / M|sa-single-mode sa-log-asymp|Convergence slightly slower than 1/M, with a logarithmic factor.
+sa-arithmetic-rate|Arithmetic contributions to convergence rates|sa-single-mode alt-gap-sum|Parts of an error that depend on number-theoretic sums, not just smoothness.
+sa-conditional-results|Conditional theorems|sa-arithmetic-rate rh hardy-littlewood|Results proved assuming a conjecture, kept separate from unconditional ones.
+D 4
+ap-equispaced-problem|Interpolation on equispaced points|ap-interp-problem runge|Equispaced data force a trade-off between convergence and stability.
+ap-impossibility|Impossibility theorem for equispaced approximation|ap-equispaced-problem ap-lebesgue-const|No method can be both fast and stable on equispaced points (Platte–Trefethen–Kuijlaars).
+ap-fh-d1|Floater–Hormann with d = 1|ap-fh-weights ap-berrut|Weights from blending linear pieces; second-order accurate and pole-free.
+ap-fh-poles|Absence of real poles in Floater–Hormann|ap-fh-weights|The interpolant has no poles on the real line for any blending degree.
+ap-barycentric-formula|Barycentric formula|barycentric la-vandermonde|p(x) = Σ wᵢfᵢ/(x − xᵢ) ÷ Σ wᵢ/(x − xᵢ), stable and O(n) per point.
+ap-barycentric-stability|Stability of barycentric evaluation|ap-barycentric-formula ap-backward-error|The second barycentric formula is forward stable for good node sets.
+ap-interp-data-rough|Interpolating rough data|ap-interp-problem nt-prime-interp|When data are irregular, high-order interpolants oscillate and low-order rational ones stay tame.
+ap-richardson-fh|Extrapolating interpolation sequences|richardson ap-fh-convergence|Richardson extrapolation applied to values of interpolants as more points are used.
+ap-rate-fitting|Fitting a convergence rate|ap-rate-estimation ap-loglog-plots|Estimating exponent and log factors from computed errors.
+ap-cancel-fh|Cancellation in interpolant differences|ap-cancellation ap-barycentric-formula|Taking differences of interpolants needs care with rounding.
+ap-mpmath|Arbitrary precision in practice|ap-arbitrary-precision|Libraries like mpmath that evaluate special functions to any accuracy.
+ap-desmos-regression|Regression in a graphing calculator|ap-desmos ap-curve-fitting|Fitting parameters to data with sliders or built-in least squares.
+ap-arctan-fits|Fitting with arctangents|inverse-functions residual-fitting|arctan as a smooth step whose scale and position are adjusted.
+ap-abs-smooth|Smooth approximations of the absolute value|residual-fitting fd-abs-value|√(x² + ε) and similar functions that round off the corner.
+ap-sign-smooth|Smooth approximations of sign(x)|ap-abs-smooth logistic|tanh(kx), erf(kx) and x/√(x² + ε).
+ap-gaussian-from|Building Gaussians from other functions|gaussian standard-limit infinite-products|Limits like (1 − x²/n)ⁿ and cosⁿ(x/√n) that tend to e^{−x²}.
+ap-cos-power-gauss|cosⁿ(x/√n) → e^{−x²/2}|ap-gaussian-from taylor-series|A cosine power that becomes a Gaussian, by the Taylor series of ln cos.
+ap-constant-coincidence|Numerical coincidences|constants ap-high-precision-tests|Expressions that match a constant to many digits without being equal.
+ap-digit-count|Counting matching digits|ap-constant-coincidence logexp|−log₁₀|error| measures how many digits agree.
+ap-xsinx-fit|Fitting x sin x and relatives|residual-fitting taylor-series|Approximating oscillating products with few terms.
+ap-arcsine-poly|Polynomial approximations of arcsin|inverse-functions ap-least-squares-approx|Low-degree polynomials fitted to arcsin away from its endpoint singularities.
+ap-endpoint-sing|Endpoint singularities|ap-arcsine-poly an-singularities|Square-root behaviour at an endpoint slows polynomial convergence.
+ap-square-wave-approx|Approximating a square wave|ap-sign-smooth an-sawtooth|Fourier, rational and sigmoid approximations of a jump.
+ap-cosine-rational|Rational approximations of cosine|rational-approx sa-pade|Padé-type formulas for cos x.
+ap-factorial-cos|Cosine as a factorial-like expression|gamma-function an-reflection|Writing cos(πx/2)-type functions through gamma values.
+ap-stirling-shift|Shifted Stirling formulas|stirling sa-gamma-asymp|√(2π(n + 1/6))(n/e)ⁿ and similar tweaks that absorb correction terms.
+ap-gamma-peak|Locating the minimum of Γ|digamma ap-root-finding|Solving ψ(x) = 0 numerically near x ≈ 1.4616.
+ap-loglog-fit|Fitting ln(ln x)|iterated-log ap-curve-fitting|Approximating very slow growth with simple formulas.
+ap-cosh-csc|Hyperbolic and trigonometric blends|hyperbolic residual-fitting|Approximations mixing cosh and csc to match shapes.
+ap-nested-sines|Nested sine approximations|residual-fitting odd-even|Composing sines to build odd functions.
+ap-step-smooth|Smooth step functions|ap-sign-smooth smoothstep|Families of smooth transitions with adjustable sharpness.
+ap-windows|Window functions|smoothstep ap-dft|Tapers like Hann and Blackman that reduce leakage.
+ap-regularized-sinc|Regularised sinc interpolation|sinc ap-windows|Multiplying sinc by a window so finite sums do not ring.
+ap-kernel-reg-numeric|Kernel regression in practice|kernel-regression ap-curve-fitting|Choosing kernels and widths for smoothing data.
+ap-kernel-anchored|Anchored kernel regression|ap-kernel-reg-numeric lagrange|Correcting a smoother so it passes through a chosen point.
+ap-kde-cells|Density cells and Voronoi regions|kde voronoi|Assigning density to the region nearest each data point.
+D 5
+pr-gaussian-moments|Moments of the Gaussian|pr-normal an-gamma-half|E[X²ⁿ] = (2n − 1)!! for a standard normal.
+pr-standardizing|Standardising variables|pr-normal pr-variance-def|z = (x − μ)/σ.
+pr-normal-tables|Normal probabilities|pr-standardizing an-erf|Computing P(a < Z < b) through the error function.
+pr-sampling-dist|Sampling distributions|pr-estimators pr-sum-indep|How a statistic varies from sample to sample.
+pr-std-error|Standard error|pr-sampling-dist pr-variance-def|The standard deviation of an estimator; σ/√n for a mean.
+pr-sample-variance|Sample variance and n − 1|pr-estimators pr-variance-def|Dividing by n − 1 makes the variance estimate unbiased.
+pr-correlation-causation|Correlation versus causation|pr-covariance|A correlation does not by itself show that one variable causes another.
+pr-simpsons|Simpson’s paradox|pr-total-prob|A trend in every group can reverse when groups are combined.
+pr-base-rates|Base rates|pr-bayes|Ignoring how common a condition is leads to wrong conclusions from tests.
+pr-birthday|Birthday problem|pr-complement-union co-permutations|23 people give better-than-even odds of a shared birthday.
+pr-coupon|Coupon collector|pr-geometric co-harmonic-numbers|Collecting all n types takes about n ln n draws.
+pr-monty-hall|Monty Hall problem|pr-conditional|Switching doors wins with probability 2/3.
+pr-random-numbers|Pseudorandom numbers|co-algorithms pr-uniform|Deterministic sequences that pass statistical tests of randomness.
+pr-simulation|Simulation|pr-random-numbers ap-monte-carlo|Estimating probabilities by running random experiments on a computer.
+pr-order-stats|Order statistics|pr-cdf pr-beta-dist|Distributions of the smallest, largest and k-th values in a sample.
+pr-extreme-values|Extreme value theory|pr-order-stats|Limiting laws of maxima: Gumbel, Fréchet and Weibull.
+pr-max-gaps-model|Maximal gaps in random sequences|pr-extreme-values pr-gap-distribution|In the random model the largest gap up to x is about (ln x)².
+pr-variance-sums|Variance of sums|pr-covariance pr-sum-indep|Var(ΣXᵢ) = ΣVar Xᵢ + 2ΣCov(Xᵢ, Xⱼ).
+pr-growth-sums-dep|Growth of dependent sums|pr-variance-sums pr-negative-correlation|Correlations change the √n growth of a sum.
+pr-alt-sign-sums|Sums with alternating signs|pr-growth-sums-dep alternating-series|Σ (−1)ʲXⱼ: alternation cancels slowly varying parts.
+pr-parity-process|Parity processes|pr-alt-sign-sums pr-poisson-process|Signs that flip at the points of a point process.
+pr-telegraph|Random telegraph signal|pr-parity-process|A ±1 signal flipping at Poisson times, with exponentially decaying correlation.
+pr-diffusion-coeff|Diffusion coefficient|pr-brownian pr-variance-sums|The growth rate of variance per unit time.
+pr-hurst|Hurst exponent|pr-diffusion-coeff ap-loglog-plots|Sums growing like n^H; H = ½ for a random walk.
+pr-detrending|Detrending|pr-time-series pr-regression|Removing a smooth trend to study fluctuations.
+pr-spectral-estimation|Spectral estimation|pr-spectral-density ap-fft|Estimating frequency content from data (periodograms).
+pr-model-check|Checking a probabilistic model|pr-hypothesis pr-random-models-nt|Comparing predicted and observed statistics.
+pr-sieve-corrections|Sieve corrections to random models|pr-cramer-model nt-singular-series|Adjusting the random model for divisibility by small primes.
+pr-random-mult|Random multiplicative functions|pr-random-models-nt nt-multiplicative|Models where f(p) are independent random signs.
+pr-kernel-weights|Weighting by kernels|pr-kernels-prob kernel-regression|Nearby points count more in a local average.
+pr-regression-sports|Regression on player statistics|pr-regression pr-sports-stats|Predicting outcomes such as goals from player data.
+pr-log-transform-reg|Regression after log transforms|log-scaling pr-regression|Fitting log y against x or log x to tame skew and model growth.
+pr-sorted-data|Fitting sorted data|pr-order-stats ap-curve-fitting|Curves fitted to values sorted by rank.
+pr-entropy-max|Maximum entropy|pr-entropy an-lagrange-mult-ent|The least-informative distribution meeting given constraints.
+an-lagrange-mult-ent|Constrained maximisation for distributions|fd-lagrange-mult pr-entropy|Lagrange multipliers applied to entropy, giving exponential families.
+pr-exp-families|Exponential families|pr-entropy-max pr-mle|Distributions of the form e^{θ·T(x) − A(θ)}h(x).
+pr-sat-time-series|Satellite time series|pr-time-series remote-sensing|Repeated observations of the same place, like 16-day NDVI composites.
+pr-rainfall-anoms|Rainfall anomalies|pr-sat-time-series pr-standardizing|Departures from typical rainfall, standardised by place and season.
+pr-grazing-stress|Grazing-stress indicators|pr-raster-indices pr-rainfall-anoms|Combining vegetation and water signals to flag pressure on pasture.
+pr-conflict-risk|Conflict-risk mapping|pr-grazing-stress pr-risk-scoring|Mapping where resource stress is likely to bring herds together.

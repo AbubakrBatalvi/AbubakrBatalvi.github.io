@@ -1,0 +1,177 @@
+D 3
+nt-divisibility|Divisibility|fd-integers|a divides b when b = ka for an integer k.
+nt-div-props|Properties of divisibility|nt-divisibility|If a | b and a | c then a | (mb + nc); divisibility is transitive.
+nt-gcd|Greatest common divisor|nt-div-props fd-division-alg|The largest integer dividing both a and b.
+nt-euclid-alg|Euclidean algorithm|nt-gcd|Repeated division with remainder computes gcd(a, b) quickly.
+nt-bezout|Bézout’s identity|nt-euclid-alg|gcd(a, b) = ax + by for some integers x, y.
+nt-lcm|Least common multiple|nt-gcd|lcm(a, b) · gcd(a, b) = ab.
+nt-coprime|Coprime integers|nt-gcd|Integers with gcd 1.
+nt-euclid-lemma|Euclid’s lemma|nt-bezout|If a prime divides ab, it divides a or b.
+nt-fta|Fundamental theorem of arithmetic|nt-euclid-lemma primes ls-strong-induction|Every integer above 1 is a product of primes in exactly one way.
+nt-infinitude|Infinitely many primes|primes ls-contradiction|Euclid: multiply the known primes and add 1.
+nt-sieve-erat|Sieve of Eratosthenes|primes nt-divisibility|Listing primes by crossing out multiples.
+nt-prime-factor|Prime factorisations|nt-fta|Writing n = Π pᵢ^{aᵢ}, from which divisors and gcds are read.
+nt-valuations|p-adic valuations|nt-prime-factor|v_p(n), the exponent of p in n.
+nt-legendre-factorial|Legendre’s formula|nt-valuations factorial fd-floor-ceil|v_p(n!) = Σ ⌊n/pᵏ⌋.
+nt-linear-dioph|Linear Diophantine equations|nt-bezout|ax + by = c has integer solutions exactly when gcd(a, b) divides c.
+nt-congruences|Congruences|nt-divisibility ls-equiv-rel|a ≡ b (mod n) when n divides a − b.
+nt-modular-arith|Modular arithmetic|nt-congruences al-quotient-ring|Arithmetic in ℤ/nℤ, adding and multiplying remainders.
+nt-mod-inverse|Modular inverses|nt-modular-arith nt-bezout|a has an inverse mod n exactly when gcd(a, n) = 1.
+nt-linear-congruence|Linear congruences|nt-mod-inverse|Solving ax ≡ b (mod n).
+nt-crt|Chinese remainder theorem|nt-linear-congruence nt-coprime|Congruences modulo coprime moduli have a unique joint solution.
+nt-fermat-little|Fermat’s little theorem|nt-modular-arith al-lagrange-thm|a^{p−1} ≡ 1 (mod p) for a not divisible by p.
+nt-euler-phi|Euler’s totient function|nt-coprime nt-crt|φ(n), the number of integers up to n coprime to n.
+nt-euler-thm|Euler’s theorem|nt-euler-phi nt-fermat-little|a^{φ(n)} ≡ 1 (mod n) when gcd(a, n) = 1.
+nt-wilson|Wilson’s theorem|nt-mod-inverse|(p − 1)! ≡ −1 (mod p) exactly when p is prime.
+nt-modular-exp|Fast modular exponentiation|nt-euler-thm co-algorithms|Computing aᵏ mod n by repeated squaring.
+nt-primitive-roots|Primitive roots|nt-euler-thm al-cyclic|Generators of the multiplicative group mod p, which is cyclic.
+nt-orders-mod|Multiplicative order|nt-primitive-roots al-order-element|The least k with aᵏ ≡ 1 (mod n).
+nt-quadratic-residues|Quadratic residues|nt-modular-arith|Squares modulo p.
+nt-legendre-symbol|Legendre symbol|nt-quadratic-residues|(a/p) = 1, −1 or 0 according as a is a non-zero square, a non-square, or 0 mod p.
+nt-euler-criterion|Euler’s criterion|nt-legendre-symbol nt-primitive-roots|(a/p) ≡ a^{(p−1)/2} (mod p).
+nt-gauss-lemma|Gauss’s lemma|nt-legendre-symbol|Computing (a/p) by counting residues that land in the upper half.
+nt-qr|Quadratic reciprocity|nt-gauss-lemma nt-euler-criterion|(p/q)(q/p) = (−1)^{(p−1)(q−1)/4} for odd primes p, q.
+nt-jacobi|Jacobi symbol|nt-qr|An extension of the Legendre symbol to odd composite moduli.
+nt-primality-tests|Primality tests|nt-fermat-little nt-modular-exp|Fermat, Miller–Rabin and other quick tests of whether n is prime.
+nt-carmichael|Carmichael numbers|nt-primality-tests|Composites that pass the Fermat test for every base coprime to them.
+nt-aks|Deterministic primality testing|nt-primality-tests ls-complexity|Primality can be decided in polynomial time (AKS).
+nt-factoring-alg|Integer factoring algorithms|nt-fta co-algorithms|Trial division, Pollard rho, quadratic and number field sieves.
+nt-rsa|RSA cryptosystem|nt-euler-thm nt-modular-exp co-cryptography|Encryption whose security rests on the difficulty of factoring.
+nt-arith-functions|Arithmetic functions|functions nt-prime-factor|Functions on positive integers, such as d(n), σ(n), φ(n) and μ(n).
+nt-multiplicative|Multiplicative functions|nt-arith-functions nt-coprime|f(mn) = f(m)f(n) for coprime m, n.
+nt-sigma|Sum of divisors|nt-multiplicative divisors|σ(n), the sum of the divisors of n.
+nt-perfect|Perfect numbers|nt-sigma|σ(n) = 2n; even ones correspond to Mersenne primes.
+nt-mersenne|Mersenne primes|nt-perfect primes|Primes of the form 2ᵖ − 1.
+nt-dirichlet-conv|Dirichlet convolution|nt-arith-functions|(f ∗ g)(n) = Σ_{d|n} f(d)g(n/d).
+nt-mobius-inversion|Möbius inversion formula|nt-dirichlet-conv mobius|g = f ∗ 1 exactly when f = g ∗ μ.
+nt-euler-product|Euler products|nt-multiplicative zeta nt-fta|Σ f(n)/nˢ = Π_p (1 + f(p)/pˢ + …) for multiplicative f.
+nt-dirichlet-series-arith|Dirichlet series of arithmetic functions|nt-dirichlet-conv an-dirichlet-series|Convolution of functions becomes multiplication of Dirichlet series.
+nt-zeta-reciprocal|1/ζ(s) and the Möbius function|nt-dirichlet-series-arith nt-mobius-inversion|1/ζ(s) = Σ μ(n)/nˢ.
+nt-von-mangoldt|Von Mangoldt function|nt-arith-functions primes|Λ(n) = ln p if n is a power of a prime p, otherwise 0.
+nt-log-deriv-zeta|−ζ′/ζ and Λ|nt-von-mangoldt nt-euler-product|−ζ′(s)/ζ(s) = Σ Λ(n)/nˢ.
+nt-chebyshev-fns|Chebyshev functions θ and ψ|nt-von-mangoldt prime-counting|θ(x) = Σ_{p≤x} ln p and ψ(x) = Σ_{n≤x} Λ(n), the natural weighted prime counts.
+nt-chebyshev-bounds|Chebyshev’s bounds|nt-chebyshev-fns nt-legendre-factorial co-binomial-coeff|c x/ln x < π(x) < C x/ln x, from the central binomial coefficient.
+nt-bertrand|Bertrand’s postulate|nt-chebyshev-bounds|There is always a prime between n and 2n.
+nt-mertens-thms|Mertens’ theorems|nt-chebyshev-bounds an-stieltjes-primes|Σ ln p/p = ln x + O(1), Σ 1/p = ln ln x + M + o(1), and Π (1 − 1/p) ~ e^{−γ}/ln x.
+nt-prime-reciprocals|Divergence of Σ 1/p|nt-euler-product an-p-series|The sum of the reciprocals of the primes diverges, like ln ln x.
+nt-partial-summation|Partial summation for primes|abel-partial an-stieltjes-primes|Turning weighted prime sums into integrals of π(x) or θ(x).
+nt-pi-theta|From θ(x) to π(x)|nt-partial-summation nt-chebyshev-fns|π(x) = θ(x)/ln x + ∫ θ(t)/(t ln²t) dt.
+nt-pnt-equivalents|Equivalent forms of the PNT|nt-pi-theta pnt|π(x) ~ x/ln x, θ(x) ~ x and ψ(x) ~ x are equivalent.
+nt-zeta-pole|Pole of ζ at s = 1|zeta an-integral-test|ζ(s) = 1/(s − 1) + γ + O(s − 1) near s = 1.
+nt-zeta-line-one|No zeros on Re s = 1|nt-log-deriv-zeta an-zeta-continuation|ζ(1 + it) ≠ 0, via the inequality 3 + 4cos θ + cos 2θ ≥ 0.
+nt-pnt-proof|Analytic proof of the PNT|nt-zeta-line-one an-wiener-ikehara nt-pnt-equivalents|From the non-vanishing of ζ on Re s = 1 to ψ(x) ~ x.
+nt-newman|Newman’s short proof of the PNT|nt-zeta-line-one an-cauchy-formula|A short contour-integral proof of the prime number theorem.
+nt-elementary-pnt|Elementary proof of the PNT|nt-mertens-thms|Selberg and Erdős proved the PNT without complex analysis.
+nt-zero-free|Zero-free regions|nt-zeta-line-one an-jensen-formula|ζ has no zeros in σ > 1 − c/ln|t|, giving an explicit error term in the PNT.
+nt-pnt-error|Error term in the PNT|nt-zero-free nt-pnt-proof|π(x) = Li(x) + O(x e^{−c√ln x}).
+nt-riemann-xi|Riemann ξ function|an-functional-eq an-hadamard|ξ(s) = ½s(s − 1)π^{−s/2}Γ(s/2)ζ(s), entire and symmetric under s ↦ 1 − s.
+nt-theta|Jacobi theta and the zeta function|an-theta-fns zeta|ζ(s)Γ(s/2)π^{−s/2} is a Mellin transform of the theta function.
+nt-trivial-zeros|Trivial zeros|an-functional-eq|ζ(−2) = ζ(−4) = … = 0.
+nt-critical-strip|The critical strip|nt-trivial-zeros nt-zeta-line-one|All non-trivial zeros lie in 0 < Re s < 1.
+nt-zeros-symmetry|Symmetry of the zeros|nt-riemann-xi nt-critical-strip|Zeros are symmetric about the real axis and the line Re s = ½.
+nt-hardy-zeros|Infinitely many zeros on the line|nt-zeros-symmetry an-mellin|Hardy proved that infinitely many zeros lie on Re s = ½.
+nt-zero-density|Zero-density estimates|nt-zero-free riemann-von-mangoldt|Bounds on how many zeros can lie off the critical line.
+nt-zeros-computation|Computing zeta zeros|nt-zeros-symmetry nt-riemann-siegel|Zeros are located by sign changes of Hardy’s Z function along the line.
+nt-riemann-siegel|Riemann–Siegel formula|sa-saddle-point zeta|A fast approximation for ζ(½ + it) used to compute zeros.
+nt-z-function|Hardy’s Z function|nt-riemann-xi|Z(t) is real on the critical line, so zeros show up as sign changes.
+nt-gram-points|Gram points|nt-z-function|Points where the Riemann–Siegel theta function passes multiples of π, roughly interlacing the zeros.
+nt-explicit-psi|Riemann–von Mangoldt explicit formula|explicit-formula nt-log-deriv-zeta an-mellin-inversion|ψ(x) = x − Σ_ρ x^ρ/ρ − ln 2π − ½ln(1 − x⁻²).
+nt-rh-pnt|RH and the PNT error|rh nt-explicit-psi|RH is equivalent to π(x) = Li(x) + O(√x ln x).
+nt-littlewood|Littlewood’s sign changes|nt-explicit-psi|π(x) − Li(x) changes sign infinitely often.
+nt-skewes|Skewes’ number|nt-littlewood|Estimates of where π(x) first exceeds Li(x).
+nt-rh-equivalents|Equivalents of RH|rh nt-zeta-reciprocal|Statements equivalent to RH, such as Σ_{n≤x} μ(n) = O(x^{½+ε}).
+nt-mertens-conj|Mertens function and conjecture|nt-rh-equivalents|M(x) = Σ μ(n); the bound |M(x)| < √x is false.
+nt-lindelof|Lindelöf hypothesis|rh an-phragmen|ζ(½ + it) = O(tᵋ), implied by RH.
+nt-gue|Zeros and random matrices|nt-zeros-computation pr-random-matrices|Spacings of zeta zeros match eigenvalue spacings of large random Hermitian matrices.
+nt-dirichlet-chars|Dirichlet characters|nt-modular-arith al-homomorphisms|Homomorphisms from (ℤ/q)^× to the complex numbers, extended to ℤ.
+nt-char-orthogonality|Orthogonality of characters|nt-dirichlet-chars al-characters|Sums of characters pick out residue classes.
+nt-l-functions|Dirichlet L-functions|nt-dirichlet-chars nt-euler-product|L(s, χ) = Σ χ(n)/nˢ.
+nt-l-one|Non-vanishing of L(1, χ)|nt-l-functions nt-zeta-pole|L(1, χ) ≠ 0 for non-trivial χ; the key step in Dirichlet’s theorem.
+nt-dirichlet-thm|Dirichlet’s theorem on primes in progressions|nt-l-one nt-char-orthogonality|Every progression a, a + q, a + 2q, … with gcd(a, q) = 1 has infinitely many primes.
+nt-pnt-ap|Prime number theorem for progressions|nt-dirichlet-thm nt-pnt-proof|Primes are equally distributed among the φ(q) coprime residue classes.
+nt-siegel-walfisz|Siegel–Walfisz theorem|nt-pnt-ap nt-zero-free|Uniform equidistribution of primes in progressions for small moduli.
+nt-chebyshev-bias|Chebyshev’s bias|nt-pnt-ap nt-explicit-psi|Primes ≡ 3 (mod 4) tend to lead primes ≡ 1 (mod 4).
+nt-grh|Generalised Riemann Hypothesis|nt-l-functions rh|All non-trivial zeros of Dirichlet L-functions lie on Re s = ½.
+nt-bombieri-vinogradov|Bombieri–Vinogradov theorem|nt-siegel-walfisz nt-large-sieve|Primes are well distributed in progressions on average, as if GRH held, for moduli up to √x.
+nt-large-sieve|Large sieve|nt-sieve-erat an-parseval|An inequality bounding how a set of integers can concentrate in residue classes.
+nt-sieve-methods|Sieve methods|nt-sieve-erat co-incl-excl|Estimating counts of integers free of small prime factors.
+nt-legendre-sieve|Legendre’s sieve|nt-sieve-methods mobius|Counting by inclusion–exclusion over primes; exact but with large error.
+nt-brun|Brun’s sieve and twin primes|nt-sieve-methods|Σ 1/p over twin primes converges.
+nt-selberg-sieve|Selberg sieve|nt-sieve-methods la-pos-def|Choosing optimal weights by minimising a quadratic form.
+nt-parity-problem|Parity problem in sieves|nt-selberg-sieve|Sieves alone cannot tell numbers with an even number of prime factors from those with an odd number.
+nt-twin-primes|Twin prime conjecture|prime-gaps hardy-littlewood|There should be infinitely many primes p with p + 2 prime.
+nt-zhang-maynard|Bounded gaps between primes|nt-bombieri-vinogradov nt-selberg-sieve|Zhang, Maynard and Polymath: infinitely many prime gaps are at most 246.
+nt-goldbach|Goldbach’s conjecture|primes nt-circle-method|Every even number above 2 should be a sum of two primes.
+nt-circle-method|Hardy–Littlewood circle method|exp-sums an-fourier-series|Counting representations by integrating an exponential sum around the unit circle.
+nt-vinogradov|Vinogradov’s three-primes theorem|nt-circle-method nt-siegel-walfisz|Every large odd number is a sum of three primes (now every odd number above 5).
+nt-waring|Waring’s problem|nt-circle-method|Every number is a sum of a bounded number of k-th powers.
+nt-singular-series|Singular series|nt-circle-method hardy-littlewood|The product of local factors predicting the density of prime patterns.
+nt-admissible|Admissible tuples|hardy-littlewood nt-congruences|Patterns n + h₁, …, n + hₖ that are not blocked by any prime.
+nt-gap-statistics|Statistics of prime gaps|prime-gaps random-primes|Distribution of gₙ/ln pₙ, close to exponential with corrections.
+nt-max-gaps|Maximal prime gaps|prime-gaps nt-gap-statistics|Record gaps grow roughly like (ln p)².
+nt-cramer-conj|Cramér’s conjecture|nt-max-gaps random-primes|Gaps should be O((ln p)²).
+nt-gap-parity|Parity of prime gaps|prime-gaps nt-congruences|All gaps after the first are even; consecutive gaps show residue-class biases.
+nt-lemke-oliver|Biases between consecutive primes|nt-gap-parity hardy-littlewood|Consecutive primes avoid repeating their last digit more than chance predicts (Lemke Oliver–Soundararajan).
+nt-gap-correlations|Correlations of consecutive gaps|nt-lemke-oliver variance|Consecutive prime gaps are negatively correlated.
+nt-alt-sums-primes|Alternating sums over primes|alt-gap-sum alternating-series|Σ (−1)ⁿ f(pₙ) and its relation to gaps.
+nt-prime-interp|Interpolating the primes|primes floater-hormann|Smooth curves through the points (n, pₙ), and what makes one canonical.
+nt-pn-bounds|Bounds for the n-th prime|sa-nth-prime-asymp pi-bounds|n(ln n + ln ln n − 1) < pₙ < n(ln n + ln ln n) for n ≥ 6.
+nt-rosser-schoenfeld|Explicit prime bounds|nt-chebyshev-bounds nt-zeros-computation|Rosser–Schoenfeld-type inequalities valid for all x above a given point.
+nt-li-inverse|Inverse logarithmic integral|li-function inverse-functions|Li⁻¹(n) as a smooth approximation to pₙ.
+nt-gram-series|Gram series|riemann-r an-power-series|R(x) = 1 + Σ (ln x)ᵏ/(k · k! · ζ(k + 1)), a fast series for Riemann’s R function.
+nt-meissel-lehmer|Computing π(x)|prime-counting co-algorithms|The Meissel–Lehmer method computes π(x) without listing all primes.
+nt-prime-races|Prime number races|nt-chebyshev-bias|Which residue class is ahead, and how often.
+nt-zeta-values|Special values of ζ|even-zeta nt-trivial-zeros|ζ(2n) through Bernoulli numbers, ζ(−n) = −B_{n+1}/(n + 1), and the mystery of odd values.
+nt-apery|Apéry’s theorem|nt-zeta-values nt-irrationality|ζ(3) is irrational.
+nt-odd-zeta-irr|Irrationality of odd zeta values|nt-apery|Infinitely many ζ(2n + 1) are irrational (Ball–Rivoal); at least one of ζ(5), …, ζ(11) is (Zudilin).
+nt-irrationality|Irrationality proofs|fd-sqrt2-irrational an-power-series|Proving numbers like e and π are irrational, often with integrals or series.
+nt-e-irrational|e is irrational|nt-irrationality an-exp-rigorous|From the series for e and a bound on its tail.
+nt-pi-irrational|π is irrational|nt-irrationality fd-by-parts|Niven’s proof with a polynomial integral.
+nt-transcendence|Transcendence of e and π|nt-e-irrational al-algebraic-elts|Hermite and Lindemann: e and π are not roots of integer polynomials.
+nt-liouville-numbers|Liouville numbers|al-algebraic-elts nt-dioph-approx|Numbers approximated by rationals too well to be algebraic.
+nt-dioph-approx|Diophantine approximation|fd-density continued-fractions|How closely irrationals can be approximated by fractions p/q.
+nt-dirichlet-approx|Dirichlet’s approximation theorem|nt-dioph-approx co-pigeonhole||α − p/q| < 1/q² for infinitely many fractions.
+nt-cf-convergents|Convergents of continued fractions|continued-fractions nt-dioph-approx|Truncations of a continued fraction give the best rational approximations.
+nt-golden-ratio|Golden ratio|nt-cf-convergents co-fibonacci|φ = [1; 1, 1, …], the hardest number to approximate by fractions.
+nt-quadratic-irr|Periodic continued fractions|nt-cf-convergents fd-quadratic|Continued fractions are eventually periodic exactly for quadratic irrationals.
+nt-pell|Pell’s equation|nt-quadratic-irr|x² − dy² = 1, solved by the continued fraction of √d.
+nt-roth|Roth’s theorem|nt-liouville-numbers|Algebraic irrationals cannot be approximated better than 1/q^{2+ε}.
+nt-pythagorean|Pythagorean triples|nt-coprime fd-quadratic|All solutions of a² + b² = c², parametrised by (m² − n², 2mn, m² + n²).
+nt-two-squares|Sums of two squares|nt-quadratic-residues|A prime is a sum of two squares exactly when it is 2 or ≡ 1 (mod 4).
+nt-four-squares|Lagrange’s four-square theorem|nt-two-squares|Every positive integer is a sum of four squares.
+nt-fermat-last|Fermat’s Last Theorem|nt-pythagorean nt-elliptic-curves an-modular-forms|xⁿ + yⁿ = zⁿ has no positive solutions for n > 2 (Wiles).
+nt-gaussian-int|Gaussian integers|al-euclidean-domain complex-numbers|ℤ[i], a Euclidean domain whose primes explain sums of two squares.
+nt-alg-integers|Algebraic integers|al-algebraic-elts al-rings|Roots of monic integer polynomials; they form rings like ℤ[√−5].
+nt-number-fields|Number fields|al-field-ext nt-alg-integers|Finite extensions of ℚ and their rings of integers.
+nt-ideal-factor|Unique factorisation of ideals|nt-number-fields al-prime-max-ideals|In rings of integers ideals factor uniquely into prime ideals even when elements do not.
+nt-class-group|Class group and class number|nt-ideal-factor al-quotient-group|The group measuring the failure of unique factorisation.
+nt-dedekind-zeta|Dedekind zeta functions|nt-number-fields nt-euler-product|Zeta functions of number fields, with Euler products over prime ideals.
+nt-padic|p-adic numbers|nt-valuations an-completeness-metric|Completing ℚ with the p-adic absolute value.
+nt-hensel|Hensel’s lemma|nt-padic newton-method|Lifting solutions mod p to solutions mod pᵏ, like Newton’s method.
+nt-local-global|Local–global principle|nt-padic nt-crt|Solving an equation over ℚ by solving it over ℝ and every ℚ_p (works for quadratic forms).
+nt-quadratic-forms|Binary quadratic forms|nt-two-squares la-bilinear|ax² + bxy + cy², their equivalence classes and the numbers they represent.
+nt-elliptic-curves|Elliptic curves|nt-pythagorean al-groups|Curves y² = x³ + ax + b whose rational points form a group.
+nt-mordell|Mordell’s theorem|nt-elliptic-curves al-fg-abelian|The rational points of an elliptic curve form a finitely generated group.
+nt-bsd|Birch–Swinnerton-Dyer conjecture|nt-mordell nt-l-functions|The rank of an elliptic curve should equal the order of vanishing of its L-function at s = 1.
+nt-modularity|Modularity|nt-elliptic-curves an-modular-forms|Every elliptic curve over ℚ corresponds to a modular form.
+nt-ramanujan-tau|Ramanujan’s tau function|an-dedekind-eta|Coefficients of Δ = qΠ(1 − qⁿ)²⁴, multiplicative with |τ(p)| ≤ 2p^{11/2}.
+nt-ramanujan-identities|Ramanujan’s zeta identities|nt-zeta-values lambert-series an-modular-forms|Formulas linking zeta values, Lambert series and modular transformations.
+nt-ramanujan-odd-proof|Proof of Ramanujan’s odd-zeta formula|nt-ramanujan-identities an-residue-thm cotangent|Derived from a contour integral of cotangent products or from Eisenstein series.
+nt-eisenstein-series|Eisenstein series|an-modular-forms even-zeta|Modular forms Σ 1/(mτ + n)^{2k} whose constant terms are even zeta values.
+nt-divisor-problem|Dirichlet divisor problem|divisors sa-sum-integral|Σ_{n≤x} d(n) = x ln x + (2γ − 1)x + O(x^θ); the best θ is unknown.
+nt-gauss-circle|Gauss circle problem|nt-two-squares sa-sum-integral|Counting lattice points in a circle: πr² + O(r^θ).
+nt-average-order|Average orders of arithmetic functions|nt-arith-functions sa-sum-integral|Mean values such as Σ φ(n) ~ 3x²/π².
+nt-squarefree|Squarefree numbers|nt-mobius-inversion nt-average-order|They have density 6/π² = 1/ζ(2).
+nt-coprime-prob|Probability two integers are coprime|nt-squarefree pr-independence|6/π², from the Euler product of ζ(2).
+nt-erdos-kac|Erdős–Kac theorem|nt-mertens-thms clt|The number of prime factors of n is approximately normal with mean and variance ln ln n.
+nt-smooth-numbers|Smooth numbers|nt-fta sa-asymp-notation|Integers with only small prime factors, counted by Dickman’s function.
+nt-dickman|Dickman function|nt-smooth-numbers fd-odes-intro|ρ(u), the density of x^{1/u}-smooth numbers up to x, from a delay differential equation.
+nt-exp-sum-bounds|Bounds for exponential sums|exp-sums sa-gauss-sums-asymp|Weyl differencing and van der Corput estimates.
+nt-gauss-sums|Gauss sums|nt-dirichlet-chars exp-sums|Σ χ(n)e^{2πin/q}, of absolute value √q.
+nt-ramanujan-sums|Ramanujan sums|nt-gauss-sums nt-mobius-inversion|c_q(n) = Σ e^{2πian/q} over a coprime to q, used in the singular series.
+nt-collatz-heur|Heuristics for the Collatz problem|collatz pr-expectation|A random model where each odd step multiplies by about 3/4 on average, suggesting descent.
+nt-highly-composite|Highly composite numbers|divisors nt-prime-factor|Numbers with more divisors than any smaller number.
+nt-divisor-bounds|Growth of the divisor function|divisors nt-prime-factor|d(n) = O(nᵋ) for every ε > 0.
+nt-primes-forms|Primes of special forms|primes nt-dirichlet-thm|Questions such as infinitely many primes n² + 1 remain open.
+nt-ulam|Prime spirals and patterns|primes nt-primes-forms|Visual patterns from quadratic polynomials rich in primes.
+nt-analytic-overview|Analytic number theory|pnt an-dirichlet-series|Studying integers with tools from analysis: Dirichlet series, contour integrals and asymptotics.
