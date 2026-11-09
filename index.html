@@ -652,6 +652,11 @@ h1,h2,h3,#brand .name,#barName,.gTitle,.pt{font-family:var(--hand)!important;fon
    so on the slate the black drops away and on the whiteboard the white does, leaving the curves */
 .th img,img[data-big]{mix-blend-mode:lighten}
 body.light .th img,body.light img[data-big]{mix-blend-mode:multiply}
+
+/* ---------- handwritten headings written in chalk on the blackboard: the map's chalk grain, clipped to the letters ---------- */
+body:not(.light) :is(h1,h2,h3,#brand .name,#barName,.gTitle,.pt,.kmTitle):not(.idxTitle):not(#tocTitle){
+  background-image:var(--chalk-ink);background-size:96px 96px;background-repeat:repeat;
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 </style>
 
 <canvas id="gl"></canvas>
@@ -948,6 +953,8 @@ const CHALK=(()=>{const tiles=new Map();
     const n=document.createElement('canvas');n.width=n.height=128;const ng=n.getContext('2d'),im=ng.createImageData(128,128);
     for(let i=0;i<im.data.length;i+=4){const v=rnd();im.data[i]=im.data[i+1]=im.data[i+2]=v<.5?0:255;im.data[i+3]=v<.5?v*22:(v-.5)*24;}
     ng.putImageData(im,0,0);g.fillStyle=g.createPattern(n,'repeat');g.fillRect(0,0,W,H);return c;}
+  /* headings in dark mode are filled with this tile (chalk-white), clipped to the text */
+  try{const st=document.createElement('style');st.textContent=`:root{--chalk-ink:url(${tile('#ecebe3').toDataURL()})}`;document.head.appendChild(st);}catch(e){}
   return {tile,slate};})();
 const KM=(()=>{
   const DOM_ORDER=[6,4,5,0,1,2,3];                 /* left to right on the map */
@@ -3367,7 +3374,7 @@ function makeEraser(home){
     /* text, word by word, in its own font and colour */
     const walker=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);let t;const range=document.createRange();
     while((t=walker.nextNode())){const p=t.parentElement;if(!p||p.closest('.eraseCanvas')||!vis(p))continue;const cs=getComputedStyle(p);
-      g.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;g.fillStyle=cs.color;g.textBaseline='middle';
+      g.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;g.fillStyle=/rgba\(.*,\s*0\)$|transparent/.test(cs.webkitTextFillColor||'')?g.createPattern(CHALK.tile('#ecebe3'),'repeat'):cs.color;g.textBaseline='middle';
       const re=/\S+/g;let m;while((m=re.exec(t.data))){range.setStart(t,m.index);range.setEnd(t,m.index+m[0].length);const rs=range.getClientRects();
         for(const q of rs){if(!q.width)continue;g.fillText(m[0],q.left-ox,q.top-oy+q.height/2,q.width+2);break;}}}
     snap=c;return c;}
