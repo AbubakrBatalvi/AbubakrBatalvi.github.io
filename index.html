@@ -676,6 +676,11 @@ body.light .kmFindList button:hover{background:#f0f2f4}
 .kmNone{padding:8px;font-size:12.5px;opacity:.7}
 .kmMore{display:inline-block;margin:4px 4px 2px;font-size:11.5px;opacity:.65}
 @media (max-width:640px){.kmFind{width:130px}.kmFindList{width:min(300px,calc(100vw - 60px))}}
+
+/* ---------- depth: the board surface stays still while the content slides over it ---------- */
+#home .board,#home .boardWrap:nth-child(even)>.board{background-attachment:fixed}
+#depthTrails{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:24}
+#depthTrails[hidden]{display:none}
 </style>
 
 <canvas id="gl"></canvas>
@@ -5674,4 +5679,43 @@ addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.h
   mo.observe(document.body,{attributes:true,attributeFilter:['class'],childList:true});
   for(const id of ['home','gpage','homeBar','brand']){const el=document.getElementById(id);if(el)mo.observe(el,{attributes:true,attributeFilter:['hidden','class']});}
   addEventListener('resize',place);addEventListener('hashchange',()=>setTimeout(place,60));setInterval(place,1000);mark();place();})();
+
+/* ---------- depth trails: a very light, broken-up fade left behind elements as they slide ----------
+   Each frame, every visible element's movement since the last frame is measured (so pinned boards and the
+   erase hold leave no trail). Behind each moving line of text or block, a short gradient is drawn opposite to the
+   motion, scaled by the speed, then broken up with the same chalk grain the knowledge map uses. Off when the
+   reader prefers reduced motion. */
+(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cv=document.createElement('canvas');cv.id='depthTrails';cv.setAttribute('aria-hidden','true');document.body.appendChild(cv);
+  const g=cv.getContext('2d'),SS=.5;let W=0,H=0,raf=0,lastAct=0,grainPat=null,grainKey='';
+  const SEL='h1,h2,h3,p,img,.th,.homeNav a,.heroMore,.gActions button,.labLink a,.rt,.pt,.toTop,.chips button,.homeSec .gl li';
+  const state=new WeakMap();
+  const size=()=>{W=innerWidth;H=innerHeight;cv.width=Math.ceil(W*SS);cv.height=Math.ceil(H*SS);};size();addEventListener('resize',size);
+  const scroller=()=>{const h=document.getElementById('home'),gp=document.getElementById('gpage');if(gp&&!gp.hidden&&!gp.classList.contains('fading'))return gp;if(h&&!h.hidden&&!h.classList.contains('fading'))return h;return null;};
+  function grain(L){const k=L?'l':'d';if(grainPat&&grainKey===k)return grainPat;grainKey=k;
+    /* gaps in the trail: the chalk tile's empty and faint pixels punch holes so the fade looks broken, not smooth */
+    const t=document.createElement('canvas');t.width=t.height=64;const x=t.getContext('2d'),im=x.createImageData(64,64);
+    for(let i=0;i<im.data.length;i+=4){const v=Math.random();im.data[i+3]=v<.45?255:v<.7?150:0;}x.putImageData(im,0,0);
+    grainPat=g.createPattern(t,'repeat');return grainPat;}
+  function frame(now){raf=0;const sc=scroller();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,cv.width,cv.height);
+    if(!sc){return;}
+    const L=document.body.classList.contains('light'),ink=L?'31,36,48':'236,236,226',base=L?.07:.085;
+    g.setTransform(SS,0,0,SS,0,0);let active=false;
+    for(const el of sc.querySelectorAll(SEL)){if(el.closest('.km,.eraseCanvas,[hidden]'))continue;
+      const r=el.getBoundingClientRect();if(!r.width||r.bottom<-80||r.top>H+80){state.delete(el);continue;}
+      let st=state.get(el);if(!st){state.set(el,{top:r.top,v:0});continue;}
+      const dy=r.top-st.top;st.top=r.top;st.v=dy?st.v*.5+dy*.5:st.v*.8;const v=st.v;if(Math.abs(v)<.35)continue;active=true;
+      /* text: the trailing line of the element; everything else: the whole block */
+      let boxes=[r];if(/^(H1|H2|H3|P|A)$/.test(el.tagName)||el.classList.contains('rt')||el.classList.contains('pt')){const rg=document.createRange();rg.selectNodeContents(el);const ls=[...rg.getClientRects()].filter(q=>q.width>2);if(ls.length){/* only the trailing line: the fade comes off the element, not through it */const edge=v<0?Math.max(...ls.map(q=>q.bottom)):Math.min(...ls.map(q=>q.top));boxes=ls.filter(q=>Math.abs((v<0?q.bottom:q.top)-edge)<3);}}
+      const len=Math.min(64,Math.abs(v)*3.2),a=base*Math.min(1,Math.abs(v)/12);
+      for(const b of boxes){const y0=v<0?b.bottom:b.top,y1=v<0?b.bottom+len:b.top-len;
+        /* a little variation per line so the trails do not end in a straight edge */
+        const jit=.65+.35*Math.abs(Math.sin(b.left*.13+b.width*.07)),ye=y0+(y1-y0)*jit;
+        const gr=g.createLinearGradient(0,y0,0,ye);gr.addColorStop(0,`rgba(${ink},${a})`);gr.addColorStop(1,`rgba(${ink},0)`);
+        g.fillStyle=gr;g.fillRect(b.left+2,Math.min(y0,ye),b.width-4,Math.abs(ye-y0));}}
+    if(active){g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='destination-out';g.fillStyle=grain(L);g.fillRect(0,0,cv.width,cv.height);g.globalCompositeOperation='source-over';lastAct=now;}
+    if(active||now-lastAct<120)raf=requestAnimationFrame(frame);}
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(frame);};
+  for(const id of ['home','gpage']){const el=document.getElementById(id);if(el)el.addEventListener('scroll',kick,{passive:true});}
+})();
 </script>
