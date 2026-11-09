@@ -2958,13 +2958,15 @@ const KM=(()=>{
   const HAND='Kalam,"Comic Neue","Segoe Print","Bradley Hand",cursive';
   const pats=new Map();
   /* chalk: a colour with grainy coverage, used as a fill or stroke pattern */
-  function chalk(col){if(pats.has(col))return pats.get(col);const p=ctx.createPattern(CHALK.tile(col),'repeat');pats.set(col,p);return p;}
+  /* the grain is anchored to the map, not the screen, so it travels with the nodes and links when you drag (the slate behind stays still) */
+  let patM=null;
+  function chalk(col){let p=pats.get(col);if(!p){p=ctx.createPattern(CHALK.tile(col),'repeat');pats.set(col,p);}if(patM&&p.setTransform)p.setTransform(patM);return p;}
   let slate=null,slateKey='';
   /* blackboard: dark green slate, fine dust and a few faint eraser smudges, drawn once per size */
   function board(){const k=W+'x'+H+'@'+dpr;if(slate&&slateKey===k)return slate;slateKey=k;slate=CHALK.slate(W,H,dpr);return slate;}
   function roundBox(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);}
   function render(){raf=0;if(!dirty||!ready)return;dirty=false;hoverPath();
-    const L=light(),T0=performance.now();
+    const L=light(),T0=performance.now();patM=new DOMMatrix([1,0,0,1,(-ox*scale)%96,(-oy*scale)%96]);
     const critC=L?'#f59f00':'#ffe27a',hovC=L?'#1a5fb4':'#a8d8ff',upC=L?'#1a5fb4':'#9fd0ff',downC=L?'#c2410c':'#ffbe85',inkC=L?'#1f2430':'#ecece2';
     ctx.setTransform(1,0,0,1,0,0);
     if(L){ctx.fillStyle='#fdfdfb';ctx.fillRect(0,0,cv.width,cv.height);ctx.setTransform(dpr,0,0,dpr,0,0);}
