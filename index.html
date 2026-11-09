@@ -678,7 +678,7 @@ body.light .kmFindList button:hover{background:#f0f2f4}
 @media (max-width:640px){.kmFind{width:130px}.kmFindList{width:min(300px,calc(100vw - 60px))}}
 
 /* ---------- depth: the board surface stays still while the content slides over it ---------- */
-#home .board,#home .boardWrap:nth-child(even)>.board{background-attachment:fixed}
+#home .board,#home .boardWrap:nth-child(even)>.board{background-position:0 var(--bgy,0px),0 var(--bgy,0px),0 0}
 #depthTrails{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:24}
 #depthTrails[hidden]{display:none}
 </style>
@@ -736,7 +736,7 @@ body.light .kmFindList button:hover{background:#f0f2f4}
       <p>Independent mathematics research in analytic number theory, approximation theory and numerical analysis.</p>
       <div class="homeLinks">
         <nav class="homeNav" aria-label="Page"><a href="#about" data-jump="about">About</a><a href="#research" data-jump="research">Research</a><a href="#projects" data-jump="projects">Projects</a><a href="#graphs" data-page="graphs">Graphs</a><a href="#contact" data-jump="contact">Contact</a></nav>
-        <div class="heroPrefs"><label id="homeTheme" for="homeThemeBox"><input type="checkbox" id="homeThemeBox"> Light mode</label><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
+        <div class="heroPrefs"><label id="homePlain" for="homePlainBox" title="Ordinary scrolling: no sliding boards or erasing"><input type="checkbox" id="homePlainBox"> Plain scrolling</label></div>
         <button class="heroMore" id="keepReading" type="button">Keep reading <span aria-hidden="true">↓</span></button>
       </div>
     </header>
@@ -2967,10 +2967,7 @@ const KM=(()=>{
     const L=light(),T0=performance.now();
     const critC=L?'#f59f00':'#ffe27a',hovC=L?'#1a5fb4':'#a8d8ff',upC=L?'#1a5fb4':'#9fd0ff',downC=L?'#c2410c':'#ffbe85',inkC=L?'#1f2430':'#ecece2';
     ctx.setTransform(1,0,0,1,0,0);
-    if(L){ctx.fillStyle='#fdfdfb';ctx.fillRect(0,0,cv.width,cv.height);ctx.setTransform(dpr,0,0,dpr,0,0);
-      /* whiteboard: a dot grid fixed to the board, so it moves and scales with the map */
-      let g=28;while(g*scale<14)g*=2;const step=g*scale,x0=((-ox*scale)%step+step)%step,y0=((-oy*scale)%step+step)%step;
-      ctx.fillStyle='rgba(31,36,48,.2)';const ds=step>26?1.6:1.2;ctx.beginPath();for(let x=x0;x<W;x+=step)for(let y=y0;y<H;y+=step)ctx.rect(x-ds/2,y-ds/2,ds,ds);ctx.fill();}
+    if(L){ctx.fillStyle='#fdfdfb';ctx.fillRect(0,0,cv.width,cv.height);ctx.setTransform(dpr,0,0,dpr,0,0);}
     else{ctx.drawImage(board(),0,0);ctx.setTransform(dpr,0,0,dpr,0,0);}
     /* level guides: every level when zoomed in, every fifth when zoomed out */
     const every=scale*RH<16?5:scale*RH<30?2:1;ctx.font=`13px ${HAND}`;ctx.textAlign='left';ctx.lineWidth=1;
@@ -4991,7 +4988,7 @@ function openLab(i,fromHistory){if(!labActive)labFrom=!$('#gpage').hidden?'graph
   const b=$('#brand');if(b){b.title=labFrom==='graphs'?'Back to the graph lab (Esc)':'Back to the front page (Esc)';b.setAttribute('aria-label','Abubakr Batalvi: '+b.title.replace(' (Esc)','').toLowerCase());}
   for(const v of [$('#home'),$('#gpage')])if(!v.hidden){v.classList.add('fading');setTimeout(()=>{if(labActive)v.hidden=true;},500);}}
 function frontPage(direct){buildHome();buildPages();loadThumbs();$('#homeSearch').oninput=e=>filterHome(e.target.value);$('#openLab').onclick=()=>openLab(idx);$('#brand').onclick=()=>leaveLab();homeExtras();
-  $('#homeThemeBox').checked=LIGHT;$('#homeThemeBox').onchange=e=>setTheme(e.target.checked,true);
+  
   if(direct)return; // a link straight to one graph skips the intro
   labActive=false;const h=$('#home');h.classList.remove('fading');h.hidden=false; // sits behind the opaque splash
   /* the intro plays once per visit: a reload or a return from the graph lab goes straight to the front page */
@@ -5205,7 +5202,7 @@ function boardGrain(){
   const dots=()=>{const n=160,c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d');x.fillStyle='rgba(31,36,48,.2)';
     for(let i=16;i<n;i+=32)for(let j=16;j<n;j+=32){x.beginPath();x.arc(i,j,1.1,0,7);x.fill();}return `url(${c.toDataURL()})`;};
   st.textContent=`:root{--board-grain:${grain(255,.075)};--board-tex:${marks('235,240,232',.055,false)};--board-tex2:${marks('235,240,232',.055,true)}}`+
-    `body.light{--board-grain:${dots()};--board-tex:${marks('110,122,140',.035,false)};--board-tex2:${marks('110,122,140',.035,true)}}`;
+    `body.light{--board-grain:${grain(0,.05)};--board-tex:${marks('110,122,140',.035,false)};--board-tex2:${marks('110,122,140',.035,true)}}`;
   document.head.appendChild(st);}
 
 /* The eraser. While board k is held in place (progress e from 0 to 1), an eraser (a soft-edged circle) scrubs back and forth
@@ -5695,11 +5692,11 @@ addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.h
   function grain(L){const k=L?'l':'d';if(grainPat&&grainKey===k)return grainPat;grainKey=k;
     /* gaps in the trail: the chalk tile's empty and faint pixels punch holes so the fade looks broken, not smooth */
     const t=document.createElement('canvas');t.width=t.height=64;const x=t.getContext('2d'),im=x.createImageData(64,64);
-    for(let i=0;i<im.data.length;i+=4){const v=Math.random();im.data[i+3]=v<.45?255:v<.7?150:0;}x.putImageData(im,0,0);
+    for(let i=0;i<im.data.length;i+=4){const v=Math.random();im.data[i+3]=v<.3?255:v<.55?120:0;}x.putImageData(im,0,0);
     grainPat=g.createPattern(t,'repeat');return grainPat;}
   function frame(now){raf=0;const sc=scroller();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,cv.width,cv.height);
     if(!sc){return;}
-    const L=document.body.classList.contains('light'),ink=L?'31,36,48':'236,236,226',base=L?.07:.085;
+    const L=document.body.classList.contains('light'),ink=L?'31,36,48':'236,236,226',base=L?.1:.13;
     g.setTransform(SS,0,0,SS,0,0);let active=false;
     for(const el of sc.querySelectorAll(SEL)){if(el.closest('.km,.eraseCanvas,[hidden]'))continue;
       const r=el.getBoundingClientRect();if(!r.width||r.bottom<-80||r.top>H+80){state.delete(el);continue;}
@@ -5707,15 +5704,21 @@ addEventListener('popstate',()=>{const i=SIMS.findIndex(s=>'#'+s.id===location.h
       const dy=r.top-st.top;st.top=r.top;st.v=dy?st.v*.5+dy*.5:st.v*.8;const v=st.v;if(Math.abs(v)<.35)continue;active=true;
       /* text: the trailing line of the element; everything else: the whole block */
       let boxes=[r];if(/^(H1|H2|H3|P|A)$/.test(el.tagName)||el.classList.contains('rt')||el.classList.contains('pt')){const rg=document.createRange();rg.selectNodeContents(el);const ls=[...rg.getClientRects()].filter(q=>q.width>2);if(ls.length){/* only the trailing line: the fade comes off the element, not through it */const edge=v<0?Math.max(...ls.map(q=>q.bottom)):Math.min(...ls.map(q=>q.top));boxes=ls.filter(q=>Math.abs((v<0?q.bottom:q.top)-edge)<3);}}
-      const len=Math.min(64,Math.abs(v)*3.2),a=base*Math.min(1,Math.abs(v)/12);
-      for(const b of boxes){const y0=v<0?b.bottom:b.top,y1=v<0?b.bottom+len:b.top-len;
-        /* a little variation per line so the trails do not end in a straight edge */
-        const jit=.65+.35*Math.abs(Math.sin(b.left*.13+b.width*.07)),ye=y0+(y1-y0)*jit;
-        const gr=g.createLinearGradient(0,y0,0,ye);gr.addColorStop(0,`rgba(${ink},${a})`);gr.addColorStop(1,`rgba(${ink},0)`);
-        g.fillStyle=gr;g.fillRect(b.left+2,Math.min(y0,ye),b.width-4,Math.abs(ye-y0));}}
+      const len=Math.min(70,Math.abs(v)*3.4),a=base*Math.min(1,Math.abs(v)/12);
+      for(const q of boxes){const y0=v<0?q.bottom:q.top,dir=v<0?1:-1,cx=q.left+q.width/2,rx=Math.max(8,q.width/2),jit=.7+.3*Math.abs(Math.sin(q.left*.13+q.width*.07)),ry=len*jit;
+        /* an oval glow centred on the trailing edge, squashed to the element's width: it thins with distance and toward the sides */
+        g.save();g.translate(cx,y0);g.scale(rx/ry,1);const gr=g.createRadialGradient(0,0,0,0,0,ry);
+        gr.addColorStop(0,`rgba(${ink},${a})`);gr.addColorStop(.45,`rgba(${ink},${a*.45})`);gr.addColorStop(1,`rgba(${ink},0)`);
+        g.fillStyle=gr;g.beginPath();g.rect(-ry,dir>0?0:-ry,2*ry,ry);g.fill();g.restore();}}
     if(active){g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='destination-out';g.fillStyle=grain(L);g.fillRect(0,0,cv.width,cv.height);g.globalCompositeOperation='source-over';lastAct=now;}
     if(active||now-lastAct<120)raf=requestAnimationFrame(frame);}
   const kick=()=>{if(!raf)raf=requestAnimationFrame(frame);};
   for(const id of ['home','gpage']){const el=document.getElementById(id);if(el)el.addEventListener('scroll',kick,{passive:true});}
 })();
+
+/* ---------- the board surface holds still: each board's texture is offset by minus its position on screen ---------- */
+(function(){const home=document.getElementById('home');if(!home)return;let raf=0;
+  const sync=()=>{raf=0;for(const b of home.querySelectorAll('.board')){const t=b.getBoundingClientRect().top;b.style.setProperty('--bgy',(-Math.round(t))+'px');}};
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(sync);};home.addEventListener('scroll',kick,{passive:true});addEventListener('resize',kick);
+  new MutationObserver(kick).observe(home,{attributes:true,attributeFilter:['hidden','class']});setTimeout(sync,0);setTimeout(sync,800);})();
 </script>
