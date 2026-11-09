@@ -1101,7 +1101,7 @@ var KM_TOPICS=[["functions","Functions and graphs",0,"ls-function fd-reals","Rul
 ["ls-first-order","First-order logic",7,"ls-nested-quant ls-connectives","A formal language of predicates, functions, constants and quantifiers over a domain of objects.",""],
 ["ls-proof-direct","Direct proof",7,"ls-connectives","Assume the hypothesis and derive the conclusion through a chain of valid steps.",""],
 ["ls-contrapositive","Proof by contrapositive",7,"ls-proof-direct ls-equivalence","Prove “if p then q” by proving “if not q then not p”.",""],
-["ls-contradiction","Proof by contradiction",7,"ls-proof-direct","Assume the statement is false and derive an impossibility.",""],
+["ls-contradiction","Proof by contradiction",7,"ls-proof-direct","Assume the statement is false, and derive a contradiction (something both true and false) by valid steps; so the statement must be true.",""],
 ["ls-cases","Proof by cases",7,"ls-proof-direct","Split into exhaustive cases and prove the claim in each one.",""],
 ["ls-counterexample","Counterexamples",7,"ls-quantifiers","One instance where a universal claim fails is enough to refute it.",""],
 ["ls-existence","Existence proofs",7,"ls-quantifiers","Showing something exists, either by constructing it or by ruling out its absence.",""],
