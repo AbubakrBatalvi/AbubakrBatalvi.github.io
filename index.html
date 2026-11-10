@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="/favicon.ico?v=9" sizes="32x32"><link rel="icon" href="/favicon.svg?v=9" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=9">
+<link rel="icon" href="/favicon.ico?v=10" sizes="32x32"><link rel="icon" href="/favicon.svg?v=10" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=10">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Caveat:wght@700&display=swap" media="print" onload="this.media='all'">
 <title>Abubakr Batalvi</title>
 <meta name="description" content="Desmos graphs by Abubakr Batalvi, rebuilt as interactive WebGL simulations.">
@@ -681,6 +681,7 @@ body.light .kmFindList button:hover{background:#f0f2f4}
 /* ---------- depth: the board surface stays still while the content slides over it ---------- */
 #depthTrails{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:24}
 #depthTrails[hidden]{display:none}
+.siteMark{display:flex;align-items:center;gap:18px;margin:22px 0 0}.siteMark svg{flex:none;color:inherit}.siteMark figcaption{font-size:.92em;opacity:.8;max-width:34em}
 </style>
 
 <canvas id="gl"></canvas>
@@ -747,6 +748,8 @@ body.light .kmFindList button:hover{background:#f0f2f4}
         <p>I’m a student in the Maryland area who does independent mathematics research, mostly in analytic number theory and approximation theory. Most of my work starts in Desmos: I build a graph to look at a question, try an idea against it, and keep the ideas that hold up when the numbers are checked. Several times this has led me back to known results from another direction, among them Stirling’s formula, Chebyshev nodes and Nadaraya–Watson regression.</p>
         <p>The question I return to most is how well smooth functions can describe the primes: how closely the logarithmic integral Li(x) and Riemann’s R(x) follow the prime counting function π(x), how to build curves that stay above π(x), and whether there is a natural way to define π(x), or the n-th prime, between whole numbers. Alongside that I like building approximations by hand: fit a formula, study what is left over, and fit that.</p>
         <p>Outside of pure math I co-founded TrXon with Rodrigo Cartagena, an off-road self-driving vehicle project. Its path planner interpolates sensor checkpoints on both sides of a trail and averages them to find the centre line, which is where several of the interpolation pages here come from. I’m also in The Knowledge Society’s Activate program and take dual-enrollment courses at the College of Southern Maryland.</p>
+        <figure class="siteMark"><svg viewBox="2 2 60 60" width="112" height="112" role="img" aria-label="The site icon: a delta, an integral and an interpolating curve arranged as the letter A"><g fill="currentColor" stroke="currentColor" stroke-linejoin="round"><path stroke-width="50.5" transform="matrix(0.00990 0 0 -0.00990 14.554 50.475)" d="M943 1268C943 1322 889 1361 834 1361C758 1361 702 1252 647 1048C644 1037 508 535 398 -119C372 -272 343 -439 310 -578C292 -651 246 -839 165 -839C129 -839 104 -816 104 -816C136 -814 153 -792 153 -767C153 -734 128 -718 105 -718C81 -718 56 -733 56 -768C56 -819 106 -861 167 -861C319 -861 376 -627 447 -337C524 -21 589 298 643 619C680 832 717 1032 751 1161C763 1210 797 1339 836 1339C867 1339 892 1320 896 1316C863 1314 846 1292 846 1267C846 1234 871 1218 894 1218C918 1218 943 1233 943 1268Z"/><path stroke-width="13.2" transform="matrix(0.03794 0 0 -0.03794 16.217 35.583)" d="M785 8C785 8 785 11 780 20L442 698C435 711 433 716 416 716C399 716 397 711 390 698L52 20C47 11 47 8 47 8C47 0 53 0 69 0H763C779 0 785 0 785 8ZM653 76H114L384 616Z"/><circle stroke="none" cx="45.2" cy="37.5" r="1.25"/><circle stroke="none" cx="48.36" cy="44.14" r="1.25"/><circle stroke="none" cx="46.84" cy="51.86" r="1.25"/><circle stroke="none" cx="50" cy="58.5" r="1.25"/></g><path fill="none" stroke="currentColor" d="M45.2 37.5 C46.25 39.71 48.09 41.75 48.36 44.14 C48.63 46.53 46.57 49.47 46.84 51.86 C47.11 54.25 48.95 56.29 50 58.5" stroke-width="1.5" stroke-linecap="round"/></svg>
+<figcaption>The icon for this site is a capital A built from three pieces of mathematics: a Δ at the top, an ∫ as the left leg, and an interpolating curve through four points as the right leg.</figcaption></figure>
       </div>
     </section>
 
